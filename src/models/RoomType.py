@@ -1,3 +1,4 @@
+#Achtung Python benötigt bei Klasse keine Klammer
 class RoomType():
     def __init__(self, id: int, description: str, maxGuests: int) -> None:
         self.__id = id
