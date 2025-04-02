@@ -7,7 +7,7 @@ class Address():
 
     def getId(self) -> int:
         return self.__id
-
+#Kommentar von Yves - Ich glaube es macht keinen Sinn einen Setter für ID zu haben, wenn wir ID privat machen, das widerspricht der Logik
     def setId(self, id: int) -> None:
         self.__id = id
 
