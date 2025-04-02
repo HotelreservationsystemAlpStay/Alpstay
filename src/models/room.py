@@ -46,3 +46,5 @@ class Room:
         if new_price_per_night <=0:
             raise ValueError("Der neue Preis pro Nacht muss grösser als 0 sein")
         self._price_per_night = new_price_per_night
+    def __str__(self):
+        return f"Das Zimmer mit der Nummer {self._room_no} kostet pro Nacht {self._price_per_night} und hat folgende Zimmer ID: {self._room_id}"
