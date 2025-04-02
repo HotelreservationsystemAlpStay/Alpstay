@@ -10,4 +10,4 @@
 | `password.py`      | Klasse `Password`                      |
 | `room.py`          | Klasse `Room`                          |
 | `room_type.py`     | Enumeration `Room_Type`                |
-| `user.py`          | Klasse `User`                          |
+| `user.py`          | Klasse `User`                          | 
