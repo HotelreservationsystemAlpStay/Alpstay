@@ -3,49 +3,52 @@ class RoomType:
         self._validateId(id)
         self._validateDescription(description)
         self._validateMaxGuests(maxGuests)
-        
-        self._id = id
-        self._description = description
-        self._maxGuests = maxGuests
+
+        self.id = id
+        self.description = description
+        self.maxGuests = maxGuests
 
     def _validateId(self, id: int) -> None:
         if not isinstance(id, int):
-            raise TypeError("ID muss eine Ganzzahl sein")
+            raise TypeError("ID must be an integer")
         if id <= 0:
-            raise ValueError("ID muss positiv sein")
+            raise ValueError("ID must be positive")
 
     def _validateDescription(self, description: str) -> None:
         if not isinstance(description, str):
-            raise TypeError("Beschreibung muss ein String sein")
+            raise TypeError("Description must be a String")
         if not description.strip():
-            raise ValueError("Beschreibung darf nicht leer sein")
+            raise ValueError("Description must not be empty")
 
     def _validateMaxGuests(self, maxGuests: int) -> None:
         if not isinstance(maxGuests, int):
-            raise TypeError("Maximale Gästeanzahl muss eine Ganzzahl sein")
+            raise TypeError("Maximum count of guests must be an integer")
         if maxGuests <= 0:
-            raise ValueError("Maximale Gästeanzahl muss positiv sein")
+            raise ValueError("Maximum count of guests must be positive")
 
+
+"""
     @property
     def getId(self) -> int:
-        return self._id
+        return self.id
 
     @getId.setter
     def setId(self, id: int) -> None:
-        self._id = id
+        self.id = id
 
     @property
     def getDescription(self) -> str:
-        return self._description
+        return self.description
 
     @getDescription.setter
     def setDescription(self, description: str) -> None:
-        self._description = description
+        self.description = description
 
     @property
     def getMaxGuests(self) -> int:
-        return self._maxGuests
+        return self.maxGuests
 
     @getMaxGuests.setter
     def setMaxGuests(self, maxGuests: int) -> None:
-        self._maxGuests = maxGuests
+        self.maxGuests = maxGuests
+"""
