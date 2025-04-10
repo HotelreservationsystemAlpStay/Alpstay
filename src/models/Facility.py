@@ -2,10 +2,10 @@ class Facility:
     def __init__(self, id: int, name: str) -> None:
         self._validateId(id)
         self._validateName(name)
-        
-        self._id = id
-        self._name = name
-        
+
+        self.id = id
+        self.name = name
+
     def _validateId(self, id: int) -> None:
         if not isinstance(id, int):
             raise TypeError("ID muss eine Ganzzahl sein")
@@ -18,18 +18,21 @@ class Facility:
         if not name.strip():
             raise ValueError("Name darf nicht leer sein")
 
-    @property
-    def getId(self) -> int:
-        return self._id
 
-    @getId.setter
+"""
+    @property
+    def id(self) -> int:
+        return self.id
+
+    @id.setter
     def setId(self, id: int) -> None:
-        self._id = id
+        self.id = id
 
     @property
-    def getName(self) -> str:
-        return self._name
-    
-    @getName.setter
+    def name(self) -> str:
+        return self.name
+
+    @name.setter
     def setName(self, name: str) -> None:
-        self._name = name
+        self.name = name
+"""
