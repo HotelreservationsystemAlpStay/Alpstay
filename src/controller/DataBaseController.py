@@ -6,7 +6,6 @@ class DataBaseController:
         """
         Initializes the database connection with a project-internal, relative database path.
         """
-        # Calculate the path relative to the location of this file
         base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         db_file = os.path.join(base_dir, "database", "db.sqlite3")
         self.connection = sqlite3.connect(db_file)
@@ -30,7 +29,7 @@ class DataBaseController:
 
         Args:
             query (str): The SQL command to be executed.
-            params (tuple): Parameters for the SQL command (default: empty tuple). Protects against SQL injections.
+            params (tuple): Parameters for the SQL command (default: empty tuple).
 
         Returns:
             sqlite3.Cursor: Cursor object after executing the command.
@@ -46,7 +45,7 @@ class DataBaseController:
 
         Args:
             query (str): The SQL query.
-            params (tuple): Parameters for the query (default: empty tuple). Protects against SQL injections.
+            params (tuple): Parameters for the query (default: empty tuple).
 
         Returns:
             list: A list of rows corresponding to the query result.
