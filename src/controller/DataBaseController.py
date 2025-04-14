@@ -7,7 +7,7 @@ class DataBaseController:
         Initializes the database connection with a project-internal, relative database path.
         """
         base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        db_file = os.path.join(base_dir, "database", "db.sqlite3")
+        db_file = os.path.join(base_dir, "database", "db.sql")
         self.connection = sqlite3.connect(db_file)
         self.connection.row_factory = sqlite3.Row
 

@@ -6,7 +6,7 @@ Die Klasse `DataBaseController` dient zur Verwaltung unserer SQLite-Datenbank f�
 
 - **Konstruktor (`__init__`)**  
   Beim Erstellen eines neuen Objekts von `DataBaseController` wird:
-  - Der relative Pfad zur Datenbankdatei (`db.sqlite3`) ermittelt.  
+  - Der relative Pfad zur SQL-Datei (`db.sql`) ermittelt.  
   - Die SQLite-Datenbankverbindung wird hergestellt.
   - Das Attribut der SQLite Verbindung namens `row_factory` wird auf `sqlite3.Row` gesetzt, wodurch Ergebnisse als Objekte zurückgegeben werden, bei denen man über Spaltennamen zugreifen kann.
   
