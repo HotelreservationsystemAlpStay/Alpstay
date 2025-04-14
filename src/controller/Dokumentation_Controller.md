@@ -43,7 +43,7 @@ Die Klasse `DataBaseController` dient zur Verwaltung unserer SQLite-Datenbank f�
   Ideal zur Durchführung von Operationen, die die Datenbank verändern.  
   **Beispiel:**
   ```python
-  query = "INSERT INTO users (id, username, password, role) VALUES (?, ?, ?, ?)"
+  query = "INSERT INTO user (id, username, password, role) VALUES (?, ?, ?, ?)"
   params = (1, "AdminUser", "secretPassword", "admin")
   cursor = db_controller.execute(query, params)
   ```
@@ -59,7 +59,7 @@ Die Klasse `DataBaseController` dient zur Verwaltung unserer SQLite-Datenbank f�
   Nützlich, wenn alle Datensätze, die einer Abfrage entsprechen, benötigt werden.  
   **Beispiel:**
   ```python
-  query = "SELECT id, username, password, role FROM users WHERE role = ? AND id > ?"
+  query = "SELECT id, username, password, role FROM user WHERE role = ? AND id > ?"
   params = ("admin", 5)
   rows = db_controller.fetchall(query, params)
   for row in rows:
@@ -77,7 +77,7 @@ Die Klasse `DataBaseController` dient zur Verwaltung unserer SQLite-Datenbank f�
   Praktisch, wenn nur ein einzelner Datensatz (z.B. ein Detail-Datensatz) benötigt wird.  
   **Beispiel:**
   ```python
-  query = "SELECT id, username, password, role FROM users WHERE id = ?"
+  query = "SELECT id, username, password, role FROM user WHERE id = ?"
   params = (1,)
   row = db_controller.fetchone(query, params)
   if row:
