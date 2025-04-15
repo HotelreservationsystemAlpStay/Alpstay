@@ -72,3 +72,13 @@ class Booking:
         return (f"Booking(booking_id={self._booking_id}, check_in_date={self._check_in_date}, "
                 f"check_out_date={self._check_out_date}, is_cancelled={self._is_cancelled}, "
                 f"guest_id={self._guest_id}, room_id={self._room_id}, invoice={self._invoice})")
+    
+    def to_dict(self) -> dict:
+        return {
+            'booking_id': self.booking_id,
+            'check_in_date': self.check_in_date.isoformat() if self.check_in_date else None,
+            'check_out_date': self._heck_out_date.isoformat() if self._heck_out_date else None,
+            'is_cancelled': self.is_cancelled,
+            'guest_id': self.guest_id,
+            'room_id': self.room_id
+        }
