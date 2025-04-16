@@ -24,31 +24,31 @@ class Guest:
 #def validate statements    
     def _validateId(self, guest_id: int) -> None:
         if not isinstance(guest_id, int):
-            raise ValueError("Guest-ID muss eine ganze Zahl sein")
+            raise ValueError("Guest-ID needs to be a number")
 
     def _validateName(self, name: str) -> None:
         if not isinstance(name, str):
-            raise ValueError("Der Name muss ein String sein")
+            raise ValueError("Name needs to be a string")
 
     def _validateSurname(self, surname: str) -> None:
         if not isinstance(surname, str):
-            raise ValueError("Nachname muss ein String sein")
+            raise ValueError("Surname needs to be a string")
 
     def _validatePhoneNr(self, phone_nr: int) -> None:
         if not isinstance(phone_nr, int):
-            raise ValueError("Die Telefonnummer muss eine ganze Zahl sein")
+            raise ValueError("Phone number needs to be a number")
 
     def _validateEmail(self, email: str) -> None:
         if not isinstance(email, str):
-            raise ValueError("Die Email muss ein String sein")
+            raise ValueError("Email neesds to be a string")
 
     def _validateZip(self, zip: int) -> None:
         if not isinstance(zip, int):
-            raise ValueError("Postleitzahl muss eine Zahl sein")
+            raise ValueError("ZIP needs to be a number")
 
     def _validateAddress(self, address: str) -> None:
         if not isinstance(address, str):
-            raise ValueError("Die Adresse muss ein String sein")
+            raise ValueError("Address needs to be a string")
 
 
 
