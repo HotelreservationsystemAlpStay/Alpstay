@@ -26,8 +26,6 @@ class RoomType:
         if maxGuests <= 0:
             raise ValueError("Maximum count of guests must be positive")
 
-
-"""
     @property
     def getId(self) -> int:
         return self.id
@@ -51,4 +49,4 @@ class RoomType:
     @getMaxGuests.setter
     def setMaxGuests(self, maxGuests: int) -> None:
         self.maxGuests = maxGuests
-"""
+
