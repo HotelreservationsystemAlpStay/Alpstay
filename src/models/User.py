@@ -34,8 +34,6 @@ class User:
         if not role.strip():
             raise ValueError("Role must not be empty")
 
-
-""" 
     @property
     def getId(self) -> int:
         return self.id
@@ -67,4 +65,4 @@ class User:
     @getRole.setter
     def setDescription(self, role: str) -> None:
         self.role = role
-        """
+
