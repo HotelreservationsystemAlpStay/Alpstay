@@ -5,6 +5,7 @@ class ModelClass:
         self.age = 31
         self.salary = 4560.35
 
+    # Comment one
     def toNewQuery(self):
         returnList = [[],[]]
         returnList[0].append("firstname")
