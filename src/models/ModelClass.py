@@ -1,6 +1,12 @@
 class ModelClass:
     def __init__(self):
-        pass
+        self.firstname = "lorem"
+        self.lastname = "ipsum"
+        self.age = 31
+        self.salary = 4560.35
 
     def toNewQuery(self):
-        pass
+        returnList = [[],[]]
+        returnList[0].append("firstname")
+        returnList[1].append(self.firstname)
+        return returnList
