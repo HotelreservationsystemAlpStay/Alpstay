@@ -102,4 +102,4 @@ class Invoice:
                 f"Client: {self._client_name}, "
                 f"Issue Date: {self._issue_date}, "
                 f"Status: {'Paid' if self._paid else 'Unpaid'}, "
-                f"Discount: {'Applied' if self._discount_applied else 'None'}")          
+                f"Discount: {'Applied' if self._discount_applied else 'None'}")
