@@ -32,6 +32,7 @@ class RoomType:
 
     @getId.setter
     def setId(self, id: int) -> None:
+        self._validateId(id)
         self.id = id
 
     @property
@@ -40,6 +41,7 @@ class RoomType:
 
     @getDescription.setter
     def setDescription(self, description: str) -> None:
+        self._validateDescription(description)
         self.description = description
 
     @property
@@ -48,5 +50,17 @@ class RoomType:
 
     @getMaxGuests.setter
     def setMaxGuests(self, maxGuests: int) -> None:
+        self._validateMaxGuests(maxGuests)
         self.maxGuests = maxGuests
 
+    def __str__(self):
+        return "RoomType(id={0}, description={1},maxGuests={2})".format(
+            self.id, self.description, self.maxGuests
+        )
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "description": self.description,
+            "maxGuests": self.maxGuests,
+        }

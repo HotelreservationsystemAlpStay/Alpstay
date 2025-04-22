@@ -1,12 +1,12 @@
 class User:
-    def __init__(self, id: int, username: str, password: str, role: str) -> None:
+    def __init__(self, id: int, guest_id: int, password: str, role: str) -> None:
         self._validateId(id)
-        self._validateUsername(username)
+        self._validateGuest_id(guest_id)
         self._validatePassword(password)
         self._validateRole(role)
 
         self.id = id
-        self.username = username
+        self.guest_id = guest_id
         self.password = password
         self.role = role
 
@@ -16,11 +16,11 @@ class User:
         if id <= 0:
             raise ValueError("ID must be positive")
 
-    def _validateUsername(self, username: str) -> None:
-        if not isinstance(username, str):
-            raise TypeError("Username must be a String")
-        if not username.strip():
-            raise ValueError("Username must not be empty")
+    def _validateGuest_id(self, guest_id: int) -> None:
+        if not isinstance(guest_id, int):
+            raise TypeError("ID must be an integer")
+        if guest_id <= 0:
+            raise ValueError("ID must be positive")
 
     def _validatePassword(self, password: str) -> None:
         if not isinstance(password, str):
@@ -40,29 +40,45 @@ class User:
 
     @getId.setter
     def setId(self, id: int) -> None:
+        self._validateId(id)
         self.id = id
 
     @property
-    def getUsername(self) -> str:
-        return self.username
+    def getGuest_id(self) -> str:
+        return self.guest_id
 
-    @getUsername.setter
-    def setDescription(self, username: str) -> None:
-        self.username = username
-    
+    @getGuest_id.setter
+    def setDescription(self, guest_id: int) -> None:
+        self._validateGuest_id(guest_id)
+        self.guest_id = guest_id
+
     @property
     def getPassword(self) -> str:
         return self.password
 
     @getPassword.setter
     def setDescription(self, password: str) -> None:
+        self._validatePassword(password)
         self.password = password
-    
+
     @property
     def getRole(self) -> str:
         return self.role
 
     @getRole.setter
     def setDescription(self, role: str) -> None:
+        self._validateRole(role)
         self.role = role
 
+    def __str__(self):
+        return "User(user_id={0},guest_id={1},user_role={2},user_password={3})".format(
+            self.id, self.guest_id, self.role, self.password
+        )
+
+    def to_dict(self)->dict:
+        return {
+            'user_id': self.id,
+            'guest_id': self.guest_id,
+            'user_role': self.role,
+            'user_password': self.password
+        }

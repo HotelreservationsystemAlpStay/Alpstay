@@ -4,72 +4,81 @@ class Address:
         self._validateStreet(street)
         self._validateCity(city)
         self._validateZip(zip)
-        
-        self._id = id
-        self._street = street
-        self._city = city
-        self._zip = zip
+
+        self.id = id
+        self.street = street
+        self.city = city
+        self.zip = zip
 
     def _validateId(self, id: int) -> None:
         if not isinstance(id, int):
-            raise TypeError("ID muss eine Ganzzahl sein")
+            raise TypeError("ID must be an integer")
         if id <= 0:
-            raise ValueError("ID muss positiv sein")
+            raise ValueError("ID must be positive")
 
     def _validateStreet(self, street: str) -> None:
         if not isinstance(street, str):
-            raise TypeError("Strasse muss ein String sein")
+            raise TypeError("Strasse must be a String")
         if not street.strip():
-            raise ValueError("Strasse darf nicht leer sein")
-        
+            raise ValueError("Strasse must not be empty")
+
     def _validateCity(self, city: str) -> None:
         if not isinstance(city, str):
-            raise TypeError("Stadt muss ein String sein")
+            raise TypeError("Stadt must be a String")
         if not city.strip():
-            raise ValueError("Stadt darf nicht leer sein")
-        
+            raise ValueError("Stadt must not be empty")
+
     def _validateZip(self, zip: str) -> None:
         if not isinstance(zip, str):
-            raise TypeError("Postleihzahl muss ein String sein")
+            raise TypeError("Postleihzahl must be a String")
         if not zip.strip():
-            raise ValueError("Postleihzahl darf nicht leer sein")
+            raise ValueError("Postleihzahl must not be empty")
 
-    @property    
+    @property
     def getId(self) -> int:
-        return self._id
+        return self.id
 
     @getId.setter
     def setId(self, id: int) -> None:
-        self._id = id
+        self._validateId(id)
+        self.id = id
 
-    @property 
+    @property
     def getStreet(self) -> str:
-        return self._street
+        return self.street
 
     @getStreet.setter
-    def setStreet(self, street: int) -> None:
-        self._street = street
+    def setStreet(self, street: str) -> None:
+        self._validateStreet(street)
+        self.street = street
 
-    @property 
+    @property
     def getCity(self) -> str:
-        return self._city
+        return self.city
 
     @getCity.setter
     def setCity(self, city: str) -> None:
-        self._city = city
+        self._validateCity(city)
+        self.city = city
 
-    @property 
+    @property
     def getZip(self) -> str:
-        return self._zip
+        return self.zip
 
     @getZip.setter
     def setZip(self, zip: str) -> None:
-        self._zip = zip
+        self._validateZip(zip)
+        self.zip = zip
 
     def __str__(self) -> str:
-        """return class in type string
+        return "Address(id={0},street={1},zip={2},city={3})".format(
+            self.id, self.street, self.zip, self.city
+        )
 
-        Returns:
-            str: formatted address
-        """
-        return "{0}\n{1} {2}".format(self._street, self._zip, self._city)
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "street": self.street,
+            "zip": self.zip,
+            "city": self.city,
+        }
