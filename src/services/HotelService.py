@@ -30,7 +30,6 @@ class Hotelservice:
             print(f"{hotel.name} hat {hotel.stars} Sterne und liegt in {city}")
 
     def get_hotel_in_city_stars(self, city, min_stars):
-        Validator.checkInteger(min_stars, "Sterne")
         Validator.checkStars(min_stars)
         query = """
         SELECT h.hotel_id, h.name, h.stars
@@ -57,5 +56,5 @@ hotels = Hotelservice()
 hotels.get_hotel_in_city("Bern")
 # Nutzung User Story 2 
 story2 = Hotelservice()
-story2.get_hotel_in_city_stars("Zürich", 4)
+story2.get_hotel_in_city_stars("Zürich", 8)
 
