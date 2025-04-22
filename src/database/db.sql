@@ -86,9 +86,10 @@ CREATE TABLE
 CREATE TABLE
     User (
         user_id INTEGER PRIMARY KEY,
-        user_name TEXT NOT NULL,
+        guest_id INTEGER,
         user_role TEXT NOT NULL,
-        user_password TEXT NOT NULL
+        user_password TEXT NOT NULL,
+        FOREIGN KEY (guest_id) REFERENCES Guest (guest_id)
     );
 
 CREATE TABLE
@@ -144,7 +145,48 @@ VALUES
         'elena.keller@example.ch',
         4
     ),
-    (5, 'Marc', 'Weber', 'marc.weber@example.ch', 5);
+    (5, 'Marc', 'Weber', 'marc.weber@example.ch', 5),
+    (6, 'System', 'Admin', 'admin@aplstay.ch', 5);
+
+INSERT INTO
+    User (user_id, guest_id, user_role, user_password)
+VALUES
+    (
+        1,
+        1,
+        'Guest',
+        'eb8b5f2f2c715d3fbb2f74545be8d5e79053f73f83071fbca55fc1f5cc9bf100' /*fciwke-peOlme-8rutjj*/
+    ),
+    (
+        2,
+        2,
+        'Guest',
+        '4945af30f6a5f481af1bcb33bcde75e35ef24d3bf513805fde35ee4306cc5e9d' /*fciwke-peOlrt-8rutjj*/
+    ),
+    (
+        3,
+        3,
+        'Guest',
+        '6b1567eeddd2cbdb82d3964fdca3d0f7c94827547f773cb3c0c42a7e518c4fbe' /*fciwke-peOlrt-8rutjjA*/
+    ),
+    (
+        4,
+        4,
+        'Guest',
+        '33c5ebbb01d608c254b3b12413bdb03e46c12797e591770ccf20f5e2819929b2' /*passwort*/
+    ),
+    (
+        5,
+        5,
+        'Guest',
+        '55789e79eca2f9a1e0786388b869f34f28a64ccbc37eb85ceeb031fd9677e06e' /*passwort123*/
+    ),
+    (
+        6,
+        6,
+        'Admin',
+        '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918' /*admin*/
+    );
 
 INSERT INTO
     Room_Type (type_id, description, max_guests)
