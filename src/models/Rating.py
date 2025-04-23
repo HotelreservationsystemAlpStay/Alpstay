@@ -1,18 +1,17 @@
 from datetime import datetime
 
 class Rating:
-    def __init__(self, rating_id: int, invoice, hotel, score: int, review: str = None, created_at: datetime = None):
+    def __init__(self, rating_id: int, invoice, hotel, score: int, review: str = None):
         self._validate_rating_id(rating_id)
         self._validate_score(score)
         self._validate_review(review)
-        self._validate_created_at(created_at)
         
         self.rating_id = rating_id
         self.invoice = invoice
         self.hotel = hotel
         self.score = score
         self.review = review
-        self.created_at = created_at if created_at else datetime.now()
+        self.created_at = datetime.now()
     
     def _validate_rating_id(self, rating_id: int) -> None:
         if not isinstance(rating_id, int):
@@ -29,10 +28,6 @@ class Rating:
     def _validate_review(self, review: str) -> None:
         if review is not None and not isinstance(review, str):
             raise TypeError("Review must be a string.")
-
-    def _validate_created_at(self, created_at: datetime) -> None:
-        if created_at is not None and not isinstance(created_at, datetime):
-            raise TypeError("created_at must be a datetime object.")
     
     def is_valid_score(self) -> bool:
         """
