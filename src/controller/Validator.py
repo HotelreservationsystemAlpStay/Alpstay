@@ -1,14 +1,20 @@
+#@staticmethod ermöglicht es die Methoden ohne das Objekt aufzurufen, also wenn ich z. B. bei Hotel sternen prüfen möchte
+#kann ich einfach sagen Validator.checkInteger(min_stars)
 class Validator:
-    def __init__(self):
-        pass
-        
-    def checkInteger(value: int, name: str, errormessage="") -> None:
+
+    @staticmethod
+    def checkInteger(value: int, name: str):
         if not isinstance(value, int):
-            if errormessage != "":
-                raise TypeError(errormessage)
-            raise TypeError("{0} must be an integer".format(name))
+                raise ValueError(f"{name} must be a whole number")
+    
+    @staticmethod
+    def checkStars(value:int):
+         Validator.checkInteger(value, "Stars")
+         if value < 1 or value > 5:
+              raise ValueError("Stars must be between 1 and 5")
         
-    def checkID(self, value: int):
-        self.checkInteger(value, "Id")
+    @staticmethod    
+    def checkID(value: int):
+        Validator.checkInteger(value, "ID")
         if value <= 0:
-            raise ValueError("{0} must be positive".format("Id"))
+            raise ValueError("ID must be a positive number")
