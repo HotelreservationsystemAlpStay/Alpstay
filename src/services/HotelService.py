@@ -4,6 +4,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from controller.Validator import Validator
 from models.Hotels import Hotel
 from controller.DataBaseController import DataBaseController
+from datetime import date
 
 class Hotelservice:
     def __init__(self): 
@@ -50,11 +51,40 @@ class Hotelservice:
             hotels.append(hotel)
         for hotel in hotels:
             print(f"{hotel.name} hat {hotel.stars} Sterne und liegt in {city}")
+    def get_hotel_in_city_stars_guests(self, city, min_stars, guests):
+        Validator.checkStars(min_stars)
+        query = """
+        SELECT h.hotel_id, h.name, h.stars
+        FROM Hotel h
+        JOIN Address a ON h.address_id = a.address_id
+        JOIN Room r ON h.hotel_id = r.hotel_id
+        JOIN Room_Type rt ON r.type_id = rt.type_id
+        WHERE a.city = ?
+        AND h.stars >= ?
+        AND rt.max_guests >= ?
+        """
+        result = self.db.fetchall(query, (city, min_stars, guests))
+        hotels = []
+        for row in result:
+            data = dict(row)
+            hotel = Hotel(
+            hotel_id = data["hotel_id"],
+            name = data["name"],
+            stars = data["stars"]
+            )
+            hotels.append(hotel)
+        for hotels in hotels:
+            print(f"{hotel.name} hat {hotel.stars} Sterne und liegt in {city}")
+
+
 
 # Nutzung User Story 1
 hotels = Hotelservice()
 hotels.get_hotel_in_city("Bern")
 # Nutzung User Story 2 
 story2 = Hotelservice()
-story2.get_hotel_in_city_stars("Zürich", 8)
+story2.get_hotel_in_city_stars("Zürich", 4)
+# Nutzung User Story 3 
+story3 = Hotelservice()
+story3.get_hotel_in_city_stars_guests("Zürich", 4, 2)
 
