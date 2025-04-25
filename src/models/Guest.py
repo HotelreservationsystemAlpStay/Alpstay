@@ -54,12 +54,13 @@ class Guest:
 
 #if needed leave property (getter and setter)
 """
-    @property
+@property
     def guest_id(self) -> int:
         return self._guest_id
 
     @guest_id.setter
     def guest_id(self, guest_id: int) -> None:
+        self._validateId(guest_id)
         self._guest_id = guest_id
 
     @property
@@ -68,6 +69,7 @@ class Guest:
 
     @name.setter
     def name(self, name: str) -> None:
+        self._validateName(name)
         self._name = name
 
     @property
@@ -76,6 +78,7 @@ class Guest:
 
     @surname.setter
     def surname(self, surname: str) -> None:
+        self._validateSurname(surname)
         self._surname = surname
 
     @property
@@ -84,6 +87,7 @@ class Guest:
 
     @phone_nr.setter
     def phone_nr(self, phone_nr: int) -> None:
+        self._validatePhoneNr(phone_nr)
         self._phone_nr = phone_nr
 
     @property
@@ -92,6 +96,7 @@ class Guest:
 
     @email.setter
     def email(self, email: str) -> None:
+        self._validateEmail(email)
         self._email = email
 
     @property
@@ -100,6 +105,7 @@ class Guest:
 
     @zip.setter
     def zip(self, zip: int) -> None:
+        self._validateZip(zip)
         self._zip = zip
 
     @property
@@ -108,6 +114,6 @@ class Guest:
 
     @address.setter
     def address(self, address: str) -> None:
+        self._validateAddress(address)
         self._address = address
-
 """
