@@ -18,20 +18,6 @@ Die Klasse `DataBaseController` dient zur Verwaltung unserer SQLite-Datenbank f�
 
 ## Methoden
 
-### initialize_database
-- **Aufgabe:** Initialisiert die Datenbank, indem ein SQL-Schema aus der Datei (`db.sql`) gelesen und ausgeführt wird.
-- **Vorgehensweise:** 
-  - Liest die Datei `db.sql` im Unterordner `database` ein.
-  - Führt das SQL-Schema mittels `executescript` aus.
-  - Commitet die Änderungen an der Datenbank.
-- **Verwendung:**  
-  Diese Methode eignet sich beispielsweise als Setup-Schritt, wenn die Datenbankstruktur neu initialisiert werden soll.
-  
-  **Beispiel:**
-  ```python
-  db_controller.initialize_database()
-  ```
-
 ### execute
 - **Aufgabe:** Führt generische SQL-Kommandos (INSERT, UPDATE, DELETE) aus.
 - **Parameter:**

@@ -11,18 +11,6 @@ class DataBaseController:
         self.connection = sqlite3.connect(db_file)
         self.connection.row_factory = sqlite3.Row
 
-    def initialize_database(self) -> None:
-        """
-        Initializes the database using an SQL schema.
-
-        Reads a predefined SQL file and executes the contained SQL statements.
-        """
-        schema_file = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "database", "db.sql")
-        with open(schema_file, "r", encoding="utf-8") as f:
-            schema = f.read()
-        self.connection.executescript(schema)
-        self.connection.commit()
-
     def execute(self, query: str, params: tuple = ()) -> sqlite3.Cursor:
         """
         Executes a generic SQL command (INSERT, UPDATE, DELETE).
