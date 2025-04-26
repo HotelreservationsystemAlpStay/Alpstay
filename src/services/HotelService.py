@@ -12,10 +12,9 @@ class Hotelservice:
 
     def get_hotel_in_city(self, city):
         query = """
-        SELECT h.hotel_id, h.name, h.stars
-        FROM Hotel h 
-        JOIN Address a ON h.address_id = a.address_id 
-        WHERE a.city = ?
+        SELECT hotel_id, name, stars
+        FROM extended_hotel
+        WHERE city = ?
         """
         result = self.db.fetchall(query, (city,)) #bei fetchall ist definiert, dass alle ? mit den Parametern in der Tupel ersetzt werden, hier also city, aber achtung Reihenfolge muss stimmen
         hotels = [] #leere Liste wird erstellt, die dann mit dem for loop gefüllt wird
@@ -33,11 +32,10 @@ class Hotelservice:
     def get_hotel_in_city_stars(self, city, min_stars):
         Validator.checkStars(min_stars)
         query = """
-        SELECT h.hotel_id, h.name, h.stars
-        FROM Hotel h 
-        JOIN Address a ON h.address_id = a.address_id 
-        WHERE a.city = ?
-        AND h.stars >= ?
+        SELECT hotel_id, name, stars
+        FROM extended_hotel
+        WHERE city = ? 
+        AND stars >= ?
         """
         result = self.db.fetchall(query, (city, min_stars))
         hotels = []
@@ -54,14 +52,11 @@ class Hotelservice:
     def get_hotel_in_city_stars_guests(self, city, min_stars, guests):
         Validator.checkStars(min_stars)
         query = """
-        SELECT h.hotel_id, h.name, h.stars
-        FROM Hotel h
-        JOIN Address a ON h.address_id = a.address_id
-        JOIN Room r ON h.hotel_id = r.hotel_id
-        JOIN Room_Type rt ON r.type_id = rt.type_id
-        WHERE a.city = ?
-        AND h.stars >= ?
-        AND rt.max_guests >= ?
+        SELECT hotel_id, name, stars
+        FROM extended_hotel_room
+        WHERE city = ? 
+        AND stars >= ?
+        AND max_guests >= ? 
         """
         result = self.db.fetchall(query, (city, min_stars, guests))
         hotels = []
@@ -80,11 +75,11 @@ class Hotelservice:
 
 # Nutzung User Story 1
 hotels = Hotelservice()
-hotels.get_hotel_in_city("Bern")
+hotels.get_hotel_in_city("Zürich")
 # Nutzung User Story 2 
 story2 = Hotelservice()
-story2.get_hotel_in_city_stars("Zürich", 4)
+story2.get_hotel_in_city_stars("Zürich", 3)
 # Nutzung User Story 3 
 story3 = Hotelservice()
-story3.get_hotel_in_city_stars_guests("Zürich", 4, 2)
+story3.get_hotel_in_city_stars_guests("Zürich", 4, 1)
 
