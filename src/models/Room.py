@@ -2,7 +2,7 @@ class Room:
     def __init__(self, room_id: int, room_no: str, price_per_night: float):
         self._validate_room_id(room_id)
         self._validate_room_no(room_no)
-        self._validate_price(price_per_night)
+        self._validate_price_per_night(price_per_night)
 
         self._room_id = room_id
         self._room_no = room_no
