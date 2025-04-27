@@ -72,6 +72,34 @@ class Hotelservice:
             print(f"{hotel.name} hat {hotel.stars} Sterne und liegt in {city}")
 
 
+    def get_hotel_in_city_booking(self, city, min_stars, guests, check_in_date, check_out_date):
+        Validator.checkStars(min_stars)
+        query = """
+        SELECT DISTINCT hotel_id, name, stars
+        FROM extended_hotel_room_booking
+        WHERE city = ? 
+        AND stars >= ?
+        AND max_guests >= ?
+        AND room_id NOT IN (SELECT room_id
+        FROM extended_hotel_room_booking
+        WHERE (check_in_date BETWEEN ? AND ?)
+        OR (check_out_date BETWEEN ? AND ?)
+        OR (check_in_date <= ? AND check_out_date >= ?))
+        """
+        result = self.db.fetchall(query, (city, min_stars, guests, check_in_date, check_out_date, check_in_date, check_out_date, check_in_date, check_out_date))
+        hotels = []
+        for hotel in result: 
+            data = dict(hotel)
+            hotel = Hotel(
+            hotel_id = data["hotel_id"],
+            name = data["name"],
+            stars = data["stars"]    
+            )
+            hotels.append(hotel)
+        for hotel in hotels: 
+            print(f"{hotel.name} hat {hotel.stars} Sterne und liegt in {city}")
+
+
 
 # Nutzung User Story 1
 hotels = Hotelservice()
@@ -82,4 +110,7 @@ story2.get_hotel_in_city_stars("Zürich", 3)
 # Nutzung User Story 3 
 story3 = Hotelservice()
 story3.get_hotel_in_city_stars_guests("Zürich", 4, 1)
+# Nutzung User Story 4
+story4 = Hotelservice()
+story4.get_hotel_in_city_booking("Bern", 2, 2, "2024-05-05", "2026-06-06")
 
