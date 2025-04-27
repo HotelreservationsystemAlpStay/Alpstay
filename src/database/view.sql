@@ -27,6 +27,24 @@ FROM
     Hotel
     JOIN Address ON Address.address_id = Hotel.address_id;
 
+/*extended_hotel_room_booking*/
+CREATE VIEW extended_hotel_room_booking AS
+SELECT
+    Hotel.*,
+    Address.*,
+    (
+        SELECT MAX(Room_Type.max_guests)
+        FROM Room
+        JOIN Room_Type ON Room.type_id = Room_Type.type_id
+        WHERE Room.hotel_id = Hotel.hotel_id
+    ) AS max_guests,
+    Booking.*
+FROM
+    Hotel
+    JOIN Address ON Address.address_id = Hotel.address_id
+    LEFT JOIN Room ON Room.hotel_id = Hotel.hotel_id
+    LEFT JOIN Booking ON Booking.room_id = Room.room_id
+
 /*extended_room*/
 CREATE VIEW
     extended_room AS
