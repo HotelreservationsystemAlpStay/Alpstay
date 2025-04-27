@@ -68,10 +68,11 @@ class Hotelservice:
             stars = data["stars"]
             )
             hotels.append(hotel)
-        for hotels in hotels:
+        for hotel in hotels:
             print(f"{hotel.name} hat {hotel.stars} Sterne und liegt in {city}")
 
 
+#User Story 4 müsste eigentlich stars und guests nicht enthalten, habe es trotzdem mal drin gelassen 
     def get_hotel_in_city_booking(self, city, min_stars, guests, check_in_date, check_out_date):
         Validator.checkStars(min_stars)
         query = """
