@@ -12,6 +12,9 @@ import sqlite3
 class RoomService:
     def __init__(self):
         self.db = DataBaseController()
+        self._SELECT = "SELECT * from extended_room JOIN Booking ON Booking.room_id = extended_room.room_id"
+        self._WHERE_BOOKINGDATE = " WHERE (Booking.check_in_date BETWEEN ? AND ?) OR (Booking.check_out_date BETWEEN ? AND ?) OR (Booking.check_in_date <= ? AND Booking.check_out_date >= ?)"
+        self._WHERE_HOTELID = "extended_room.hotel_id in"
         
     @staticmethod
     def _sqlite3row_to_room(row: sqlite3.Row)-> Room:
@@ -21,14 +24,26 @@ class RoomService:
             price_per_night = row['price_per_night']
         )
         
-    def get_available_rooms(self, dateStart: date, dateEnd: date, hotels = [], extendedFilter=[[],[]]) -> None:
-        query = """
-        SELECT * from extended_room
-        """
-        results = self.db.fetchall(query)
+    def get_available_rooms(self, dateStart=None, dateEnd=None, hotels = []) -> list[Room]:
+        query = self._SELECT
+        if dateStart != None:
+            query += self._WHERE_BOOKINGDATE
+        if len(hotels) != 1:
+            query += f" AND {self._WHERE_HOTELID} {tuple(hotels)}"
+        else:
+            query += f" AND {self._WHERE_HOTELID} ({hotels[0]})"
+        print(query)
+        
+        results = self.db.fetchall(query, (dateStart, dateEnd,dateStart, dateEnd,dateStart, dateEnd))
         rooms = []
         for room in results:
-            print(self._sqlite3row_to_room(room))
+            rooms.append(self._sqlite3row_to_room(room))
+        return rooms
             
 rs = RoomService()
-rs.get_available_rooms(None, None)
+print("### 1")
+rs.get_available_rooms(date(2025, 6, 1), date(2025, 6, 5))
+print("### 2")
+rs.get_available_rooms(date(2025, 6, 1), date(2025, 6, 5), hotels=[2])
+print("### 3")
+rs.get_available_rooms(date(2025, 6, 1), date(2025, 6, 5), hotels=[2,3,5])
