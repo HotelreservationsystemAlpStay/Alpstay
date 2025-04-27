@@ -100,7 +100,7 @@ class Hotelservice:
         for hotel in hotels: 
             print(f"{hotel.name} hat {hotel.stars} Sterne und liegt in {city}")
 
-
+    def 
 
 # Nutzung User Story 1
 hotels = Hotelservice()
