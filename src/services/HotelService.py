@@ -100,7 +100,23 @@ class Hotelservice:
         for hotel in hotels: 
             print(f"{hotel.name} hat {hotel.stars} Sterne und liegt in {city}")
 
-    def 
+
+# get_hotels_with_filtercriteria(inquery=[stars],values=[5])
+# get_hotels_with_filtercriteria(inquery=[number_of_guests],values=[3])
+# get_hotels_with_filtercriteria(inquery=[stars, number_of_guests],values=[5, 3])
+# get_hotels_with_filtercriteria(inquery=[dateRange],values=[[date1, date2]])
+# get_hotels_with_filtercriteria(inquery=[dateRange, ort] values=[[date1, date2], "Bonstette"])
+    def get_hotels_with_filtercriteria(self, inquery = [], values=[]):
+        hasAQuery = False
+        query = "Select irgwas"
+        if len(inquery) == len(values):
+            if hasAQuery:
+                query += " AND "
+            if inquery.containns("stars"):
+                index = inquery.index("star")
+                query += f"where hotel.stars >= {index}"
+            
+                
 
 # Nutzung User Story 1
 hotels = Hotelservice()
