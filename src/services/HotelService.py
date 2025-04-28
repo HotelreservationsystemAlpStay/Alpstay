@@ -89,8 +89,8 @@ class Hotelservice:
         """
         result = self.db.fetchall(query, (city, min_stars, guests, check_in_date, check_out_date, check_in_date, check_out_date, check_in_date, check_out_date))
         hotels = []
-        for hotel in result: 
-            data = dict(hotel)
+        for row in result: 
+            data = dict(row)
             hotel = Hotel(
             hotel_id = data["hotel_id"],
             name = data["name"],
@@ -100,7 +100,72 @@ class Hotelservice:
         for hotel in hotels: 
             print(f"{hotel.name} hat {hotel.stars} Sterne und liegt in {city}")
 
+    def get_selected_filters(self, city="all", min_stars="all", guests="all", check_in_date="all", check_out_date="all"): #All als Default Wert, damit nachher einfach die nicht gewünschten Werte weggelassen werden können bzw. nichts eingegeben werden muss
+        query = """
+        SELECT DISTINCT hotel_id, name, stars, city, street
+        FROM extended_hotel_room_booking
+        WHERE 1=1
+        """ #1=1 ist dafür, dass später alle modularen Abfragen mit AND geschrieben werden können, 1=1 ist immer true, also wenn nichts gefiltert werden einfach alle Hotels angezeigt
+        parameters = []
+        if city != "all":
+            query += " AND city = ?"
+            parameters.append(city)
+        if min_stars != "all":
+            query += " AND stars >= ? "
+            parameters.append(min_stars)
+        if guests != "all":
+            query += " AND max_guests >= ?"
+            parameters.append(guests)
+        if (check_in_date != "all" and check_out_date == "all") or (check_in_date == "all" and check_out_date != "all"):
+            raise ValueError("If you provide a check-in-date, you must provide a check-out-date and the other way around")  
+        elif check_in_date != "all" and check_out_date != "all":
+            query += """
+                    AND room_id NOT IN (SELECT room_id
+                    FROM extended_hotel_room_booking
+                    WHERE (check_in_date BETWEEN ? AND ?)
+                    OR (check_out_date BETWEEN ? AND ?)
+                    OR (check_in_date <= ? AND check_out_date >= ?))
+                    """
+            parameters.append(check_in_date)
+            parameters.append(check_out_date)
+            parameters.append(check_in_date)
+            parameters.append(check_out_date)
+            parameters.append(check_in_date)
+            parameters.append(check_out_date)
+        result = self.db.fetchall(query,parameters)
+        hotels = []
+        for row in result:
+            data = dict(row)
+            hotel = Hotel(
+            hotel_id = data["hotel_id"],
+            name = data["name"],
+            stars = data["stars"]    
+            )
+            hotels.append((hotel, data["city"], data["street"]))
 
+        for hotel, city, street in hotels:
+            print(f"{hotel.name} hat {hotel.stars} Sterne und liegt in {city} und hat folgende Adresse: {street}")
+    def get_hotel_details(self, hotel_name):
+        query = """
+        SELECT DISTINCT hotel_id, name, stars, street, city 
+        FROM extended_hotel_room
+        WHERE name = ?       
+        """
+        result = self.db.fetchall(query, (hotel_name,))
+        hotels = []
+        for row in result: 
+            data = dict(row)
+            hotel = Hotel(hotel_id = data["hotel_id"], name = data["name"], stars = data["stars"])
+            street = data["street"]
+            city = data["city"]
+            hotels.append((hotel, data["street"], data["city"]))
+        for hotel, street, city in hotels: 
+            print(f"The hotel {hotel.name} you mentioned has {hotel.stars} stars and is located in {city} at {street}")
+            
+
+
+        
+    
 # get_hotels_with_filtercriteria(inquery=[stars],values=[5])
 # get_hotels_with_filtercriteria(inquery=[number_of_guests],values=[3])
 # get_hotels_with_filtercriteria(inquery=[stars, number_of_guests],values=[5, 3])
@@ -129,5 +194,11 @@ story3 = Hotelservice()
 story3.get_hotel_in_city_stars_guests("Zürich", 4, 1)
 # Nutzung User Story 4
 story4 = Hotelservice()
-story4.get_hotel_in_city_booking("Bern", 2, 2, "2024-05-05", "2026-06-06")
+story4.get_hotel_in_city_booking("Zürich", 3, 1, "2026-05-05", "2026-06-06")
+#Nutzung User Story 5
+story5 = Hotelservice()
+story5.get_selected_filters("all",3,"all", "all", "all")
 
+#Nutzung User Story 6
+story6 = Hotelservice()
+story6.get_hotel_details("Hotel Baur au Lac")
