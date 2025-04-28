@@ -20,7 +20,7 @@ class Validator:
             raise ValueError("ID must be a positive number")
         
     @staticmethod
-    def checkStr(value: str):
+    def checkStr(value: str, name:str):
         if not isinstance(value, str):
             raise ValueError(f"{value} has to be of type string")
         if not value.strip():
