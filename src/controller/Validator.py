@@ -14,6 +14,17 @@ class Validator:
              raise ValueError(f"{name} must be positive")
 
     @staticmethod
+    def checkFloat(value: float, name: str):
+        if not isinstance(value, float):
+            raise ValueError(f"{name} must be a float")
+    
+    @staticmethod
+    def checkPositiveFloat(value: float, name: str):
+        Validator.checkFloat(value, name)
+        if value < 0:
+            raise ValueError(f"{name} must be positive")
+
+    @staticmethod
     def checkStars(value:int):
          Validator.checkInteger(value, "Stars")
          if value < 1 or value > 5:
