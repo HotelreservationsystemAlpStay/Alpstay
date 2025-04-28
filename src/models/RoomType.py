@@ -14,24 +14,6 @@ class RoomType:
         self.description = description
         self.maxGuests = maxGuests
 
-    def _validateId(self, id: int) -> None:
-        if not isinstance(id, int):
-            raise TypeError("ID must be an integer")
-        if id <= 0:
-            raise ValueError("ID must be positive")
-
-    def _validateDescription(self, description: str) -> None:
-        if not isinstance(description, str):
-            raise TypeError("Description must be a String")
-        if not description.strip():
-            raise ValueError("Description must not be empty")
-
-    def _validateMaxGuests(self, maxGuests: int) -> None:
-        if not isinstance(maxGuests, int):
-            raise TypeError("Maximum count of guests must be an integer")
-        if maxGuests <= 0:
-            raise ValueError("Maximum count of guests must be positive")
-
     @property
     def getId(self) -> int:
         return self.id
@@ -47,7 +29,7 @@ class RoomType:
 
     @getDescription.setter
     def setDescription(self, description: str) -> None:
-        self._validateDescription(description)
+        self.self.validator.checkStr(description, "description")
         self.description = description
 
     @property
@@ -56,7 +38,7 @@ class RoomType:
 
     @getMaxGuests.setter
     def setMaxGuests(self, maxGuests: int) -> None:
-        self._validateMaxGuests(maxGuests)
+        self.validator.checkPositiveInteger(maxGuests, "maxGuest")
         self.maxGuests = maxGuests
 
     def __str__(self):
