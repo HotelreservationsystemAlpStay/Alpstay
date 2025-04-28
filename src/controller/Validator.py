@@ -18,3 +18,10 @@ class Validator:
         Validator.checkInteger(value, "ID")
         if value <= 0:
             raise ValueError("ID must be a positive number")
+        
+    @staticmethod
+    def checkStr(value: str):
+        if not isinstance(value, str):
+            raise ValueError(f"{value} has to be of type string")
+        if not value.strip():
+            raise ValueError(f"{value} must not be empty")
