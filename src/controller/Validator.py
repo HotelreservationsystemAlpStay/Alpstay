@@ -22,6 +22,6 @@ class Validator:
     @staticmethod
     def checkStr(value: str, name:str):
         if not isinstance(value, str):
-            raise ValueError(f"{value} has to be of type string")
+            raise ValueError(f"{name} has to be of type string")
         if not value.strip():
-            raise ValueError(f"{value} must not be empty")
+            raise ValueError(f"{name} must not be empty")
