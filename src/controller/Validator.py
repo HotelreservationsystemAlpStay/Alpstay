@@ -8,6 +8,12 @@ class Validator:
                 raise ValueError(f"{name} must be a whole number")
     
     @staticmethod
+    def checkPositiveInteger(value: int, name: str):
+        Validator.checkInteger(value, name)
+        if value < 0:
+             raise ValueError(f"{name} must be positive")
+
+    @staticmethod
     def checkStars(value:int):
          Validator.checkInteger(value, "Stars")
          if value < 1 or value > 5:
