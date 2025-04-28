@@ -27,7 +27,7 @@ class Hotelservice:
             )     #In diesem Block wird die Klasse Hotel aufgerufen, deshalb muss man hotel_id definieren, muss aber nicht verwendet werden
             hotels.append(hotel) #Liste wird ergänzt um Hotel
         for hotel in hotels:
-            print(f"{hotel.name} hat {hotel.stars} Sterne und liegt in {city}")
+            print(f"{hotel.name} has {hotel.stars} stars and is located in {city}")
 
     def get_hotel_in_city_stars(self, city, min_stars):
         Validator.checkStars(min_stars)
@@ -48,7 +48,7 @@ class Hotelservice:
             )
             hotels.append(hotel)
         for hotel in hotels:
-            print(f"{hotel.name} hat {hotel.stars} Sterne und liegt in {city}")
+            print(f"{hotel.name} has {hotel.stars} stars and is located in {city}")
     def get_hotel_in_city_stars_guests(self, city, min_stars, guests):
         Validator.checkStars(min_stars)
         query = """
@@ -69,7 +69,7 @@ class Hotelservice:
             )
             hotels.append(hotel)
         for hotel in hotels:
-            print(f"{hotel.name} hat {hotel.stars} Sterne und liegt in {city}")
+            print(f"{hotel.name} has {hotel.stars} stars and is located in {city}")
 
 
 #User Story 4 müsste eigentlich stars und guests nicht enthalten, habe es trotzdem mal drin gelassen 
@@ -98,7 +98,7 @@ class Hotelservice:
             )
             hotels.append(hotel)
         for hotel in hotels: 
-            print(f"{hotel.name} hat {hotel.stars} Sterne und liegt in {city}")
+            print(f"{hotel.name} has {hotel.stars} stars and is located in {city}")
 
     def get_selected_filters(self, city="all", min_stars="all", guests="all", check_in_date="all", check_out_date="all"): #All als Default Wert, damit nachher einfach die nicht gewünschten Werte weggelassen werden können bzw. nichts eingegeben werden muss
         query = """
@@ -144,7 +144,7 @@ class Hotelservice:
             hotels.append((hotel, data["city"], data["street"]))
 
         for hotel, city, street in hotels:
-            print(f"{hotel.name} hat {hotel.stars} Sterne und liegt in {city} und hat folgende Adresse: {street}")
+            print(f"{hotel.name} has {hotel.stars} stars, is located in {city} at: {street}")
     def get_hotel_details(self, hotel_name):
         query = """
         SELECT DISTINCT hotel_id, name, stars, street, city 
