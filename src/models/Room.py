@@ -1,57 +1,52 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from controller.Validator import Validator
+
 class Room:
     def __init__(self, room_id: int, room_no: str, price_per_night: float):
-        self._validate_room_id(room_id)
-        self._validate_room_no(room_no)
-        self._validate_price_per_night(price_per_night)
+        self.validator = Validator()
+        self.validator.checkID(room_id)
+        self.validator.checkStr(room_no, "room_no")
+        self.validator.checkPositiveFloat(price_per_night, "price_per_night")
 
-        self._room_id = room_id
-        self._room_no = room_no
-        self._price_per_night = price_per_night
-
-    def _validate_room_id(self, room_id):
-        if not isinstance(room_id, int):
-            raise ValueError("Room ID must be an integer")
-        if room_id < 1:
-            raise ValueError("Room ID must be greater than 0")
-
-    def _validate_room_no(self, room_no):
-        if not isinstance(room_no, str):
-            raise ValueError("Room number must be a string")
-        if room_no.strip() == "":
-            raise ValueError("Please enter a room number")
-
-    def _validate_price_per_night(self, price_per_night):
-        if not isinstance(price_per_night, (float, int)):
-            raise ValueError("Price per night must be a float or integer")
-        if price_per_night <= 0:
-            raise ValueError("Price per night must be greater than 0")
+        self.room_id = room_id
+        self.room_no = room_no
+        self.price_per_night = price_per_night
 
     @property
     def room_id(self):
-        return self._room_id
+        return self.room_id
 
     @room_id.setter
-    def room_id(self, new_room_id):
-        self._validate_room_id(new_room_id)
-        self._room_id = new_room_id
+    def room_id(self, room_id):
+        self.validator.checkID(room_id)
+        self.room_id = room_id
 
     @property
     def room_no(self):
-        return self._room_no
+        return self.room_no
 
     @room_no.setter
-    def room_no(self, new_room_no):
-        self._validate_room_no(new_room_no)
-        self._room_no = new_room_no
+    def room_no(self, room_no):
+        self.validator.checkStr(room_no, "room_no")
+        self.room_no = room_no
 
     @property
     def price_per_night(self):
-        return self._price_per_night
+        return self.price_per_night
 
     @price_per_night.setter
-    def price_per_night(self, new_price_per_night):
-        self._validate_price(new_price_per_night)
-        self._price_per_night = new_price_per_night
+    def price_per_night(self, price_per_night):
+        self.validator.checkPositiveFloat(price_per_night, "price_per_night")
+        self.price_per_night = price_per_night
 
     def __str__(self):
-        return f"Room {self._room_no} costs {self._price_per_night} per night and has room ID: {self._room_id}"
+        return f"Room {self.room_no} costs {self.price_per_night} per night and has room ID: {self.room_id}"
+
+    def to_dict(self):
+        return{
+            "room_id": self.room_id,
+            "room_no": self.room_no,
+            "price_per_night": self.price_per_night
+        }
