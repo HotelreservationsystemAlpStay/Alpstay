@@ -32,11 +32,11 @@ CREATE VIEW extended_hotel_room_booking AS
 SELECT
     Hotel.*,
     Address.*,
+    Room.room_id,
     (
-        SELECT MAX(Room_Type.max_guests)
-        FROM Room
-        JOIN Room_Type ON Room.type_id = Room_Type.type_id
-        WHERE Room.hotel_id = Hotel.hotel_id
+        SELECT Room_Type.max_guests
+        FROM Room_Type
+        WHERE Room_Type.type_id = Room.type_id
     ) AS max_guests,
     Booking.*
 FROM
