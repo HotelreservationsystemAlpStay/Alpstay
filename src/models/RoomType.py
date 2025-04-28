@@ -1,8 +1,14 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from controller.Validator import Validator
+
 class RoomType:
     def __init__(self, id: int, description: str, maxGuests: int) -> None:
-        self._validateId(id)
-        self._validateDescription(description)
-        self._validateMaxGuests(maxGuests)
+        self.validator = Validator()
+        self.validator.checkID(id)
+        self.validator.checkStr(description, "description")
+        self.validator.checkPositiveInteger(maxGuests, "maxGuest")
 
         self.id = id
         self.description = description
@@ -32,7 +38,7 @@ class RoomType:
 
     @getId.setter
     def setId(self, id: int) -> None:
-        self._validateId(id)
+        self.validator.checkID(id)
         self.id = id
 
     @property
