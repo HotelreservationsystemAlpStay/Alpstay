@@ -14,10 +14,12 @@ class FacilityService:
 
     @staticmethod
     def _sqlite3row_to_room(row: sqlite3.Row) -> Facility:
-        return Facility(id=row["facilitid"], name=row["name"])
+        return Facility(id=row["facility_id"], name=row["facility_name"])
 
     def get_facility_by_id(self, facility_id: int)->Facility:
-        query = "SELECT"
+        query = "SELECT * FROM Facilities WHERE facility_id = ?"
+        results = self.db.fetchone(query, (facility_id,))
+        return self._sqlite3row_to_room(results)
         
 
         

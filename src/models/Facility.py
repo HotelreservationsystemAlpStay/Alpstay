@@ -11,6 +11,7 @@ class Facility:
         self.id = id
         self.name = name
 
+    """
     @property
     def id(self) -> int:
         return self.id
@@ -28,9 +29,10 @@ class Facility:
     def setName(self, name: str) -> None:
         self.validator.checkStr(name, "name")
         self.name = name
+    """
 
     def __str__(self):
-        return "Facility(id={0}, name={2})".format(self.id, self.name)
+        return "Facility(id={0}, name={1})".format(self.id, self.name)
     
     def to_dict(self):
         return {

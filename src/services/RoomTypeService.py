@@ -7,7 +7,7 @@ from controller.DataBaseController import DataBaseController
 from datetime import date
 import sqlite3
 
-class RoomTypeServie:
+class RoomTypeService:
     def __init__(self):
         self.db = DataBaseController()
         self.validator = Validator()
@@ -22,10 +22,18 @@ class RoomTypeServie:
     
     def get_all_roomtypes(self, hotels=[]):
         query = "SELECT DISTINCT * FROM Room_Type"
-        params = ()
-        if(len(hotels) == 1):
-            query += "WHERE "
-        result = self.db.fetchall(query, params)
+        if len(hotels) != 0:
+            if len(hotels) == 1:
+                tuples = f"({hotels[0]})"
+            else:
+                tuples = tuple(hotels)
+            query += f"""
+            JOIN Room on Room.room_id = Room_Type.type_id
+            JOIN Hotel on Hotel.hotel_id = Room.hotel_id
+            WHERE Hotel.hotel_id in {tuples}
+            ORDER BY Room_Type.type_id
+            """
+        result = self.db.fetchall(query)
         roomTypes = []
         for item in result:
             roomTypes.append(self._sqlite3row_to_roomtype(item))
@@ -42,8 +50,16 @@ class RoomTypeServie:
         query = "SELECT * FROM Room_Type WHERE max_guests = ?"
         result = self.db.fetchone(query, (f"{max_guests}"))
         return self._sqlite3row_to_roomtype(result)
-
+"""
 rrr = RoomTypeServie()
-shee = rrr.get_all_roomtypes()
+
+print("1: 2 exp")
+shee = rrr.get_all_roomtypes([1])
 for s in shee:
     print(s)
+
+print("3: 4 exp")
+shee = rrr.get_all_roomtypes([1,2,3])
+for s in shee:
+    print(s)
+"""
