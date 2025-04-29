@@ -33,10 +33,10 @@ class Validator:
               raise ValueError("Stars must be between 1 and 5")
         
     @staticmethod    
-    def checkID(value: int, name:str):
+    def checkID(value: int):
         Validator.checkInteger(value, "ID")
         if value <= 0:
-            raise ValueError(f"{name} must be a positive number")
+            raise ValueError("ID must be a positive number")
         
     @staticmethod
     def checkStr(value: str, name:str):
