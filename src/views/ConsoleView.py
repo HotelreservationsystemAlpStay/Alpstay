@@ -21,9 +21,3 @@ class ConsoleView:
                 break
             else:
                 print("Invalid choice.")
-
-# Only run this block when the file is executed as a script, 
-# not when it's imported by another module.
-if __name__ == '__main__':
-    view = ConsoleView()
-    view.run()
