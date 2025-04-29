@@ -33,10 +33,10 @@ class Validator:
               raise ValueError("Stars must be between 1 and 5")
         
     @staticmethod    
-    def checkID(value: int):
+    def checkID(value: int, name:str):
         Validator.checkInteger(value, "ID")
         if value <= 0:
-            raise ValueError("ID must be a positive number")
+            raise ValueError(f"{name} must be a positive number")
         
     @staticmethod
     def checkStr(value: str, name:str):
@@ -56,3 +56,26 @@ class Validator:
         Validator.checkDate(valueSecondDate)
         if valueSecondDate > valueFirstDate:
             raise ValueError("Last Date is before first Date")
+    
+    @staticmethod
+    def checkDateFormat(value: date, name:str):
+        if not isinstance(value, date):
+            raise ValueError(f"{name} has to be of type date")
+        if not value.strip():
+            raise ValueError(f"{name} must not be empty")
+        try:
+            date.fromisoformat(value)
+        except ValueError:
+            raise ValueError(f"{name} is not a valid date format (YYYY-MM-DD)")
+        
+    @staticmethod
+    def checkDates(check_in_date: date, check_out_date: date):
+        if check_in_date >= check_out_date:
+            raise ValueError("Check-in date must be before check-out date")
+        
+    @staticmethod
+    def checkBoolean(value: bool, name:str):
+        if not isinstance(value, bool):
+            raise ValueError(f"{name} has to be of type boolean")
+        if not value.strip():
+            raise ValueError(f"{name} must not be empty")

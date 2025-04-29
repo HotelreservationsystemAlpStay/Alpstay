@@ -9,7 +9,6 @@ class RoomType:
         self.validator.checkID(id)
         self.validator.checkStr(description, "description")
         self.validator.checkPositiveInteger(maxGuests, "maxGuest")
-
         self.id = id
         self.description = description
         self.maxGuests = maxGuests

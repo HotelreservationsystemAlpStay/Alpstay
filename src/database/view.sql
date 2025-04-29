@@ -32,11 +32,11 @@ CREATE VIEW extended_hotel_room_booking AS
 SELECT
     Hotel.*,
     Address.*,
+    Room.room_id,
     (
-        SELECT MAX(Room_Type.max_guests)
-        FROM Room
-        JOIN Room_Type ON Room.type_id = Room_Type.type_id
-        WHERE Room.hotel_id = Hotel.hotel_id
+        SELECT Room_Type.max_guests
+        FROM Room_Type
+        WHERE Room_Type.type_id = Room.type_id
     ) AS max_guests,
     Booking.*
 FROM
@@ -86,3 +86,12 @@ WHERE
                 AND Booking.check_out_date >= '2025-06-05'
             )
     )
+
+/* view to create an invoice */
+CREATE VIEW booking_view AS
+SELECT *
+FROM Booking b
+LEFT JOIN Guest g ON b.guest_id = g.guest_id
+LEFT JOIN Address a ON g.address_id = a.address_id
+LEFT JOIN Room r ON b.room_id = r.room_id
+LEFT JOIN Hotel h ON r.hotel_id = h.hotel_id
