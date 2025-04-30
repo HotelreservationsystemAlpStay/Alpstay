@@ -180,10 +180,23 @@ class Hotelservice:
             """
             self.db.execute(query_add_hotel,(result_max + 1, name, stars, address_id))
             print("Hotel was added successfuly")
-        
-    
-            
-                
+
+    def delete_hotel(self, user_id, password, hotel_id):
+        uh = Userhandler()
+        if uh.check_admin(user_id, password) != True:
+            raise ValueError("You need admin rights to perform this action")
+        else:
+            query = """
+            DELETE
+            FROM Hotel 
+            WHERE hotel_id = ?
+            """
+            rows_deleted = self.db.execute(query, (hotel_id,)).rowcount
+            if rows_deleted <1:
+                print("There is no hotel with this hotel ID")
+            else:
+                print("The hotel was deleted successfuly")
+
 
 # Nutzung User Story 1.1
 hotels = Hotelservice()
@@ -208,3 +221,6 @@ story6.get_hotel_details("Hotel Baur au Lac")
 #Nutzung User Story 3.1
 story31 = Hotelservice()
 story31.add_hotel(6, "admin", "Hotel Yves", 5, 2)
+#Nutzung User Story 3.2
+story32 = Hotelservice()
+story32.delete_hotel(6, "admin", 7)
