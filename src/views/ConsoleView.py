@@ -1,7 +1,7 @@
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from handlers.Service_Handler import ServiceHandler
+from handlers.ServiceHandler import ServiceHandler
 from datetime import datetime, date
 
 class ConsoleView:
