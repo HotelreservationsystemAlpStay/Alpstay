@@ -53,7 +53,7 @@ class BookingService:
                 datetime.strptime(row["check_in_date"], "%Y-%m-%d").date(),
                 datetime.strptime(row["check_out_date"], "%Y-%m-%d").date(),
                 bool(row["is_cancelled"]),
-                row["total_amount"]
+                row["total_amount"],
                 row["guest_id"],
                 row["room_id"]
             )
