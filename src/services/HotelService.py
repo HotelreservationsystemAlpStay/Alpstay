@@ -196,6 +196,34 @@ class Hotelservice:
                 print("There is no hotel with this hotel ID")
             else:
                 print("The hotel was deleted successfuly")
+    def update_hotel(self, user_id, password, hotel_id, name=None, stars=None, address_id=None):
+        uh = Userhandler()
+        if uh.check_admin(user_id, password) != True:
+            raise ValueError("You need admin rights to perform this action")
+        else:
+            if not hotel_id:
+                raise ValueError("You must provide the hotel ID of the hotel you would like to change")
+            query = """
+            UPDATE Hotel
+            SET
+            """
+            parameters = []
+            if name != None:
+                query += "name = ?,"
+                parameters.append(name)
+            if stars != None:
+                query += "stars = ?,"
+                parameters.append(stars)
+            if address_id != None:
+                query += "address_id = ?,"
+                parameters.append(address_id)
+            if name is None and stars is None and address_id is None:
+                raise ValueError("You must change at least one information of the hotel")
+            query += "WHERE hotel_id = ?"
+            parameters.append(hotel_id)
+            print("Changed Hotel Information successfuly")
+
+
 
 
 # Nutzung User Story 1.1
@@ -224,3 +252,6 @@ story31.add_hotel(6, "admin", "Hotel Yves", 5, 2)
 #Nutzung User Story 3.2
 story32 = Hotelservice()
 story32.delete_hotel(6, "admin", 7)
+#Nutzung User Story 3.3
+story33 = Hotelservice()
+story33.update_hotel(6, "admin", 7, "Hotel Lustighof")
