@@ -5,6 +5,7 @@ from controller.Validator import Validator
 from models.Hotels import Hotel
 from controller.DataBaseController import DataBaseController
 from datetime import date
+from handlers.UserHandler import Userhandler
 
 class Hotelservice:
     def __init__(self): 
@@ -161,44 +162,49 @@ class Hotelservice:
             hotels.append((hotel, data["street"], data["city"]))
         for hotel, street, city in hotels: 
             print(f"The hotel {hotel.name} you mentioned has {hotel.stars} stars and is located in {city} at {street}")
-            
-
-
+    
+    def add_hotel(self, user_id, password, name, stars, address_id):
+        uh = Userhandler()
+        if uh.check_admin(user_id, password) != True:
+            raise ValueError("You need admin rights to perform this action")
+        else:
+            query_max_id = """
+            SELECT MAX(hotel_id) FROM Hotel
+            """
+            result_max = self.db.fetchone(query_max_id)[0]
+            if result_max is None:
+                result_max = 0
+            query_add_hotel = """
+            INSERT INTO Hotel
+            VALUES (?, ?, ?, ?)
+            """
+            self.db.execute(query_add_hotel,(result_max + 1, name, stars, address_id))
+            print("Hotel was added successfuly")
         
     
-# get_hotels_with_filtercriteria(inquery=[stars],values=[5])
-# get_hotels_with_filtercriteria(inquery=[number_of_guests],values=[3])
-# get_hotels_with_filtercriteria(inquery=[stars, number_of_guests],values=[5, 3])
-# get_hotels_with_filtercriteria(inquery=[dateRange],values=[[date1, date2]])
-# get_hotels_with_filtercriteria(inquery=[dateRange, ort] values=[[date1, date2], "Bonstette"])
-    def get_hotels_with_filtercriteria(self, inquery = [], values=[]):
-        hasAQuery = False
-        query = "Select irgwas"
-        if len(inquery) == len(values):
-            if hasAQuery:
-                query += " AND "
-            if inquery.containns("stars"):
-                index = inquery.index("star")
-                query += f"where hotel.stars >= {index}"
             
                 
 
-# Nutzung User Story 1
+# Nutzung User Story 1.1
 hotels = Hotelservice()
 hotels.get_hotel_in_city("Zürich")
-# Nutzung User Story 2 
+# Nutzung User Story 1.2
 story2 = Hotelservice()
 story2.get_hotel_in_city_stars("Zürich", 3)
-# Nutzung User Story 3 
+# Nutzung User Story 1.3
 story3 = Hotelservice()
 story3.get_hotel_in_city_stars_guests("Zürich", 4, 1)
-# Nutzung User Story 4
+# Nutzung User Story 1.4
 story4 = Hotelservice()
 story4.get_hotel_in_city_booking("Zürich", 3, 1, "2026-05-05", "2026-06-06")
-#Nutzung User Story 5
+#Nutzung User Story 1.5
 story5 = Hotelservice()
 story5.get_selected_filters("all",3,"all", "all", "all")
 
-#Nutzung User Story 6
+#Nutzung User Story 1.6
 story6 = Hotelservice()
 story6.get_hotel_details("Hotel Baur au Lac")
+
+#Nutzung User Story 3.1
+story31 = Hotelservice()
+story31.add_hotel(6, "admin", "Hotel Yves", 5, 2)
