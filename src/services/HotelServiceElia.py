@@ -1,9 +1,10 @@
+import os  # Importiert Betriebssystemoperationen
+import sys  # Importiert Systemoperationen (z.B. um den Pfad zu ändern)
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from controller.DataBaseController import DataBaseController
 from models.Hotels import Hotel
-import os  # Importiert Betriebssystemoperationen
-import sys  # Importiert Systemoperationen (z.B. um den Pfad zu ändern)
+
 
 # Variante 2
 # Task 1: Alle Hotels anzeigen
