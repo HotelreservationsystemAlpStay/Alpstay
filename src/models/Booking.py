@@ -2,7 +2,7 @@ from datetime import date
 
 class Booking:
     def __init__(self, booking_id: int, check_in_date: date, check_out_date: date, is_cancelled: bool, 
-                 guest_id: int, room_id: int):
+                 total_amount: float, guest_id: int, room_id: int):
         
         self._validate_booking_id(booking_id)
         self._validate_dates(check_in_date, check_out_date)
