@@ -1,15 +1,15 @@
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from controller.Validator import Validator
+from Data_Access.Validator import Validator
 from models.Hotels import Hotel
-from controller.DataBaseController import DataBaseController
+from Data_Access.Base_Access_Controller import Base_Access_Controller
 from datetime import date
 from handlers.UserHandler import Userhandler
 
 class Hotelservice:
     def __init__(self): 
-        self.db = DataBaseController()
+        self.db = Base_Access_Controller()
 
     def get_hotel_in_city(self, city):
         query = """

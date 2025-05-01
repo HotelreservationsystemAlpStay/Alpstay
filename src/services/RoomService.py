@@ -2,11 +2,11 @@ import sys
 import os
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from controller.Validator import Validator
+from Data_Access.Validator import Validator
 from models.Room import Room
 from models.RoomType import RoomType
 from models.Facility import Facility
-from controller.DataBaseController import DataBaseController
+from Data_Access.Base_Access_Controller import Base_Access_Controller
 from services.FacilityService import FacilityService
 from services.RoomTypeService import RoomTypeService
 from datetime import date
@@ -15,7 +15,7 @@ import sqlite3
 
 class RoomService:
     def __init__(self):
-        self.db = DataBaseController()
+        self.db = Base_Access_Controller()
         self._SELECT = "SELECT * from extended_room JOIN Booking ON Booking.room_id = extended_room.room_id"
         self._WHERE_BOOKINGDATE = " WHERE (Booking.check_in_date BETWEEN ? AND ?) OR (Booking.check_out_date BETWEEN ? AND ?) OR (Booking.check_in_date <= ? AND Booking.check_out_date >= ?)"
         self._WHERE_HOTELID = "extended_room.hotel_id in"

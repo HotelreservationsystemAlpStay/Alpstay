@@ -1,8 +1,8 @@
-from src.controller import DataBaseController
+from Data_Access.Base_Access_Controller import Base_Access_Controller
 from src.models import ModelClass
 
 class Service:
-    def __init__(self, dbcontroller: DataBaseController, type: str) -> None:
+    def __init__(self, dbcontroller: Base_Access_Controller, type: str) -> None:
         self._controller = dbcontroller
         self._type = type
 

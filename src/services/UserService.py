@@ -3,13 +3,13 @@ import os
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from models.User import User
-from controller.DataBaseController import DataBaseController
+from Data_Access.Base_Access_Controller import Base_Access_Controller
 import sqlite3
 
 
 class UserService:
     def __init__(self):
-        self.db_controller = DataBaseController()
+        self.db_controller = Base_Access_Controller()
 
     def _sqlite3rowToUser(self, row: sqlite3.Row) -> User:
         return User(

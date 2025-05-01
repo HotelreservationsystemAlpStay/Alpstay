@@ -1,14 +1,14 @@
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from controller.DataBaseController import DataBaseController
+from Data_Access.Base_Access_Controller import Base_Access_Controller
 from datetime import date
 from models.Invoicecorrected import Invoice
 
 
 class Invoiceservice:
     def __init__(self):
-        self.db = DataBaseController()
+        self.db = Base_Access_Controller()
     
     def create_invoice(self, booking_id):
         query = """

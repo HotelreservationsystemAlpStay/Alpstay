@@ -1,13 +1,13 @@
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from controller.DataBaseController import DataBaseController
+from Data_Access.Base_Access_Controller import Base_Access_Controller
 from models.User import User
 import hashlib
 
 class Userhandler:
     def __init__(self):
-        self.db = DataBaseController()
+        self.db = Base_Access_Controller()
 
     def check_admin(self, user_id, password):
         query = """
