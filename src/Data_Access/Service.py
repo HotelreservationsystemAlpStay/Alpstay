@@ -1,4 +1,4 @@
-from Data_Access.Base_Access_Controller import Base_Access_Controller
+from Base_Access_Controller import Base_Access_Controller
 from src.models import ModelClass
 
 class Service:

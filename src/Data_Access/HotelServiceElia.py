@@ -2,7 +2,7 @@ import os  # Importiert Betriebssystemoperationen
 import sys  # Importiert Systemoperationen (z.B. um den Pfad zu ändern)
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Data_Access.Base_Access_Controller import Base_Access_Controller
+from Base_Access_Controller import Base_Access_Controller
 from models.Hotels import Hotel
 
 

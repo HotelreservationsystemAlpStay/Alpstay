@@ -6,9 +6,9 @@ from utils.Validator import Validator
 from models.Room import Room
 from models.RoomType import RoomType
 from models.Facility import Facility
-from Data_Access.Base_Access_Controller import Base_Access_Controller
-from services.FacilityService import FacilityService
-from services.RoomTypeService import RoomTypeService
+from Base_Access_Controller import Base_Access_Controller
+from FacilityService import FacilityService
+from RoomTypeService import RoomTypeService
 from datetime import date
 import sqlite3
 

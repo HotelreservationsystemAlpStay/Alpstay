@@ -1,11 +1,11 @@
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from Data_Access.Base_Access_Controller import Base_Access_Controller
+from data_Access.Base_Access_Controller import Base_Access_Controller
 from models.User import User
 import hashlib
 
-class Userhandler:
+class User_Controller:
     def __init__(self):
         self.db = Base_Access_Controller()
 
@@ -34,7 +34,7 @@ class Userhandler:
             raise ValueError("The password you entered is wrong, please try again")
 
 #Test
-test1 = Userhandler()
+test1 = User_Controller()
 test1.check_admin(6, "admin")
 
 

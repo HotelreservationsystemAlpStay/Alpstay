@@ -1,7 +1,7 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from Data_Access.Base_Access_Controller import Base_Access_Controller
+from Base_Access_Controller import Base_Access_Controller
 
 class HotelService:
     def __init__(self):

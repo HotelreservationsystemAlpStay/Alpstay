@@ -3,9 +3,9 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.Validator import Validator
 from models.Hotels import Hotel
-from Data_Access.Base_Access_Controller import Base_Access_Controller
+from Base_Access_Controller import Base_Access_Controller
 from datetime import date
-from handlers.UserHandler import Userhandler
+from controller.User_Controller import User_Controller
 
 class Hotelservice:
     def __init__(self): 
@@ -197,7 +197,7 @@ class Hotelservice:
                 print(f"The hotel {hotel.name} you mentioned has {hotel.stars} stars and is located in {city} at {street}")
     
     def add_hotel(self, user_id, password, name, stars, address_id):
-        uh = Userhandler()
+        uh = User_Controller()
         if uh.check_admin(user_id, password) != True:
             raise ValueError("You need admin rights to perform this action")
         else:
@@ -215,7 +215,7 @@ class Hotelservice:
             print("Hotel was added successfuly")
 
     def delete_hotel(self, user_id, password, hotel_id):
-        uh = Userhandler()
+        uh = User_Controller()
         if uh.check_admin(user_id, password) != True:
             raise ValueError("You need admin rights to perform this action")
         else:
@@ -230,7 +230,7 @@ class Hotelservice:
             else:
                 print("The hotel was deleted successfuly")
     def update_hotel(self, user_id, password, hotel_id, name=None, stars=None, address_id=None):
-        uh = Userhandler()
+        uh = User_Controller
         if uh.check_admin(user_id, password) != True:
             raise ValueError("You need admin rights to perform this action")
         if not hotel_id:
