@@ -1,8 +1,8 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from controller.DataBaseController import DataBaseController
-db_controller = DataBaseController()
+from Data_Access.Base_Access_Controller import Base_Access_Controller
+db_controller = Base_Access_Controller()
 
 #1 Alle Hotels anzeigen
 def get_all_hotels():

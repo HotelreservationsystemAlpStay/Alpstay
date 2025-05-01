@@ -1,7 +1,7 @@
 import os
 import sqlite3
 
-class DataBaseController:
+class Base_Access_Controller:
     def __init__(self):
         """
         Initializes the database connection with a project-internal, relative database path.

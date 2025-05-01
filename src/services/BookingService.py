@@ -1,14 +1,14 @@
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from controller.Validator import Validator
+from Data_Access.Validator import Validator
 from models.Booking import Booking
-from controller.DataBaseController import DataBaseController
+from Data_Access.Base_Access_Controller import Base_Access_Controller
 from datetime import date, datetime
 
 class BookingService:
     def __init__(self): 
-        self.db = DataBaseController()
+        self.db = Base_Access_Controller()
 
     def create_booking(self, booking_id: int, check_in_date: date, check_out_date: date, is_cancelled: bool, total_amount: float, guest_id: int, room_id: int) -> Booking:
         """

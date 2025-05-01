@@ -2,7 +2,7 @@ import os  # Importiert Betriebssystemoperationen
 import sys  # Importiert Systemoperationen (z.B. um den Pfad zu ändern)
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from controller.DataBaseController import DataBaseController
+from Data_Access.Base_Access_Controller import Base_Access_Controller
 from models.Hotels import Hotel
 
 
@@ -20,7 +20,7 @@ from models.Hotels import Hotel
 class Hotelservice:
     def __init__(self):  # Konstruktor der Klasse -> Definition Konstruktor: Dient dazu, Instanzattribute (Variable, die einer Instanz einer Klasse angehört) zu initialisieren und aktionen beim Erzeugen eines Objekts durchzuführen
         # Datenbankcontroller wird aufgerufen, um die Datenbank zu steuern
-        self.db = DataBaseController()
+        self.db = Base_Access_Controller()
 
     # Alle Hotels anzeigen:
     def get_hotels(self):  # Definiert die Methode, wie man die Hotels anzeigen lassen will bzw. wie man diese nennt und was sie anzeigen soll (hier mit eimem get_hotels)
