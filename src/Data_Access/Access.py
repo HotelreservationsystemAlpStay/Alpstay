@@ -1,7 +1,7 @@
 from Base_Access_Controller import Base_Access_Controller
 from src.models import ModelClass
 
-class Service:
+class Access:
     def __init__(self, dbcontroller: Base_Access_Controller, type: str) -> None:
         self._controller = dbcontroller
         self._type = type

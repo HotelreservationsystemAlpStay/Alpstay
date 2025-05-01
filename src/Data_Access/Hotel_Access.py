@@ -7,7 +7,7 @@ from Base_Access_Controller import Base_Access_Controller
 from datetime import date
 from controller.User_Controller import User_Controller
 
-class Hotelservice:
+class Hotel_Access:
     def __init__(self): 
         self.db = Base_Access_Controller()
 

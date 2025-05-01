@@ -6,7 +6,7 @@ from datetime import date
 from models.Invoicecorrected import Invoice
 
 
-class Invoiceservice:
+class Invoice_Access:
     def __init__(self):
         self.db = Base_Access_Controller()
     
@@ -34,5 +34,5 @@ class Invoiceservice:
         #Achtung ich hole hier noch extrem viele unnötige Parameter, ich möchte vielleicht die Story noch erweitern um ein PDF mit diesen Parametern zu erstellen, deshalb bitte nicht ändern
 
 #Test
-test = Invoiceservice()
+test = Invoice_Access()
 test.create_invoice(2)

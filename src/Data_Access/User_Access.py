@@ -7,7 +7,7 @@ from Base_Access_Controller import Base_Access_Controller
 import sqlite3
 
 
-class UserService:
+class User_Access:
     def __init__(self):
         self.db_controller = Base_Access_Controller()
 
@@ -27,7 +27,7 @@ class UserService:
         return user
 
 
-u = UserService()
+u = User_Access()
 users = u.get_all_users()
 for item in users:
     print(str(item))

@@ -6,7 +6,7 @@ from models.Booking import Booking
 from Base_Access_Controller import Base_Access_Controller
 from datetime import date, datetime
 
-class BookingService:
+class Booking_Access:
     def __init__(self): 
         self.db = Base_Access_Controller()
 

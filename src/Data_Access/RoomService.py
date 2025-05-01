@@ -7,8 +7,8 @@ from models.Room import Room
 from models.RoomType import RoomType
 from models.Facility import Facility
 from Base_Access_Controller import Base_Access_Controller
-from FacilityService import FacilityService
-from RoomTypeService import RoomTypeService
+from data_Access.Facility_Access import FacilityService
+from data_Access.RoomType_Access import RoomType_Access
 from datetime import date
 import sqlite3
 
@@ -45,7 +45,7 @@ class RoomService:
     def _intId_to_roomType(row:int)->RoomType:
         if row is None or row == 0:
             return []
-        rs = RoomTypeService()
+        rs = RoomType_Access()
         return rs.get_roomtype_by_id(row)
         
 

@@ -3,7 +3,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from Base_Access_Controller import Base_Access_Controller
 
-class HotelService:
+class Hotel_Access:
     def __init__(self):
         self.db = Base_Access_Controller()
 
@@ -76,7 +76,7 @@ class HotelService:
 # Abrufe:
 
 if __name__ == "__main__":
-    service = HotelService()
+    service = Hotel_Access()
 
     # Alle Hotels
     print("\n=== Alle Hotels ===")

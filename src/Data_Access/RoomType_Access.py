@@ -3,11 +3,11 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.Validator import Validator
 from models.RoomType import RoomType
-from Data_Access.Base_Access_Controller import Base_Access_Controller
+from Base_Access_Controller import Base_Access_Controller
 from datetime import date
 import sqlite3
 
-class RoomTypeService:
+class RoomType_Access:
     def __init__(self):
         self.db = Base_Access_Controller()
         self.validator = Validator()

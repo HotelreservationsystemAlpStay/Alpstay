@@ -8,7 +8,7 @@ from Base_Access_Controller import Base_Access_Controller
 import sqlite3
 
 
-class FacilityService:
+class Facility_Access:
     def __init__(self):
         self.db = Base_Access_Controller()
 

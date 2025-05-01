@@ -17,7 +17,7 @@ from models.Hotels import Hotel
 # Klasse/Tabelle auswählen bzw. Klasse definieren (die kommenden Ausgaben bzw. gewünschten Daten müssen in dieser Klasse vorkommen, sonst muss man eine neue Klasse öffnen bzw. laden)
 
 
-class Hotelservice:
+class Hotel_Access:
     def __init__(self):  # Konstruktor der Klasse -> Definition Konstruktor: Dient dazu, Instanzattribute (Variable, die einer Instanz einer Klasse angehört) zu initialisieren und aktionen beim Erzeugen eines Objekts durchzuführen
         # Datenbankcontroller wird aufgerufen, um die Datenbank zu steuern
         self.db = Base_Access_Controller()
@@ -63,6 +63,6 @@ class Hotelservice:
             print(f"{hotel.name} has {hotel.stars} stars and is located in {city}")
 
 
-hotels = Hotelservice()  # Erstellt eine Instanz (Objekt) der Hotelservice Klasse
+hotels = Hotel_Access()  # Erstellt eine Instanz (Objekt) der Hotelservice Klasse
 hotels.get_hotels()  # Ruft die get_hotels auf
 hotels.get_hotel_in_city("Luzern", 3)  # Ruft die get_hotel_in_city auf
