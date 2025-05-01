@@ -2,7 +2,7 @@ import sys
 import os
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from Data_Access.Validator import Validator
+from utils.Validator import Validator
 from models.Facility import Facility
 from Data_Access.Base_Access_Controller import Base_Access_Controller
 import sqlite3
