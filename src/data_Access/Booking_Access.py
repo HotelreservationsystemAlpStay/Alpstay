@@ -88,9 +88,19 @@ class Booking_Access:
             })
         return results
 
-    def cancel_booking(self, booking_id: int) -> bool:
+    def cancel_booking(self, booking_id: int) -> bool: #please dont touch, Im working on it :) 
         Validator.checkID(booking_id, "Booking ID")
-        query = "UPDATE Booking SET is_cancelled=1 WHERE booking_id=?"
-        self.db.execute(query, (booking_id,))
-        return True
+        query = """
+                UPDATE Booking 
+                SET is_cancelled=1, total_amount = 0
+                WHERE booking_id=?
+                """
+        result = self.db.execute(query, (booking_id,))
+        if result.rowcount == 0:
+            raise ValueError("No booking with this Booking ID was found")
+        else:
+            query_invoice = """
+
+            """
+
 
