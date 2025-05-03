@@ -88,8 +88,16 @@ class Booking_Access:
             })
         return results
 
-    def cancel_booking(self, booking_id: int) -> bool: #please dont touch, Im working on it :) 
+    def cancel_booking(self, booking_id: int):
         Validator.checkID(booking_id, "Booking ID")
+        query_check_booking = """
+        SELECT is_cancelled
+        FROM Booking
+        WHERE booking_id = ?
+        """
+        status = self.db.fetchone(query_check_booking,(booking_id,))[0]
+        if status == 1:
+            raise ValueError("This booking was already cancelled")
         query = """
                 UPDATE Booking 
                 SET is_cancelled=1, total_amount = 0
@@ -98,9 +106,18 @@ class Booking_Access:
         result = self.db.execute(query, (booking_id,))
         if result.rowcount == 0:
             raise ValueError("No booking with this Booking ID was found")
-        else:
-            query_invoice = """
+        query_invoice_id = """
+        SELECT MAX(invoice_id) FROM Invoice
+        """
+        max_id = self.db.fetchone(query_invoice_id)[0]
+        query_create_invoice = """
+        INSERT INTO Invoice
+        VALUES(?, ?, ?, ?)
+        """
+        self.db.execute(query_create_invoice, (max_id + 1, booking_id, date.today(), 0,))
+        print("Booking was cancelled successfuly and created a matching invoice")
 
-            """
+story6 = Booking_Access()
+story6.cancel_booking(5)
 
 
