@@ -3,9 +3,13 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.Validator import Validator
 from models.Hotels import Hotel
+from models.Room import Room
+from models.RoomType import RoomType
 from Base_Access_Controller import Base_Access_Controller
 from datetime import date
 from controller.User_Controller import User_Controller
+from RoomType_Access import RoomType_Access
+from Room_Access import Room_Access
 
 class Hotel_Access:
     def __init__(self): 
@@ -262,36 +266,37 @@ class Hotel_Access:
         else:
             print("Changed Hotel Information successfully")
 
-
-
-
+    def get_available_rooms(self, dateStart:date=None, dateEnd:date=None, hotel:Hotel=None) -> list | list[Room]:
+        roomAccess = Room_Access()
+        if not hotel: return []
+        return roomAccess.get_available_rooms(dateStart, dateEnd, [hotel.hotel_id])
 
 # Nutzung User Story 1.1
-hotels = Hotelservice()
+hotels = Hotel_Access()
 hotels.get_hotel_in_city("Zürich")
 # Nutzung User Story 1.2
-story2 = Hotelservice()
+story2 = Hotel_Access()
 story2.get_hotel_in_city_stars("Zürich", 3)
 # Nutzung User Story 1.3
-story3 = Hotelservice()
+story3 = Hotel_Access()
 story3.get_hotel_in_city_stars_guests("Zürich", 4, 1)
 # Nutzung User Story 1.4
-story4 = Hotelservice()
+story4 = Hotel_Access()
 story4.get_hotel_in_city_booking("Bern", 3, 1, date(2022,5,5), date(2026,6,6))
 #Nutzung User Story 1.5
-story5 = Hotelservice()
+story5 = Hotel_Access()
 story5.get_selected_filters("all",3,"all", "all", "all")
 
 #Nutzung User Story 1.6
-story6 = Hotelservice()
+story6 = Hotel_Access()
 story6.get_hotel_details("Hotel Baur au Lac")
 
 #Nutzung User Story 3.1
-story31 = Hotelservice()
+story31 = Hotel_Access()
 story31.add_hotel(6, "admin", "Hotel Yves", 5, 2)
 #Nutzung User Story 3.2
-story32 = Hotelservice()
+story32 = Hotel_Access()
 story32.delete_hotel(6, "admin", 7)
 #Nutzung User Story 3.3
-story33 = Hotelservice()
+story33 = Hotel_Access()
 story33.update_hotel(6, "admin", 7, "Hotel Lustighof")

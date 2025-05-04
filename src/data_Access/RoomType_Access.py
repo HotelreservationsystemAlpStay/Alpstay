@@ -11,6 +11,7 @@ class RoomType_Access:
     def __init__(self):
         self.db = Base_Access_Controller()
         self.validator = Validator()
+        self._SELECT = "SELECT DISTINCT * FROM Room_Type"
 
     @staticmethod
     def _sqlite3row_to_roomtype(row: sqlite3.Row)->RoomType:
@@ -21,7 +22,7 @@ class RoomType_Access:
         )
     
     def get_all_roomtypes(self, hotels=[]):
-        query = "SELECT DISTINCT * FROM Room_Type"
+        query = self._SELECT
         if len(hotels) != 0:
             if len(hotels) == 1:
                 tuples = f"({hotels[0]})"
@@ -41,13 +42,13 @@ class RoomType_Access:
 
     def get_roomtype_by_id(self, id:int):
         self.validator.checkID(id)
-        query = "SELECT * FROM Room_Type WHERE type_id = ?"
+        query = f"{self._SELECT} WHERE type_id = ?"
         result = self.db.fetchone(query, (f"{id}"))
         return self._sqlite3row_to_roomtype(result)
 
     def get_roomtype_by_max_guests(self, max_guests:int):
         self.validator.checkInteger(max_guests, "Id")
-        query = "SELECT * FROM Room_Type WHERE max_guests = ?"
+        query = f"{self._SELECT} WHERE max_guests = ?"
         result = self.db.fetchone(query, (f"{max_guests}"))
         return self._sqlite3row_to_roomtype(result)
 """
