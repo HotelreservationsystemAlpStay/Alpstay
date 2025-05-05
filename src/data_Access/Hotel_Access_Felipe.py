@@ -73,6 +73,27 @@ class Hotel_Access:
             for hotel in hotels:
                 print(f"{hotel['name']} - {hotel['max_guests']} Gäste")
 
+# 9 Liste der Zimmer mit Ausstattung.
+
+    def get_rooms_with_facilities(self):
+        sql = """
+        SELECT Room.room_number, Room_Type.description AS room_type, GROUP_CONCAT(Facilities.facility_name, ', ') AS facilities
+        FROM Room
+        JOIN Room_Type ON Room.type_id = Room_Type.type_id
+        LEFT JOIN Room_Facilities ON Room.room_id = Room_Facilities.room_id
+        LEFT JOIN Facilities ON Room_Facilities.facility_id = Facilities.facility_id
+        GROUP BY Room.room_id """
+
+        rooms = self.db.fetchall(sql)
+
+        if not rooms:
+            print("Keine Zimmer gefunden.")
+        else:  
+            print("\nZimmerliste mit Ausstattung:")
+            for room in rooms:
+                print(f"\nZimmer {room['room_number']} ({room['room_type']})")
+                print(f"Ausstattung: {room['facilities'] or 'Keine'}")
+
 # Abrufe:
 
 if __name__ == "__main__":
@@ -93,3 +114,7 @@ if __name__ == "__main__":
     # Hotels für 5+ Gäste
     print("\n=== Hotels in Zürich für 5+ Gäste ===")
     service.search_hotels_by_city_and_max_guests("Zürich", 5)
+
+    # Zimmerlsite mit Ausstattung
+    print("\n=== Zimmerliste mit Ausstattung ===")
+    service.get_rooms_with_facilities()
