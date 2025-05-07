@@ -7,11 +7,11 @@ class Base_Access_Controller:
         Initializes the database connection with a project-internal, relative database path.
         """
         base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        db_file = os.path.join(base_dir, "database", "sqlite.db")
-        self.connection = sqlite3.connect(db_file)
+        db_file = os.path.join(base_dir, "database", "sqlite.db")  
+        self.connection = sqlite3.connect(db_file) #width sqlite3.connect(db_file) as conn: implementieren? 
         self.connection.row_factory = sqlite3.Row
 
-    def execute(self, query: str, params: tuple = ()) -> sqlite3.Cursor:
+    def execute(self, query: str, params: tuple = None) -> sqlite3.Cursor: #leeres tuple als default value?
         """
         Executes a generic SQL command (INSERT, UPDATE, DELETE).
 
@@ -22,12 +22,15 @@ class Base_Access_Controller:
         Returns:
             sqlite3.Cursor: Cursor object after executing the command.
         """
+        if params is None:
+            params = ()
+
         cursor = self.connection.cursor()
         cursor.execute(query, params)
         self.connection.commit()
         return cursor
 
-    def fetchall(self, query: str, params: tuple = ()) -> list:
+    def fetchall(self, query: str, params: tuple = None) -> list:
         """
         Executes an SQL query and returns all rows of the result.
 
@@ -38,11 +41,15 @@ class Base_Access_Controller:
         Returns:
             list: A list of rows corresponding to the query result.
         """
+
+        if params is None:
+            params = ()
+
         cursor = self.connection.cursor()
         cursor.execute(query, params)
         return cursor.fetchall()
 
-    def fetchone(self, query: str, params: tuple = ()) -> sqlite3.Row:
+    def fetchone(self, query: str, params: tuple = None) -> sqlite3.Row:
         """
         Executes an SQL query and returns the first row of the result.
 
@@ -53,6 +60,10 @@ class Base_Access_Controller:
         Returns:
             sqlite3.Row: The first row of the query result.
         """
+
+        if params is None:
+            params = ()
+            
         cursor = self.connection.cursor()
         cursor.execute(query, params)
         return cursor.fetchone()
