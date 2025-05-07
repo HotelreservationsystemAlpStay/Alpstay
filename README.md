@@ -12,6 +12,8 @@ The goal is to create a hotel reservation system, which uses a partially given m
 ## Userstories
 The original user stories were written in german is it is a german-based course. Due to the majority of code being developed in english, the documentation is in english. The description of the user stories are in english aswell as in german. Additionally, for the spirit of the documentation, the user stories are seperated or combined.
 
+## Minimale User Stories
+
 ### 1. As a guest, I want to search for a hotel in a city, so that i can choose the one, that meets my criteria:
 Als Gast möchte ich die verfügbaren Hotels durchsuchen, damit ich dasjenige auswählen kann, welches meinen Wünschen entspricht
 
@@ -45,6 +47,73 @@ description: VARCHAR(255)
 max_guests: INT(10)
 The connection from room type to facilities is over the room itself.
 
-### 2.1:
+### 2.1. As a guest, I want to see the following information for each room: room type, maximum amount of guest, description, facilities, price per night and total price
+Ich möchte die folgenden Informationen pro Zimmer sehen: Zimmertyp, max. Anzahl der Gäste, Beschreibung, Ausstattung, Preis pro Nacht und Gesamtpreis.
+
+### 2.2 As a guest, I only want to see available rooms if I have specified the dates of my stay
+Ich möchte nur die verfügbaren Zimmer sehen, sofern ich meinen Aufenthalt (von – bis) spezifiziert habe.
+
+### 3. As an admin, I want to have the possibility to update information about hotels
+Als Admin des Buchungssystems möchte ich die Möglichkeit haben, Hotelinformationen zu pflegen, um aktuelle Informationen im System zu haben.
+
+### 3.1. As an admin, I want to add new hotels to the system
+Ich möchte neue Hotels zum System hinzufügen
+
+### 3.2. As an admin, I want to delete hotels from the system
+Ich möchte Hotels aus dem System entfernen
+
+### 3.3. As an admin, I want to update information of hotel
+Ich möchte die Information bestimmter Hotel aktualisieren, z.B. den Namen, die Sterne usw.
+
+
+### 4. As a guest, I want to book a room in a certain hotel
+Als Gast möchte ich ein Zimmer in einem bestimmten Hotel buchen, um meinen Urlaub zu planen
+
+### 5. As a guest, I want to receive an invoice after my stay
+Als Gast möchte ich nach meinem Aufenthalt eine REchnung erhalten, damit ich einen Zahlungsnachweis habe. Hint: Fügt einen Eintrag in der Invoice Tabelle hinzu
+
+### 6. As a guest, I want to be able to cancel my booking
+Als Gast möchte ich meine Buchung stornieren, damit ich nicht belastet werde, wenn ich das Zimmer nicht mehr benötige. Hint: Sorgt für die entsprechende Invoice. 
+
+### 7. As a guest, I want to have dynamics prices to profit from dynamic pricing
+Als Gast möchte ich eine dynamische Preisgestaltung auf der Grundlage der Nachfrage sehen, damit ich ein Zimmer zum besten Preis buchen kann. Hint: Wendet in der Hochsaison höhere und in der Nebensaison niedrigere Tarife an.
+
+### 8. As an admin, I want to see all bookings
+Als Admin des Buchungssystems möchte ich alle Buchungen aller Hotels sehen können, um eine Übersicht zu erhalten.
+
+### 9. As an admin, I want to see all rooms with their facilities
+Als ADmin möchte ich eine Liste der Zimmer mit ihrer Ausstattuns sehen, damit ich sie besser bewerben kann.
+
+### 10. As an admin, I want to be capable to update master data (RoomTypes, Facilities, Prices)
+Als Admin möchte ich in der Lage sein, Stammdaten zu verwalten, z.B. Zimmertypen, Einrichtungen, und Preise in Echtzeit zu aktualisieren, damit das Backend-System aktuelle Informationen hat. Hint: Stammdaten sind alle Daten, die nicht von anderen Daten abhängen.
+
+### User Stories mit DB-Schemaänderung
+
+### 1. As and admin, I want to update missing information in bookings
+Als Admin möchte ich alle Buchungen bearbeiten können, um fehlende Informationen zu ergänzen (z.B. Telefonnummer). 
+
+### 2. As a guest, I want to see my booking history
+Als Gast möchte ich auf meine Buchungshistorie zuzugreifen ("lesen"), damit ich meine kommenden Reservierungen verwalten kann.
+
+### 2.1. For all bookings, I should be able to use the following action "create", "update", "cancel".
+Die Anwendungsfälle für meine Buchungen sind "neu/erstellen", "ändern/aktualisieren", "stornieren/löschen".
+
+### 3. As a guest, I want to create a rating about the stay at a hotel
+Als Gast möchte ich nach meinem Aufenthalt eine Bewertung für ein Hotel abgeben, damit ich meine Erfahrungen teilen kann.
+
+### 4. As a guest, I want to read ratings before I book
+Als Gast möchte ich vor der Buchung Hotelbewertungen lesen, damit ich das beste Hotel auswählen kann.
+
+### User Stories with data visualization
+
+### As an admin, I want to see the occupancy rate for each room type
+Als Admin möchte ich die Belegungsraten für jeden Zimmertyp in meinem Hotel sehen, damit ich weiss, welche Zimmer am beliebtesten sind und ich meine Buchungsstrategien optimieren kann. Hint: Wählt ein geeignetes Diagramm, um die Auslastung nach Zimmertyp darzustellen (z. B. wie oft jeder Zimmertyp gebucht wird).
+
+### As an admin, I want to analyze my guests based on demografic attributes
+Als Admin möchte ich eine Aufschlüsselung der demografischen Merkmale meiner Gäste sehen, damit ich gezieltes Marketing
+planen kann. Hint: Wählt ein geeignetes Diagramm, um die Verteilung der Gäste nach verschiedenen Merkmalen darzustellen (z. B. Altersspanne, Nationalität, wiederkehrende Gäste). Möglicherweise müssen Sie der Tabelle „Gäste“ einige Spalten hinzufügen.
+
+### Optional user stories
 
 ## Usage of generative tools as ChatGPT, Gemini or Claude
+Generative Tools as ChatGPT, Gemini, Claude or others were used in project. When a tool was used in a user story, it will be declared in the story itself. For the whole project were tools used to verify, whether all required tasks were fullfilled. Additionally, generative tools helped correcting wording mistakes and propose better worded sentences.
