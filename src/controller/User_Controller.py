@@ -23,10 +23,10 @@ class User_Controller:
         password_hash = hashlib.sha256(password.encode()).hexdigest()
         if user.password == password_hash: 
             if user.role == "Admin":
-                print("Admin Access granted")
+                print("Admin Access granted") #TBD
                 return True
             elif user.role == "Guest":
-                print("Guest Access granted")
+                print("Guest Access granted") #TBD
                 return False
             else:
                 raise ValueError("User Role not defined, please contact the admin and report this issue")
