@@ -1,33 +1,33 @@
-# Dokumentation DataBaseController
+# Documentation Base_Access_Controller
 
-Die Klasse `DataBaseController` dient zur Verwaltung unserer SQLite-Datenbank für das Projekt. Sie kapselt sämtliche Logik für die Grundfunktionen zum Herstellen, Verwenden und Schliessen der Datenbankverbindung.
+The `Base_Access_Controller` class is used to manage our SQLite database for the project. It encapsulates all logic for the basic functions of establishing, using, and closing the database connection.
 
-## Initialisierung
+## Initialization
 
-- **Konstruktor (`__init__`)**  
-  Beim Erstellen eines neuen Objekts von `DataBaseController` wird:
-  - Der relative Pfad zur SQL-Datei (`db.sql`) ermittelt.  
-  - Die SQLite-Datenbankverbindung wird hergestellt.
-  - Das Attribut der SQLite Verbindung namens `row_factory` wird auf `sqlite3.Row` gesetzt, wodurch Ergebnisse als Objekte zurückgegeben werden, bei denen man über Spaltennamen zugreifen kann.
-  
-  **Beispiel:**
+- **Constructor (`__init__`)**
+  When creating a new object of `Base_Access_Controller`:
+  - The relative path to the SQL file (`db.sql`) is determined.
+  - The SQLite database connection is established.
+  - The SQLite connection's attribute `row_factory` is set to `sqlite3.Row`, which causes results to be returned as objects where columns can be accessed by name.
+
+  **Example:**
   ```python
-  from controller.DataBaseController import DataBaseController
-  db_controller = DataBaseController()
+  from controller.Base_Access_Controller import Base_Access_Controller
+  db_controller = Base_Access_Controller()
   ```
 
-## Methoden
+## Methods
 
 ### execute
-- **Aufgabe:** Führt generische SQL-Kommandos (INSERT, UPDATE, DELETE) aus.
-- **Parameter:**
-  - `query` (str): Das auszuführende SQL-Kommando.
-  - `params` (tuple, optional): Parameter für das SQL-Kommando, um SQL-Injections vorzubeugen.
-- **Rückgabe:**  
-  Gibt ein `sqlite3.Cursor`-Objekt zurück, nachdem das Kommando ausgeführt wurde.
-- **Verwendung:**  
-  Ideal zur Durchführung von Operationen, die die Datenbank verändern.  
-  **Beispiel:**
+- **Task:** Executes generic SQL commands (INSERT, UPDATE, DELETE).
+- **Parameters:**
+  - `query` (str): The SQL command to be executed.
+  - `params` (tuple, optional): Parameters for the SQL command to prevent SQL injections.
+- **Return:**
+  Returns a `sqlite3.Cursor` object after the command has been executed.
+- **Usage:**
+  Ideal for performing operations that modify the database.
+  **Example:**
   ```python
   query = "INSERT INTO user (id, username, password, role) VALUES (?, ?, ?, ?)"
   params = (1, "AdminUser", "secretPassword", "admin")
@@ -35,15 +35,15 @@ Die Klasse `DataBaseController` dient zur Verwaltung unserer SQLite-Datenbank f�
   ```
 
 ### fetchall
-- **Aufgabe:** Führt ein SQL-Select-Query aus und gibt alle gefundenen Zeilen zurück.
-- **Parameter:**
-  - `query` (str): Die auszuführende SQL Select-Query.
-  - `params` (tuple, optional): Parameter für das SQL-Kommando, um SQL-Injections vorzubeugen.
-- **Rückgabe:**  
-  Eine Liste aller Ergebniszeilen.
-- **Verwendung:**  
-  Nützlich, wenn alle Datensätze, die einer Abfrage entsprechen, benötigt werden.  
-  **Beispiel:**
+- **Task:** Executes an SQL select query and returns all found rows.
+- **Parameters:**
+  - `query` (str): The SQL select query to be executed.
+  - `params` (tuple, optional): Parameters for the SQL command to prevent SQL injections.
+- **Return:**
+  A list of all result rows.
+- **Usage:**
+  Useful when all records matching a query are needed.
+  **Example:**
   ```python
   query = "SELECT id, username, password, role FROM user WHERE role = ? AND id > ?"
   params = ("admin", 5)
@@ -53,15 +53,15 @@ Die Klasse `DataBaseController` dient zur Verwaltung unserer SQLite-Datenbank f�
   ```
 
 ### fetchone
-- **Aufgabe:** Führt eine SQL Select-Query aus und gibt nur die erste gefundene Zeile zurück.
-- **Parameter:**
-  - `query` (str): Die auszuführende SQL Select-Query.
-  - `params` (tuple, optional): Parameter für das SQL-Kommando, um SQL-Injections vorzubeugen.
-- **Rückgabe:**  
-  Eine einzelnes Row Objekt, welches die erste Zeile aus dem Ergebnis darstellt.
-- **Verwendung:**  
-  Praktisch, wenn nur ein einzelner Datensatz (z.B. ein Detail-Datensatz) benötigt wird.  
-  **Beispiel:**
+- **Task:** Executes an SQL select query and returns only the first found row.
+- **Parameters:**
+  - `query` (str): The SQL select query to be executed.
+  - `params` (tuple, optional): Parameters for the SQL command to prevent SQL injections.
+- **Return:**
+  A single Row object representing the first row from the result.
+- **Usage:**
+  Practical when only a single record (e.g., a detail record) is needed.
+  **Example:**
   ```python
   query = "SELECT id, username, password, role FROM user WHERE id = ?"
   params = (1,)
@@ -71,11 +71,11 @@ Die Klasse `DataBaseController` dient zur Verwaltung unserer SQLite-Datenbank f�
   ```
 
 ### close
-- **Aufgabe:** Schliesst die aktive Datenbankverbindung.
-- **Verwendung:**  
-  Sollte aufgerufen werden, wenn die Datenbankoperationen beendet sind, um Ressourcen freizugeben.
-  
-  **Beispiel:**
+- **Task:** Closes the active database connection.
+- **Usage:**
+  Should be called when database operations are finished to release resources.
+
+  **Example:**
   ```python
   db_controller.close()
   ```
