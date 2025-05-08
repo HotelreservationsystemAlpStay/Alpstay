@@ -5,6 +5,9 @@ from utils.Validator import Validator
 from models.Booking import Booking
 from data_Access.Base_Access_Controller import Base_Access_Controller
 from datetime import date, datetime
+from controller.User_Controller import User_Controller
+from mythic.mythic_code import Mythic
+
 
 class Booking_Access:
     def __init__(self): 
@@ -117,7 +120,29 @@ class Booking_Access:
         self.db.execute(query_create_invoice, (max_id + 1, booking_id, date.today(), 0,))
         print("Booking was cancelled successfuly and created a matching invoice")
 
-story6 = Booking_Access()
-story6.cancel_booking(5)
+    def view_booking(self, user_id, password):
+        db = Base_Access_Controller()
+        vw = User_Controller()
+        if vw.check_admin(user_id, password):
+            mythic = Mythic()
+            mythic.wtf()
+        else:
+            query = """
+            SELECT check_in_date, check_out_date, name, total_amount, city, booking_id
+            FROM booking_view
+            WHERE guest_id = ?
+            """
+            result = self.db.fetchall(query, (user_id,))
+            for row in result:
+                data = dict(row)
+                print(f"Booking NR: {data['booking_id']}, check-in: {data['check_in_date']}, check-out: {data['check_out_date']}, hotel: {data['name']}, cost: {data['total_amount']}")
+
+
+
+
+us3 = Booking_Access()
+us3.view_booking(6, "admin")
+
+
 
 
