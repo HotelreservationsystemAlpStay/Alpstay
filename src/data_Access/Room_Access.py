@@ -7,7 +7,7 @@ from models.Room import Room
 from models.RoomType import RoomType
 from models.Facility import Facility
 from data_Access.Base_Access_Controller import Base_Access_Controller
-from data_Access.Facility_Access import FacilityService
+from data_Access.Facility_Access import Facility_Access
 from data_Access.RoomType_Access import RoomType_Access
 from datetime import date
 import sqlite3
@@ -37,7 +37,7 @@ class Room_Access:
         listOfFacilities = [int(item.strip()) for item in row.split(",")]
         listOfActualFacilities = []
         for item in listOfFacilities:
-            fs = FacilityService()
+            fs = Facility_Access()
             listOfActualFacilities.append(fs.get_facility_by_id(facility_id=item))
         return listOfActualFacilities
 

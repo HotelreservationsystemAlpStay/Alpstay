@@ -1,7 +1,7 @@
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from controller.Validator import Validator
+from utils.Validator import Validator
 
 class RoomType:
     def __init__(self, id: int, description: str, maxGuests: int) -> None:
