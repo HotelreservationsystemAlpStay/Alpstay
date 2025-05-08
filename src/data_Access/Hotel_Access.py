@@ -266,10 +266,11 @@ class Hotel_Access:
         else:
             print("Changed Hotel Information successfully")
 
-    def get_available_rooms(self, dateStart:date=None, dateEnd:date=None, hotel:Hotel=None) -> list | list[Room]:
+    def get_available_rooms(self, dateStart:date=None, dateEnd:date=None, hotel:Hotel=None, roomType:RoomType=None) -> list | list[Room]:
         roomAccess = Room_Access()
         if not hotel: return []
-        return roomAccess.get_available_rooms(dateStart, dateEnd, [hotel.hotel_id])
+        return roomAccess.get_available_rooms(dateStart, dateEnd, [hotel.hotel_id], roomType)
+"""
 
 # Nutzung User Story 1.1
 hotels = Hotel_Access()
@@ -290,7 +291,17 @@ story5.get_selected_filters("all",3,"all", "all", "all")
 #Nutzung User Story 1.6
 story6 = Hotel_Access()
 story6.get_hotel_details("Hotel Baur au Lac")
+"""
 
+#Nutzung Userstory 2
+hotelAccess = Hotel_Access()
+for item in hotelAccess.get_available_rooms(hotel=Hotel(hotel_id=1,name="name",stars=1), roomType=RoomType(1,"description",2)):
+    print(item)
+    print(f"  -  {item.roomType}")
+    for facility in item.facilities:
+        print(f"  -- {facility}")
+
+"""
 #Nutzung User Story 3.1
 story31 = Hotel_Access()
 story31.add_hotel(6, "admin", "Hotel Yves", 5, 2)
@@ -300,3 +311,4 @@ story32.delete_hotel(6, "admin", 7)
 #Nutzung User Story 3.3
 story33 = Hotel_Access()
 story33.update_hotel(6, "admin", 7, "Hotel Lustighof")
+"""
