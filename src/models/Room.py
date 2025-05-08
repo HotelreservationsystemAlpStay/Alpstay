@@ -1,7 +1,7 @@
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from controller.Validator import Validator
+from utils.Validator import Validator
 from models.Facility import Facility
 from models.RoomType import RoomType
 
