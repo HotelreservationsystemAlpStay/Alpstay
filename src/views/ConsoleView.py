@@ -3,6 +3,7 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 #from controller.Access_Controller import Access_Controller
 from datetime import datetime, date
+from mythic.mythic_code import Mythic
 
 class ConsoleView:
     def __init__(self):
@@ -16,6 +17,7 @@ class ConsoleView:
             print("2. Show all guests")
             print("3. Show all rooms")
             print("4. Show all bookings")
+            print("5. do some mythic stuff")
             print("q. Quit")
             choice = input("Select an option: ")
             if choice == '1':
@@ -26,6 +28,10 @@ class ConsoleView:
                 print("Showing all rooms...")
             elif choice == '4':
                 print("Showing all bookings...")
+            elif choice == '5':
+                mythic = Mythic()
+                mythic.wtf()
+
             elif choice.lower() == 'q':
                 print("Exiting.")
                 break
