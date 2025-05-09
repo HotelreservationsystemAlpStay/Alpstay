@@ -155,7 +155,7 @@ class Room_Access:
 
         days = end_date - start_date
 
-        final_price_per_stay = (price_per_night * multiplier) * days 
+        final_price_per_stay = price_per_night * multiplier * days 
         # mit dieser Variante erhällt man für alle Tage die Preise der Saison, in der man begonnen hat mit dem Aufenthalt
         # Es werden so Kunden belohnt, die in der Nebensaison buchen und evtl. auch länger bleiben und Kunden bestraft, die in der Hochsaison buchen
         return final_price_per_stay
