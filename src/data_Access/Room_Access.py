@@ -141,16 +141,20 @@ class Room_Access:
 
         price_per_night = result[0]
 
-        spring_season_start = "03-01"
-        spring_season_end = "05-31"
-        summer_season_start = "06-01"
-        summer_season_end = "08-31"
-        fall_season_start = "09-01"
-        fall_season_end = "11-30"
-        winter_season_start = "12-01"
-        winter_season_end = "02-28"
+        if isinstance(input_date, str):
+            input_date = datetime.strptime(input_date, "%Y-%m-%d").date()
 
-        start_date = date.strftime("%m-%d")
+            month_day = (input_date.month, input_date.day)
+
+
+        spring_season_start = (3-1)
+        spring_season_end = (5-31)
+        summer_season_start = (6-1)
+        summer_season_end = (8-31)
+        fall_season_start = (9-1)
+        fall_season_end = (11-30)
+        winter_season_start = (12-1)
+        winter_season_end = (2-28)
 
         if start_date >= spring_season_start and start_date <= spring_season_end:
             multiplier = 0.85
