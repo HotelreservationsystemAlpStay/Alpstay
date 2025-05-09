@@ -4,10 +4,33 @@ This project results from the python module "Anwendungsentwicklung mit Python" f
 The goal is to create a hotel reservation system, which uses a partially given mysql database. In several iterations, we work on user stories and try to implement them on the bases of the newly learned concepts.
 
 ## Organization
+
+### Decision Github
+This project could have been realized as a jupiter notebook. A jupiter notebook like DeepNote is great for using code in a documentation. It doesn't require a local installation of Python and the Libraries are provided automatically. However, we have decided to create a console application due to the fact, that we wanted to see, how the application as a whole will work. This provides a better understanding for software and the work within a team.
+
+When working with a team, versioning is an essential part of working together. The best-known tool for this is any kind of git. Due to prior knowledge, the benefit of Github Pro as a student and recommendation of the coaches, we decided to use Github as our versioning tool. 
+
+### Kanban Board
+To track progress and tasks as a team, a kanban boaA very easy to use choice would be the Microsoft Planner. However, with Github Projects, the kanban board with tasks, bugs and issues is directly integrated in the project. The wide variety of standard, built-in features as types, milestones and great filtering, Github Projects is perfect to use in a small team as ours. 
+
 ### Time Planning
+Additionally, the time planning is easy to use with Github projects. Creating a tasks provides the ability to add it on a timeline.
+
 ### Communication
-### Project Board
+Communicating with each other can be quite hard, especially, when the team members can't see eachother often. Therefore, we communicated using Teams or WhatsApp. We tried to come together 1-2 times per week at the FHNW.
+
 ### Code Documentation
+Documentation of the code happens in the code itself using docstrings as well as in the ReadMe. The ReadMe contains all user stories, in which concepts, structures and interesting decisions and findings are held. The docstrings contain information about how to use certain classes and methods.
+
+## Structure
+The Software is built up on 5 Layers. 
+
+### Model
+All Tables from the database are created as models in the python code. The connection between the classes is one-directional, due to the database being one-directional. Additionally, we arent using stark concepts to be needing bi-directional connections.
+
+### Data Access Layer
+The first layer is called the data access layer and has two types of classes. The Base_Access_Controller provides direct access to the underlying SQLITE-Database.
+Using this Base_Access_Controller, for each model exists a data_access class. With said class, data can either be extracted from the db or be inserted or deleted based on the objects and their properties. 
 
 ## Userstories
 The original user stories were written in german is it is a german-based course. Due to the majority of code being developed in english, the documentation is in english. The description of the user stories are in english aswell as in german. Additionally, for the spirit of the documentation, the user stories are seperated or combined.
