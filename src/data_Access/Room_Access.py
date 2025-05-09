@@ -110,30 +110,7 @@ class Room_Access:
                 )
             )
         return rooms
-
-"""
-rs = Room_Access()
-print("### 1")
-tempRooms = rs.get_available_rooms(date(2025, 6, 1), date(2025, 6, 5))
-for room in tempRooms:
-    print(room)
-    for facility in room.facilities:
-        print(facility)
-    print(room.roomType)
-print("### 2")
-rs.get_available_rooms(date(2025, 6, 1), date(2025, 6, 5), hotel_ids=[2])
-print("### 3")
-rs.get_available_rooms(date(2025, 6, 1), date(2025, 6, 5), hotel_ids=[2, 3, 5])
-
-
-"""
-
-
-
-#User Story 7: Dynamic Price (3 different seasons) (noch nicht alles eingefügt)
-class Room_Access:
-    def __init__(self):
-        self.db = Base_Access_Controller()
+    
 
     def calculate_room_price_per_night(self, price_per_night, date):
         query = "SELECT price_per_night FROM room WHERE room_id = ?"
@@ -178,5 +155,27 @@ class Room_Access:
         final_price_per_night = price_per_night * multiplier
         return {final_price_per_night}
     
+    # Anzahl Tage einfügen (evtl. Durchschnitt der Preise zusammenrechnen und durch Anzahl Tage teilen, sodass man auch in verscheidenen Saisons einen korrekten Preis erhällt)
+    
 
-        
+"""
+rs = Room_Access()
+print("### 1")
+tempRooms = rs.get_available_rooms(date(2025, 6, 1), date(2025, 6, 5))
+for room in tempRooms:
+    print(room)
+    for facility in room.facilities:
+        print(facility)
+    print(room.roomType)
+print("### 2")
+rs.get_available_rooms(date(2025, 6, 1), date(2025, 6, 5), hotel_ids=[2])
+print("### 3")
+rs.get_available_rooms(date(2025, 6, 1), date(2025, 6, 5), hotel_ids=[2, 3, 5])
+
+
+"""
+
+
+
+#User Story 7: Dynamic Price (3 different seasons) (noch nicht alles eingefügt)
+
