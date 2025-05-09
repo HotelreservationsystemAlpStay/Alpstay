@@ -112,7 +112,7 @@ class Room_Access:
         return rooms
     
 
-    def calculate_room_price_per_night(self, price_per_night, start_date, end_date):
+    def calculate_room_price_per_stay(self, price_per_night, start_date, end_date):
         query = "SELECT price_per_night FROM room WHERE room_id = ?"
         result = self.db.fetchone(query, (room_id,))
 
@@ -152,14 +152,17 @@ class Room_Access:
             season = "Standard Price"
         
         days = end_date - start_date
-        final_price_per_night = (price_per_night * multiplier) * days 
+        final_price_per_stay = (price_per_night * multiplier) * days 
         # mit dieser Variante erhällt man für alle Tage die Preise der Saison, in der man begonnen hat mit dem Aufenthalt
         # Es werden so Kunden belohnt, die in der Nebensaison buchen und evtl. auch länger bleiben und Kunden bestraft, die in der Hochsaison buchen
-        return final_price_per_night
+        return final_price_per_stay
+    
+        """
+        # Variante 2 mit dem Durchschnittspreis der Saison
 
-    
-    
-    # Anzahl Tage einfügen (evtl. Durchschnitt der Preise zusammenrechnen und durch Anzahl Tage teilen, sodass man auch in verscheidenen Saisons einen korrekten Preis erhällt)
+        """
+
+    # Task Elia: Anzahl Tage einfügen (evtl. Durchschnitt der Preise zusammenrechnen und durch Anzahl Tage teilen, sodass man auch in verscheidenen Saisons einen korrekten Preis erhällt)
     
 
 """
@@ -178,8 +181,3 @@ rs.get_available_rooms(date(2025, 6, 1), date(2025, 6, 5), hotel_ids=[2, 3, 5])
 
 
 """
-
-
-
-#User Story 7: Dynamic Price (3 different seasons) (noch nicht alles eingefügt)
-
