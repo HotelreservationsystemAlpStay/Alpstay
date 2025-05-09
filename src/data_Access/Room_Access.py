@@ -144,7 +144,7 @@ class Room_Access:
         if isinstance(input_date, str):
             input_date = datetime.strptime(input_date, "%Y-%m-%d").date()
 
-            month_day = (input_date.month, input_date.day)
+            start_date = (input_date.month, input_date.day)
 
 
         spring_season_start = (3-1)
