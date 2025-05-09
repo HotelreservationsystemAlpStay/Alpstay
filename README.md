@@ -32,6 +32,12 @@ All Tables from the database are created as models in the python code. The conne
 The first layer is called the data access layer and has two types of classes. The Base_Access_Controller provides direct access to the underlying SQLITE-Database.
 Using this Base_Access_Controller, for each model exists a data_access class. With said class, data can either be extracted from the db or be inserted or deleted based on the objects and their properties. 
 
+### Business Logic
+
+### View
+
+### Utils
+
 ## Userstories
 The original user stories were written in german is it is a german-based course. Due to the majority of code being developed in english, the documentation is in english. The description of the user stories are in english aswell as in german. Additionally, for the spirit of the documentation, the user stories are seperated or combined.
 
