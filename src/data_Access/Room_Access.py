@@ -23,13 +23,24 @@ class Room_Access:
         self._WHERE_ROOMTYPE = "extended_room.type_id = ?"
 
     @staticmethod
-    def _sqlite3row_to_room(row: sqlite3.Row, facilities=[], roomType=None) -> Room:
+    def _get_seasonal_multiplier(season:str):
+        pass
+        if season == "Summer":
+            return 1.5
+        elif season == "Winter":
+            return 1.0 
+        
+
+    @staticmethod
+    def _sqlite3row_to_room(row: sqlite3.Row, facilities=[], roomType:RoomType=None, season:str=None) -> Room:
+        print(str(row))
         return Room(
             room_id=row["room_id"],
             room_no=row["room_number"],
             price_per_night=row["price_per_night"],
             facilities=facilities,
             roomType=roomType,
+            season=season,
         )
 
     @staticmethod
@@ -112,6 +123,7 @@ class Room_Access:
         return rooms
     
 
+"""
     def calculate_room_price_per_stay(self, price_per_night, start_date, end_date):
         query = "SELECT price_per_night FROM room WHERE room_id = ?"
         result = self.db.fetchone(query, (room_id,))
@@ -164,6 +176,13 @@ class Room_Access:
     # Task Elia: Anzahl Tage einfügen (evtl. Durchschnitt der Preise zusammenrechnen und durch Anzahl Tage teilen, sodass man auch in verscheidenen Saisons einen korrekten Preis erhällt)
     
 
+
+print("### 2")
+rs.get_available_rooms(date(2025, 6, 1), date(2025, 6, 5), hotel_ids=[2])
+print("### 3")
+rs.get_available_rooms(date(2025, 6, 1), date(2025, 6, 5), hotel_ids=[2, 3, 5])
+
+
 """
 rs = Room_Access()
 print("### 1")
@@ -173,10 +192,3 @@ for room in tempRooms:
     for facility in room.facilities:
         print(facility)
     print(room.roomType)
-print("### 2")
-rs.get_available_rooms(date(2025, 6, 1), date(2025, 6, 5), hotel_ids=[2])
-print("### 3")
-rs.get_available_rooms(date(2025, 6, 1), date(2025, 6, 5), hotel_ids=[2, 3, 5])
-
-
-"""
