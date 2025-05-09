@@ -133,25 +133,28 @@ class Room_Access:
         winter_season_end = (2-28)
 
         if start_date >= spring_season_start and start_date <= spring_season_end:
-            multiplier = 0.85
             season = "Spring Season"
         elif start_date >= summer_season_start and start_date <= summer_season_end:
-            multiplier = 1.5
             season = "Summer Season"
         elif start_date >= fall_season_start and start_date <= fall_season_end:
-            multiplier = 0.85
             season = "Fall Season"
         elif start_date >= winter_season_start and start_date <= winter_season_end:
-            multiplier = 1.2
             season = "Winter Season"
         elif start_date >= "01-01" and start_date <= "02-28":
-            multiplier = 1.2
             season = "Winter Season"
-        else:
-            multiplier = 1.0
-            season = "Standard Price"
-        
+       
+        if season == "Spring Season":
+            multiplier = 0.85
+        elif season == "Summer Season":
+            multiplier = 1.5
+        elif season == "Fall Season":
+            multiplier = 0.85
+        elif season == "Winter Season":
+            multiplier = 1.2
+        else: multiplier = 1.0
+
         days = end_date - start_date
+
         final_price_per_stay = (price_per_night * multiplier) * days 
         # mit dieser Variante erhällt man für alle Tage die Preise der Saison, in der man begonnen hat mit dem Aufenthalt
         # Es werden so Kunden belohnt, die in der Nebensaison buchen und evtl. auch länger bleiben und Kunden bestraft, die in der Hochsaison buchen
