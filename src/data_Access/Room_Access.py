@@ -112,7 +112,7 @@ class Room_Access:
         return rooms
     
 
-    def calculate_room_price_per_night(self, price_per_night, date):
+    def calculate_room_price_per_night(self, price_per_night, start_date, end_date):
         query = "SELECT price_per_night FROM room WHERE room_id = ?"
         result = self.db.fetchone(query, (room_id,))
 
@@ -122,7 +122,6 @@ class Room_Access:
             input_date = datetime.strptime(input_date, "%Y-%m-%d").date()
 
             start_date = (input_date.month, input_date.day)
-
 
         spring_season_start = (3-1)
         spring_season_end = (5-31)
@@ -152,8 +151,13 @@ class Room_Access:
             multiplier = 1.0
             season = "Standard Price"
         
-        final_price_per_night = price_per_night * multiplier
-        return {final_price_per_night}
+        days = end_date - start_date
+        final_price_per_night = (price_per_night * multiplier) * days 
+        # mit dieser Variante erhällt man für alle Tage die Preise der Saison, in der man begonnen hat mit dem Aufenthalt
+        # Es werden so Kunden belohnt, die in der Nebensaison buchen und evtl. auch länger bleiben und Kunden bestraft, die in der Hochsaison buchen
+        return final_price_per_night
+
+    
     
     # Anzahl Tage einfügen (evtl. Durchschnitt der Preise zusammenrechnen und durch Anzahl Tage teilen, sodass man auch in verscheidenen Saisons einen korrekten Preis erhällt)
     
