@@ -157,10 +157,6 @@ class Room_Access:
         # Es werden so Kunden belohnt, die in der Nebensaison buchen und evtl. auch länger bleiben und Kunden bestraft, die in der Hochsaison buchen
         return final_price_per_stay
     
-        """
-        # Variante 2 mit dem Durchschnittspreis der Saison
-
-        """
 
     # Task Elia: Anzahl Tage einfügen (evtl. Durchschnitt der Preise zusammenrechnen und durch Anzahl Tage teilen, sodass man auch in verscheidenen Saisons einen korrekten Preis erhällt)
     
