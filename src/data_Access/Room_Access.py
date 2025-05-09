@@ -127,3 +127,52 @@ rs.get_available_rooms(date(2025, 6, 1), date(2025, 6, 5), hotel_ids=[2, 3, 5])
 
 
 """
+
+
+
+#User Story 7: Dynamic Price (3 different seasons) (noch nicht alles eingefügt)
+class Room_Access:
+    def __init__(self):
+        self.db = Base_Access_Controller()
+
+    def calculate_room_price_per_night(self, price_per_night, date):
+        query = "SELECT price_per_night FROM room WHERE room_id = ?"
+        result = self.db.fetchone(query, (room_id,))
+
+        price_per_night = result[0]
+
+        spring_season_start = "03-01"
+        spring_season_end = "05-31"
+        summer_season_start = "06-01"
+        summer_season_end = "08-31"
+        fall_season_start = "09-01"
+        fall_season_end = "11-30"
+        winter_season_start = "12-01"
+        winter_season_end = "02-28"
+
+        start_date = date.strftime("%m-%d")
+
+        if start_date >= spring_season_start and start_date <= spring_season_end:
+            multiplier = 0.85
+            season = "Spring Season"
+        elif start_date >= summer_season_start and start_date <= summer_season_end:
+            multiplier = 1.5
+            season = "Summer Season"
+        elif start_date >= fall_season_start and start_date <= fall_season_end:
+            multiplier = 0.85
+            season = "Fall Season"
+        elif start_date >= winter_season_start and start_date <= winter_season_end:
+            multiplier = 1.2
+            season = "Winter Season"
+        elif start_date >= "01-01" and start_date <= "02-28":
+            multiplier = 1.2
+            season = "Winter Season"
+        else:
+            multiplier = 1.0
+            season = "Standard Price"
+        
+        final_price_per_night = price_per_night * multiplier
+        return {final_price_per_night}
+    
+
+        
