@@ -13,15 +13,15 @@ class RoomAccess():
     @staticmethod
     def _get_season(date:date):
     
-        date_str = date.strftime("%m-%d")
+        date_now = date.strftime("%m-%d")
         summer_start = "04-01"
         summer_end = "09-30"
         winter_start = "10-01"
         winter_end = "03-31"
 
-        if summer_start <= date_str <= summer_end:
+        if summer_start <= date_now <= summer_end:
             return "Summer"
-        elif winter_start <= date_str or date_str <= winter_end:
+        elif winter_start <= date_now or date_now <= winter_end:
             return "Winter"
 
     @staticmethod
