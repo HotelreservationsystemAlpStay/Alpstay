@@ -1,7 +1,30 @@
+class RoomAccess():
+
+
+
+    #Idee:
+    @staticmethod
+    def _get_season(date_obj: date) -> str:
+    
+        date_str = date_obj.strftime("%m-%d")
+        summer_start = "04-01"
+        summer_end = "09-30"
+        winter_start = "10-01"
+        winter_end = "03-31"
+
+        if summer_start <= date_str <= summer_end:
+            return "Summer"
+        elif winter_start <= date_str or date_str <= winter_end:
+            return "Winter"
+        else:
+            return "Standard"
+
+
+
+
 
     
 
-class RoomAccess():
     def __init__(self, summer:float, winter:float):
         self._summer = summer
         self._winter = winter
