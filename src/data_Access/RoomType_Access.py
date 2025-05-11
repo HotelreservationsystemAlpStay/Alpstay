@@ -51,8 +51,22 @@ class RoomType_Access:
         query = f"{self._SELECT} WHERE max_guests = ?"
         result = self.db.fetchone(query, (f"{max_guests}"))
         return self._sqlite3row_to_roomtype(result)
+    
+    ### Für Elia
+    # 1. welche inputs brauchst du
+    # 2. welche sql statements brauchst du
+    # 3. wie werden die statements ausgeführt
+    # 4. was ist dein return value
+    # 5. mit user_controller.check_admin
+    
+    def add_roomtype():
+        pass
+    
+    def modify_roomtype():
+        pass
 """
-rrr = RoomTypeServie()
+"""
+rrr = RoomType_Access()
 
 print("1: 2 exp")
 shee = rrr.get_all_roomtypes([1])
@@ -60,7 +74,6 @@ for s in shee:
     print(s)
 
 print("3: 4 exp")
-shee = rrr.get_all_roomtypes([1,2,3])
+shee = rrr.get_all_roomtypes([])
 for s in shee:
     print(s)
-"""
