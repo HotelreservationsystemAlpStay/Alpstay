@@ -220,7 +220,4 @@ for room in tempRooms:
     for facility in room.facilities:
         print(facility)
     print(room.roomType)
-<<<<<<< Updated upstream
-=======
 """
->>>>>>> Stashed changes
