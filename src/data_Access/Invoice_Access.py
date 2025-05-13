@@ -32,7 +32,12 @@ class Invoice_Access:
         self.db.execute(query_insert, (invoice._invoice_id,invoice.booking_id, invoice.issue_date, invoice.total_amount))
         print("Invoice was generated successfuly")
         #Achtung ich hole hier noch extrem viele unnötige Parameter, ich möchte vielleicht die Story noch erweitern um ein PDF mit diesen Parametern zu erstellen, deshalb bitte nicht ändern
-
+        print()
 #Test
 #test = Invoice_Access()
 #test.create_invoice(2)
+    #select all invoices
+    
+
+
+    
