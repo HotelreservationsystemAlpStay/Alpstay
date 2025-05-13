@@ -10,46 +10,32 @@ class Rating_Access:
 
  #3 Als Gast möchte ich vor der Buchung Hotelbewertungen lesen, damit ich das beste Hotel auswählen kann.
 
-    def get_hotel_details(self, hotel_id):
+    def get_hotel_ratings(self, hotel_id):
 
-        sql_main = """
+        sql = """
         SELECT 
-            Hotel.name,
-            Hotel.stars,
-            Address.street,
-            Address.city,
-            Address.zip_code
-        FROM Hotel
-        JOIN Address ON Hotel.address_id = Address.address_id
-        WHERE Hotel.hotel_id = ?
+        Rating.rating, Rating.comment, Guest.first_name || ' ' || Guest.last_name AS guest_name, Rating.created_at
+        FROM Rating
+        JOIN Guest ON Rating.guest_id = Guest.guest_id
+        WHERE Rating.hotel_id = ?
+        ORDER BY Rating.created_at DESC 
         """
-        
-        sql_facilities = """
-        SELECT DISTINCT Facilities.facility_name
-        FROM Room
-        JOIN Room_Facilities ON Room.room_id = Room_Facilities.room_id
-        JOIN Facilities ON Room_Facilities.facility_id = Facilities.facility_id
-        WHERE Room.hotel_id = ?
-        """
-        
-        hotel = self.db.fetchone(sql_main, (hotel_id,))
-        facilities = self.db.fetchall(sql_facilities, (hotel_id,))
-        
-        if not hotel:
-            print(f"Kein Hotel mit ID {hotel_id} gefunden.")
-            return
-        
-        facility_list = [f['facility_name'] for f in facilities]
-        facilities_str = ', '.join(facility_list) if facility_list else 'Keine'
-        
-        # Test
-        print(f"\nHotel-Details (ID: {hotel_id}):")
-        print()
-        print(f"Name: {hotel['name']}")
-        print(f"Sterne: {hotel['stars']}")
-        print(f"Adresse: {hotel['street']}, {hotel['zip_code']} {hotel['city']}")
-        print(f"Einrichtungen: {facilities_str}")
+        ratings = self.db.fetchall(sql, (hotel_id,))
 
-#if __name__ == "__main__":
+        if not ratings: 
+            print(f"Keine Bewertung für Hotel ID {hotel_id} gefunden.")
+            return
+        print(f"\nBewertungen für Hotel ID {hotel_id}:")
+        for rating in ratings:
+            print(f"\n{rating['rating']}/5")
+            print(f"{rating['comment']}")
+            print(f"{rating['guest_name']}")
+            print(f"{rating['created_at'].split()[0]}")
+
+if __name__ == "__main__":
     access = Rating_Access()
-    access.get_hotel_details(1)
+    
+    #Abfrage:
+
+    print("Testabfrage für Hotel ID 1")
+    access.get_hotel_ratings(1)

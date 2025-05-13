@@ -102,6 +102,17 @@ CREATE TABLE
         FOREIGN KEY (facility_id) REFERENCES Facilities (facility_id) ON DELETE CASCADE
     );
 
+CREATE TABLE
+    Rating (
+        rating_id INTEGER PRIMARY KEY,
+        hotel_id INTEGER NOT NULL,
+        guest_id INTEGER NOT NULL,
+        rating INTEGER NOT NULL CHECK (rating BETWEEN 1 AND 5), comment TEXT, 
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (hotel_id) REFERENCES Hotel(hotel_id) ON DELETE CASCADE,
+        FOREIGN KEY (guest_id) REFERENCES Guest(guest_id) ON DELETE CASCADE
+    );
+
 INSERT INTO
     Address (address_id, street, city, zip_code)
 VALUES
@@ -258,3 +269,12 @@ VALUES
     (4, 4);
 
 -- Room 301 has Mini Bar
+
+INSERT INTO
+    Rating (rating_id, hotel_id, guest_id, rating, comment)
+VALUES
+    (1, 1, 1, 5, 'Sehr guter Service und traumhafte Lage!'),
+    (2, 1, 2, 4, 'Gutes Frühstück, aber das Zimmer war etwas klein'),
+    (3, 2, 3, 5, 'Sehr angenehmer Aufenthalt'),
+    (4, 3, 4, 3, 'Gut, aber die Klimaanlage war zu laut'),
+    (5, 5, 5, 2, 'War leider nicht sauber, würden nicht wieder kommen');
