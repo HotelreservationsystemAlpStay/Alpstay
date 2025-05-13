@@ -1,3 +1,6 @@
+
+
+
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -6,7 +9,7 @@ from datetime import datetime, date
 from mythic.mythic_code import Mythic
 
 class ConsoleView:
-    def __init__(self):
+    def __init__(self): 
         #self.service = Access_Controller()
         print("ConsoleView initialized")
 

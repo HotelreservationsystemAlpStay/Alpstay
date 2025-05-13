@@ -50,6 +50,6 @@ class Rating_Access:
         print(f"Adresse: {hotel['street']}, {hotel['zip_code']} {hotel['city']}")
         print(f"Einrichtungen: {facilities_str}")
 
-if __name__ == "__main__":
+#if __name__ == "__main__":
     access = Rating_Access()
     access.get_hotel_details(1)

@@ -25,9 +25,3 @@ class User_Access:
         for row in user_data:
             user.append(self._sqlite3rowToUser(row))
         return user
-
-
-u = User_Access()
-users = u.get_all_users()
-for item in users:
-    print(str(item))

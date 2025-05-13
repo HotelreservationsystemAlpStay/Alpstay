@@ -140,8 +140,8 @@ class Booking_Access:
 
 
 
-us3 = Booking_Access()
-us3.view_booking(6, "admin")
+#us3 = Booking_Access()
+#us3.view_booking(6, "admin")
 
 
 

@@ -33,9 +33,4 @@ class User_Controller:
         else: 
             raise ValueError("The password you entered is wrong, please try again")
 
-#Test
-#test1 = User_Controller()
-#test1.check_admin(6, "admin")
-
-
 
