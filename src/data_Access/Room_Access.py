@@ -13,6 +13,7 @@ from datetime import date
 import sqlite3
 
 
+
 class Room_Access:
     def __init__(self):
         self.db = Base_Access_Controller()
@@ -22,25 +23,38 @@ class Room_Access:
         self._WHERE_HOTELID = "extended_room.hotel_id in"
         self._WHERE_ROOMTYPE = "extended_room.type_id = ?"
 
+
     @staticmethod
     def _get_seasonal_multiplier(season:str):
         pass
         if season == "Summer":
             return 1.5
-        elif season == "Winter":
-            return 1.0 
+        return 1
         
-
     @staticmethod
-    def _sqlite3row_to_room(row: sqlite3.Row, facilities=[], roomType:RoomType=None, season:str=None) -> Room:
+    def _get_season(input_date:date):
+        """returns season type based on starting date, Months April to Septembert are considered sumemr
+
+        Args:
+            date (date): input date
+            
+        Returns:
+            month (str): season
+        """
+        #if if date is in rage of summer  then return summer
+        if 4 <= int(input_date.strftime("%m")) <= 9: 
+            return "Summer"
+        #else return winter
+        return "Winter"
+
+    def _sqlite3row_to_room(self, row: sqlite3.Row, facilities=[], roomType:RoomType=None, season:str=None) -> Room:
         print(str(row))
         return Room(
             room_id=row["room_id"],
             room_no=row["room_number"],
-            price_per_night=row["price_per_night"],
+            price_per_night= self._get_seasonal_multiplier(season)*row["price_per_night"],
             facilities=facilities,
-            roomType=roomType,
-            season=season,
+            roomType=roomType
         )
 
     @staticmethod
@@ -94,20 +108,32 @@ class Room_Access:
             self._add_dates()
             query += f" {self._WHERE} {self._WHERE_BOOKINGDATE}"
             inLoop = True
+            providedList.append(dateStart)
+            providedList.append(dateEnd)
+            providedList.append(dateStart)
+            providedList.append(dateEnd)
+            providedList.append(dateStart)
+            providedList.append(dateEnd)
         if hotel_ids and len(hotel_ids) > 1:
-            if inLoop: query += f" AND {self._WHERE_HOTELID} {tuple(hotel_ids)}"
-            else :query += f" {self._WHERE} {self._WHERE_HOTELID} {tuple(hotel_ids)}"
+            if inLoop: 
+                query += f" AND {self._WHERE_HOTELID} {tuple(hotel_ids)}"
+            else:
+                inLoop = True
+                query += f" {self._WHERE} {self._WHERE_HOTELID} {tuple(hotel_ids)}"
         elif hotel_ids and len(hotel_ids) == 1:
             if inLoop: query += f" AND {self._WHERE_HOTELID} ({hotel_ids[0]})"
-            else: query += f" {self._WHERE} {self._WHERE_HOTELID} ({hotel_ids[0]})"
-        if dateStart and dateEnd:
-            providedList.append([dateStart, dateEnd, dateStart, dateEnd, dateStart, dateEnd])
+            else:
+                inLoop = True 
+                query += f" {self._WHERE} {self._WHERE_HOTELID} ({hotel_ids[0]})"
         if roomType:
             if inLoop:
-                query +=self._WHERE_ROOMTYPE
-            else: query +=f" AND {self._WHERE_ROOMTYPE}"
+                query +=f" {self._WHERE} {self._WHERE_ROOMTYPE}"
+            else: 
+                inLoop = True
+                query +=f" AND {self._WHERE} {self._WHERE_ROOMTYPE}"
             providedList.append(roomType.id)
         print(f"query {query}")
+        print(providedList)
         results = self.db.fetchall(
             query, self._get_list_to_tuple(providedList)
         )
@@ -115,9 +141,10 @@ class Room_Access:
         for room in results:
             rooms.append(
                 self._sqlite3row_to_room(
-                    room,
+                    row=room,
                     facilities=self._strId_to_facility(room["facilities_list"]),
                     roomType=self._intId_to_roomType(room["type_id:1"]),
+                    season=self._get_season(input_date=dateStart)
                 )
             )
         return rooms
