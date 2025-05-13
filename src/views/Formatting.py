@@ -1,3 +1,4 @@
+from datetime import datetime
 class Format:
     @staticmethod
     def parse(input_str):

@@ -79,7 +79,7 @@ class Hotel_Access:
         """
         result = self.db.fetchall(query, (city, min_stars, guests))
         if not result:
-            print("Unfortunately there are no hotels which match your filters")
+            return []
         else:
             hotels = []
             for row in result:
@@ -90,8 +90,10 @@ class Hotel_Access:
                 stars = data["stars"]
                 )
                 hotels.append(hotel)
+            result = []
             for hotel in hotels:
-                print(f"{hotel.name} has {hotel.stars} stars and is located in {city}")
+                result.append(f"{hotel.name} has {hotel.stars} stars and is located in {city}")
+            return result
 
 
 #User Story 4 müsste eigentlich stars und guests nicht enthalten, habe es trotzdem mal drin gelassen 
@@ -116,7 +118,7 @@ class Hotel_Access:
         """
         result = self.db.fetchall(query, (city, min_stars, guests, check_in_date, check_out_date, check_in_date, check_out_date, check_in_date, check_out_date))
         if not result:
-            print("Unfortunately there are no hotels which match your filters")
+            return []
         else:
             hotels = []
             for row in result: 
@@ -127,10 +129,12 @@ class Hotel_Access:
                 stars = data["stars"]    
                 )
                 hotels.append(hotel)
+            output = []
             for hotel in hotels: 
-                print(f"{hotel.name} has {hotel.stars} stars and is located in {city}")
+                output.append(f"{hotel.name} has {hotel.stars} stars and is located in {city}")
+            return output
 
-    def get_selected_filters(self, city="all", min_stars="all", guests="all", check_in_date="all", check_out_date="all"): #All als Default Wert, damit nachher einfach die nicht gewünschten Werte weggelassen werden können bzw. nichts eingegeben werden muss
+    def get_selected_filters(self, city, min_stars, guests, check_in_date, check_out_date): #All als Default Wert, damit nachher einfach die nicht gewünschten Werte weggelassen werden können bzw. nichts eingegeben werden muss
         query = """
         SELECT DISTINCT hotel_id, name, stars, city, street
         FROM extended_hotel_room_booking
@@ -170,7 +174,7 @@ class Hotel_Access:
             parameters.append(check_out_date)
         result = self.db.fetchall(query,parameters)
         if not result:
-            print("Unfortunately there are no hotels which match your filters")
+            return []
         else:
             hotels = []
             for row in result:
@@ -182,17 +186,20 @@ class Hotel_Access:
                 )
                 hotels.append((hotel, data["city"], data["street"]))
 
+            output = []
+
             for hotel, city, street in hotels:
-                print(f"{hotel.name} has {hotel.stars} stars, is located in {city} at: {street}")
+                output.append(f"{hotel.name} has {hotel.stars} stars, is located in {city} at: {street}")
+            return output
     def get_hotel_details(self, hotel_name):
         query = """
         SELECT DISTINCT hotel_id, name, stars, street, city 
         FROM extended_hotel_room
-        WHERE name = ?       
+        WHERE (name) = (?)       
         """
         result = self.db.fetchall(query, (hotel_name,))
         if not result:
-            print("Unfortunately there are no hotels which match your filters")
+            return []
         else:
             hotels = []
             for row in result: 
@@ -201,8 +208,10 @@ class Hotel_Access:
                 street = data["street"]
                 city = data["city"]
                 hotels.append((hotel, data["street"], data["city"]))
+            output = []
             for hotel, street, city in hotels: 
-                print(f"The hotel {hotel.name} you mentioned has {hotel.stars} stars and is located in {city} at {street}")
+                output.append(f"The hotel {hotel.name} you mentioned has {hotel.stars} stars and is located in {city} at {street}")
+            return output
     
     def add_hotel(self, user_id, password, name, stars, address_id):
         uh = User_Controller()
@@ -220,7 +229,7 @@ class Hotel_Access:
             VALUES (?, ?, ?, ?)
             """
             self.db.execute(query_add_hotel,(result_max + 1, name, stars, address_id))
-            print("Hotel was added successfuly")
+            return True
 
     def delete_hotel(self, user_id, password, hotel_id):
         uh = User_Controller()
@@ -234,11 +243,11 @@ class Hotel_Access:
             """
             rows_deleted = self.db.execute(query, (hotel_id,)).rowcount
             if rows_deleted <1:
-                print("There is no hotel with this hotel ID")
+                return False
             else:
-                print("The hotel was deleted successfuly")
-    def update_hotel(self, user_id, password, hotel_id, name=None, stars=None, address_id=None):
-        uh = User_Controller
+                return True
+    def update_hotel(self, user_id, password, hotel_id, name, stars, address_id):
+        uh = User_Controller()
         if uh.check_admin(user_id, password) != True:
             raise ValueError("You need admin rights to perform this action")
         if not hotel_id:
@@ -266,9 +275,9 @@ class Hotel_Access:
 
         result = self.db.execute(query, tuple(parameters))
         if result.rowcount == 0:
-            print("No hotel matches your hotel ID")
+            return False
         else:
-            print("Changed Hotel Information successfully")
+            return True
 
     def get_available_rooms(self, dateStart:date=None, dateEnd:date=None, hotel:Hotel=None, roomType:RoomType=None) -> list | list[Room]:
         roomAccess = Room_Access()
