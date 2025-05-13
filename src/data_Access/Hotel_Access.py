@@ -8,8 +8,8 @@ from models.RoomType import RoomType
 from data_Access.Base_Access_Controller import Base_Access_Controller
 from datetime import date
 from controller.User_Controller import User_Controller
-from RoomType_Access import RoomType_Access
-from Room_Access import Room_Access
+from data_Access.RoomType_Access import RoomType_Access
+from data_Access.Room_Access import Room_Access
 
 class Hotel_Access:
     def __init__(self): 
@@ -24,7 +24,7 @@ class Hotel_Access:
         """
         result = self.db.fetchall(query, (city,)) #bei fetchall ist definiert, dass alle ? mit den Parametern in der Tupel ersetzt werden, hier also city, aber achtung Reihenfolge muss stimmen
         if not result:
-            print("Unfortunately there are no hotels in the city you mentioned")
+            return[]
         else:
             hotels = [] #leere Liste wird erstellt, die dann mit dem for loop gefüllt wird
             for row in result:
@@ -35,8 +35,10 @@ class Hotel_Access:
                     stars=data["stars"]
                 )     #In diesem Block wird die Klasse Hotel aufgerufen, deshalb muss man hotel_id definieren, muss aber nicht verwendet werden
                 hotels.append(hotel) #Liste wird ergänzt um Hotel
+            output = []
             for hotel in hotels:
-                print(f"{hotel.name} has {hotel.stars} stars and is located in {city}")
+                output.append(f"{hotel.name} has {hotel.stars} stars and is located in {city}")
+            return output
 
     def get_hotel_in_city_stars(self, city, min_stars):
         Validator.checkStr(city, "city")
@@ -49,7 +51,7 @@ class Hotel_Access:
         """
         result = self.db.fetchall(query, (city, min_stars))
         if not result:
-            print("Unfortunately there are no hotels which match your filters")
+            return[]
         else:
             hotels = []
             for row in result: 
@@ -60,8 +62,10 @@ class Hotel_Access:
                 stars = data["stars"]
                 )
                 hotels.append(hotel)
+            output = []
             for hotel in hotels:
-                print(f"{hotel.name} has {hotel.stars} stars and is located in {city}")
+                output.append(f"{hotel.name} has {hotel.stars} stars and is located in {city}")
+            return output
     def get_hotel_in_city_stars_guests(self, city, min_stars, guests):
         Validator.checkStr(city, "city")
         Validator.checkStars(min_stars)
@@ -293,13 +297,7 @@ story6 = Hotel_Access()
 story6.get_hotel_details("Hotel Baur au Lac")
 """
 
-#Nutzung Userstory 2
-hotelAccess = Hotel_Access()
-for item in hotelAccess.get_available_rooms(hotel=Hotel(hotel_id=1,name="name",stars=1), roomType=RoomType(1,"description",2)):
-    print(item)
-    print(f"  -  {item.roomType}")
-    for facility in item.facilities:
-        print(f"  -- {facility}")
+
 
 """
 #Nutzung User Story 3.1
