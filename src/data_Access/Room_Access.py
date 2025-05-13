@@ -211,6 +211,7 @@ rs.get_available_rooms(date(2025, 6, 1), date(2025, 6, 5), hotel_ids=[2, 3, 5])
 
 
 """
+"""
 rs = Room_Access()
 print("### 1")
 tempRooms = rs.get_available_rooms(date(2025, 6, 1), date(2025, 6, 5))
@@ -219,3 +220,7 @@ for room in tempRooms:
     for facility in room.facilities:
         print(facility)
     print(room.roomType)
+<<<<<<< Updated upstream
+=======
+"""
+>>>>>>> Stashed changes
