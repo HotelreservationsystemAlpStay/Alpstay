@@ -59,13 +59,30 @@ class RoomType_Access:
     # 4. was ist dein return value
     # 5. mit user_controller.check_admin
     
-    def add_roomtype():
-        pass
-    
-    def modify_roomtype():
-        pass
+    def add_roomtype(self, description, max_guests, user_id, password):
+        is_admin = self.User_Controller.check_admin(user_id, password)
+        if is_admin == False:
+            return None
+        query = "INSERT INTO Room_Type (description, max_guests) VALUES (?, ?)"
+        params = (description, max_guests)
+        cursor = self.db.execute(query, params)
+        new_id = cursor.lastrowid 
+        return new_id  
+
+    def modify_roomtype(self, type_id, description, max_guests, user_id, password):
+        is_admin = self.User_Controller.check_admin(user_id, password)
+        if is_admin == False:
+            return False  
+        query = "UPDATE Room_Type SET description = ?, max_guests = ? WHERE type_id = ?"
+        params = (description, max_guests, type_id)
+        cursor = self.db.execute(query, params)
+        return cursor.rowcount > 0
+
+
+
+       
 """
-"""
+
 rrr = RoomType_Access()
 
 print("1: 2 exp")
@@ -77,3 +94,6 @@ print("3: 4 exp")
 shee = rrr.get_all_roomtypes([])
 for s in shee:
     print(s)
+"""
+
+
