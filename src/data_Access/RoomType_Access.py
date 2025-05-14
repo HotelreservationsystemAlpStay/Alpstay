@@ -11,6 +11,7 @@ class RoomType_Access:
     def __init__(self):
         self.db = Base_Access_Controller()
         self.validator = Validator()
+        self.user_controller = User_Controller() # Wieso nimmt es ihn nicht?
         self._SELECT = "SELECT DISTINCT * FROM Room_Type"
 
     @staticmethod
@@ -51,13 +52,6 @@ class RoomType_Access:
         query = f"{self._SELECT} WHERE max_guests = ?"
         result = self.db.fetchone(query, (f"{max_guests}"))
         return self._sqlite3row_to_roomtype(result)
-    
-    ### Für Elia
-    # 1. welche inputs brauchst du
-    # 2. welche sql statements brauchst du
-    # 3. wie werden die statements ausgeführt
-    # 4. was ist dein return value
-    # 5. mit user_controller.check_admin
     
     def add_roomtype(self, description, max_guests, user_id, password):
         is_admin = self.user_controller.check_admin(user_id, password)
