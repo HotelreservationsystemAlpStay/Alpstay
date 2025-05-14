@@ -5,13 +5,14 @@ from utils.Validator import Validator
 from models.RoomType import RoomType
 from data_Access.Base_Access_Controller import Base_Access_Controller
 from datetime import date
+from controller.User_Controller import User_Controller
 import sqlite3
 
 class RoomType_Access:
     def __init__(self):
         self.db = Base_Access_Controller()
         self.validator = Validator()
-        self.user_controller = User_Controller() # Wieso nimmt es ihn nicht?
+        self.user_controller = User_Controller()
         self._SELECT = "SELECT DISTINCT * FROM Room_Type"
 
     @staticmethod
@@ -60,7 +61,7 @@ class RoomType_Access:
         query = "INSERT INTO Room_Type (description, max_guests) VALUES (?, ?)"
         params = (description, max_guests)
         cursor = self.db.execute(query, params)
-        new_id = cursor.lastrowid 
+        new_id = cursor.lastrowid
         return new_id  
 
     def modify_roomtype(self, type_id, description, max_guests, user_id, password):
@@ -69,8 +70,10 @@ class RoomType_Access:
             return False  
         query = "UPDATE Room_Type SET description = ?, max_guests = ? WHERE type_id = ?"
         params = (description, max_guests, type_id)
-        cursor = self.db.execute(query, params)
-        return cursor.rowcount > 0
+        Try:
+            cursor = self.db.execute(query, params)
+            return True
+        except:
 
 
 
