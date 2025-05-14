@@ -73,7 +73,8 @@ class RoomType_Access:
         Try:
             cursor = self.db.execute(query, params)
             return True
-        except:
+        except: 
+            return False
 
 
 
