@@ -70,7 +70,7 @@ class RoomType_Access:
             return False  
         query = "UPDATE Room_Type SET description = ?, max_guests = ? WHERE type_id = ?"
         params = (description, max_guests, type_id)
-        Try:
+        try:
             cursor = self.db.execute(query, params)
             return True
         except: 
