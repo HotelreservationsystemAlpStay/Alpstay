@@ -60,7 +60,7 @@ class RoomType_Access:
     # 5. mit user_controller.check_admin
     
     def add_roomtype(self, description, max_guests, user_id, password):
-        is_admin = self.User_Controller.check_admin(user_id, password)
+        is_admin = self.user_controller.check_admin(user_id, password)
         if is_admin == False:
             return None
         query = "INSERT INTO Room_Type (description, max_guests) VALUES (?, ?)"
@@ -70,7 +70,7 @@ class RoomType_Access:
         return new_id  
 
     def modify_roomtype(self, type_id, description, max_guests, user_id, password):
-        is_admin = self.User_Controller.check_admin(user_id, password)
+        is_admin = self.user_controller.check_admin(user_id, password)
         if is_admin == False:
             return False  
         query = "UPDATE Room_Type SET description = ?, max_guests = ? WHERE type_id = ?"
