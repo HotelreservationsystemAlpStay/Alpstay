@@ -1,14 +1,14 @@
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from views.MenuView import Menu
+from views.Menu import Menu
 from controller.Access_Controller import Access_Controller
 from datetime import date
 from views.Formatting import Format
 
 class HotelMenu(Menu):
-    def __init__(self):
-        super().__init__("Hotel Menu")
+    def __init__(self, app):
+        super().__init__("Hotel Menu", app)
         self.add_item("Search for hotels in a city", self.search_city)
         self.add_item("Search for hotels in a city and with stars", self.search_city_stars)
         self.add_item("Search for hotels in a city, with stars and your amount of guests", self.search_city_stars_guests)
@@ -19,11 +19,10 @@ class HotelMenu(Menu):
         self.add_item("I want do delete a hotel (Must be an admin)", self.delete_hotel)
         self.add_item("I want to update hotel informations (Must be an admin)", self.update_hotel)
         self.add_item("Go back", self.back)
-        self.ac = Access_Controller()
 
     def search_city(self):
         city = input("Please name the city, in which you are looking for a hotel:")
-        hotels = self.ac.hotel_Access.get_hotel_in_city(city)
+        hotels = self.app.hotel_Controller.get_hotels(city=city)
         if not hotels:
             print("Unfortunately no hotels match your criteria")
         else:

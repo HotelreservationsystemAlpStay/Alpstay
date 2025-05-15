@@ -3,9 +3,10 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 class Menu:
-    def __init__(self, title):
+    def __init__(self, title, app):
         self.title = title
         self.functions_menu = []
+        self.app = app
     def add_item(self, name, function):
         self.functions_menu.append((name, function))
     def display(self):
