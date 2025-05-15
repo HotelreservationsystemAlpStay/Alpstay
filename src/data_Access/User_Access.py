@@ -25,3 +25,13 @@ class User_Access:
         for row in user_data:
             user.append(self._sqlite3rowToUser(row))
         return user
+    
+    def get_user(self, user_id, password):
+        query = """
+        SELECT *
+        FROM User
+        WHERE user_id = ? 
+        AND user_password = ?
+        """
+        return self.db_controller.fetchone(query,(user_id,password))
+        
