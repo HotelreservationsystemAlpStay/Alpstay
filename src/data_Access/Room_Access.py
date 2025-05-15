@@ -19,6 +19,7 @@ class Room_Access:
         self.db = Base_Access_Controller()
         self._SELECT = "SELECT * from extended_room JOIN Booking ON Booking.room_id = extended_room.room_id"
         self._WHERE = "WHERE"
+        self._AND = "AND"
         self._WHERE_BOOKINGDATE = "(Booking.check_in_date BETWEEN ? AND ?) OR (Booking.check_out_date BETWEEN ? AND ?) OR (Booking.check_in_date <= ? AND Booking.check_out_date >= ?)"
         self._WHERE_HOTELID = "extended_room.hotel_id in"
         self._WHERE_ROOMTYPE = "extended_room.type_id = ?"
@@ -79,16 +80,24 @@ class Room_Access:
     def _get_list_to_tuple(providedList:list):
         return tuple(providedList)
 
-    def _add_dates(self, dateStart: date = None, dateEnd: date = None):
+    def _add_dates(self, query:str, param:list, dateStart: date = None, dateEnd: date = None):
         """created filter option for provided dates
 
         Args:
             dateStart (date, optional): starting date of search request. Defaults to None.
             dateEnd (date, optional): end date of search request. Defaults to None.
         """
+        if not dateStart:
+            return query, param
+        if "AND" not in query: query +=f" {self._AND}"
+        query += f" {self._WHERE_BOOKINGDATE}"
+        param.extend([dateStart,dateEnd,dateStart,dateEnd,dateStart,dateEnd])
+        return query,param
+
+    def add_hotel_ids(self, query:str, param: list, hotel_ids: list[int]):
         pass
 
-    def get_available_rooms(
+    def get_rooms(
         self, dateStart: date = None, dateEnd: date = None, hotel_ids: list[int] = None, roomType:RoomType = None
     ) -> list[Room]:
         """returns rooms based on filter
@@ -101,19 +110,11 @@ class Room_Access:
         Returns:
             list[Room]: rooms filtered on provided args
         """
+        
         inLoop = False
         providedList = []
         query = self._SELECT
-        if dateStart:
-            self._add_dates()
-            query += f" {self._WHERE} {self._WHERE_BOOKINGDATE}"
-            inLoop = True
-            providedList.append(dateStart)
-            providedList.append(dateEnd)
-            providedList.append(dateStart)
-            providedList.append(dateEnd)
-            providedList.append(dateStart)
-            providedList.append(dateEnd)
+        query, providedList = self._add_dates(query, providedList,dateStart,dateEnd)
         if hotel_ids and len(hotel_ids) > 1:
             if inLoop: 
                 query += f" AND {self._WHERE_HOTELID} {tuple(hotel_ids)}"

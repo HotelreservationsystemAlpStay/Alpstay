@@ -282,7 +282,7 @@ class Hotel_Access:
     def get_available_rooms(self, dateStart:date=None, dateEnd:date=None, hotel:Hotel=None, roomType:RoomType=None) -> list | list[Room]:
         roomAccess = Room_Access()
         if not hotel: return []
-        return roomAccess.get_available_rooms(dateStart, dateEnd, [hotel.hotel_id], roomType)
+        return roomAccess.get_rooms(dateStart, dateEnd, [hotel.hotel_id], roomType)
 """
 
 # Nutzung User Story 1.1
