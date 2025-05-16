@@ -81,7 +81,6 @@ class Validator:
     @staticmethod
     def checkEmail(value: str, name: str = "Email"):
         Validator.checkStr(value, name)
-        # Basic email validation regex
         email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
         if not re.match(email_regex, value):
             raise ValueError(f"Invalid {name} format")
