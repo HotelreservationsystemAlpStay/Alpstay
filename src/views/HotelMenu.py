@@ -5,6 +5,7 @@ from views.Menu import Menu
 from controller.Access_Controller import Access_Controller
 from datetime import date
 from views.Formatting import Format
+from views.Room_Menu import Room_Menu
 
 class HotelMenu(Menu):
     def __init__(self, app):
@@ -18,6 +19,7 @@ class HotelMenu(Menu):
         self.add_item("I want to add a hotel (Must be an admin)", self.add_hotel)
         self.add_item("I want do delete a hotel (Must be an admin)", self.delete_hotel)
         self.add_item("I want to update hotel informations (Must be an admin)", self.update_hotel)
+        self.add_item("I want to see rooms from hotel, which satisfy my needs", self.search_hotel_room)
         self.add_item("Go back", self.back)
 
     def search_city(self):
@@ -28,6 +30,7 @@ class HotelMenu(Menu):
         else:
             for hotel in hotels:
                 print(hotel)
+        return Room_Menu(self.app, hotels)
         return None
 
     def search_city_stars(self):
@@ -158,5 +161,8 @@ class HotelMenu(Menu):
             print("No hotel with this hotel ID found")
     #get_available rooms mues na gmacht werde
     
+    def search_hotel_room(self):
+        pass
+
     def back(self):
         return None
