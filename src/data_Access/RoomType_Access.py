@@ -6,6 +6,7 @@ from models.RoomType import RoomType
 from data_Access.Base_Access_Controller import Base_Access_Controller
 from datetime import date
 from controller.User_Controller import User_Controller
+from controller.RoomType_Controller import RoomType_Controller
 import sqlite3
 
 class RoomType_Access:
