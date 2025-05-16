@@ -1,94 +1,49 @@
+import datetime
+from src.utils.Validator import Validator
+
 class Guest:
 
-    
-#def init statement
-    def __init__(self, guest_id: int, name: str, surname: str, phone_nr: int, email: str, zip: int, address: str) -> None:
-        self._validateId(guest_id)
-        self._validateName(name)
-        self._validateSurname(surname)
-        self._validatePhoneNr(phone_nr)
-        self._validateEmail(email)
-        self._validateZip(zip)
-        self._validateAddress(address)
+    def __init__(self, guest_id: int, first_name: str, last_name: str, email: str, address_id: int, age: int, birthdate: datetime.date, country: str) -> None:
+        Validator.checkID(guest_id, "Guest-ID")
+        Validator.checkStr(first_name, "First name")
+        Validator.checkStr(last_name, "Last name")
+        Validator.checkEmail(email, "Email")
+        Validator.checkID(address_id, "Address ID")
+        Validator.checkPositiveInteger(age, "Age")
+        Validator.checkDate(birthdate, "Birthdate")
+        Validator.checkStr(country, "Country")
 
         self._guest_id = guest_id
-        self._name = name
-        self._surname = surname
-        self._phone_nr = phone_nr
+        self._first_name = first_name
+        self._last_name = last_name
         self._email = email
-        self._zip = zip
-        self._address = address
+        self._address_id = address_id
+        self._age = age
+        self._birthdate = birthdate
+        self._country = country
 
 
-    
-#def validate statements    
-    def _validateId(self, guest_id: int) -> None:
-        if not isinstance(guest_id, int):
-            raise ValueError("Guest-ID needs to be a number")
-
-    def _validateName(self, name: str) -> None:
-        if not isinstance(name, str):
-            raise ValueError("Name needs to be a string")
-
-    def _validateSurname(self, surname: str) -> None:
-        if not isinstance(surname, str):
-            raise ValueError("Surname needs to be a string")
-
-    def _validatePhoneNr(self, phone_nr: int) -> None:
-        if not isinstance(phone_nr, int):
-            raise ValueError("Phone number needs to be a number")
-
-    def _validateEmail(self, email: str) -> None:
-        if not isinstance(email, str):
-            raise ValueError("Email neesds to be a string")
-
-    def _validateZip(self, zip: int) -> None:
-        if not isinstance(zip, int):
-            raise ValueError("ZIP needs to be a number")
-
-    def _validateAddress(self, address: str) -> None:
-        if not isinstance(address, str):
-            raise ValueError("Address needs to be a string")
-
-
-
-#if needed leave property (getter and setter)
-"""
-@property
+    @property
     def guest_id(self) -> int:
         return self._guest_id
 
-    @guest_id.setter
-    def guest_id(self, guest_id: int) -> None:
-        self._validateId(guest_id)
-        self._guest_id = guest_id
+    @property
+    def first_name(self) -> str:
+        return self._first_name
+
+    @first_name.setter
+    def first_name(self, first_name: str) -> None:
+        Validator.checkStr(first_name, "First name")
+        self._first_name = first_name
 
     @property
-    def name(self) -> str:
-        return self._name
+    def last_name(self) -> str:
+        return self._last_name
 
-    @name.setter
-    def name(self, name: str) -> None:
-        self._validateName(name)
-        self._name = name
-
-    @property
-    def surname(self) -> str:
-        return self._surname
-
-    @surname.setter
-    def surname(self, surname: str) -> None:
-        self._validateSurname(surname)
-        self._surname = surname
-
-    @property
-    def phone_nr(self) -> int:
-        return self._phone_nr
-
-    @phone_nr.setter
-    def phone_nr(self, phone_nr: int) -> None:
-        self._validatePhoneNr(phone_nr)
-        self._phone_nr = phone_nr
+    @last_name.setter
+    def last_name(self, last_name: str) -> None:
+        Validator.checkStr(last_name, "Last name")
+        self._last_name = last_name
 
     @property
     def email(self) -> str:
@@ -96,24 +51,41 @@ class Guest:
 
     @email.setter
     def email(self, email: str) -> None:
-        self._validateEmail(email)
+        Validator.checkEmail(email, "Email")
         self._email = email
 
     @property
-    def zip(self) -> int:
-        return self._zip
+    def address_id(self) -> int:
+        return self._address_id
 
-    @zip.setter
-    def zip(self, zip: int) -> None:
-        self._validateZip(zip)
-        self._zip = zip
+    @address_id.setter
+    def address_id(self, address_id: int) -> None:
+        Validator.checkID(address_id, "Address ID")
+        self._address_id = address_id
 
     @property
-    def address(self) -> str:
-        return self._address
+    def age(self) -> int:
+        return self._age
 
-    @address.setter
-    def address(self, address: str) -> None:
-        self._validateAddress(address)
-        self._address = address
-"""
+    @age.setter
+    def age(self, age: int) -> None:
+        Validator.checkPositiveInteger(age, "Age")
+        self._age = age
+
+    @property
+    def birthdate(self) -> datetime.date:
+        return self._birthdate
+
+    @birthdate.setter
+    def birthdate(self, birthdate: datetime.date) -> None:
+        Validator.checkDate(birthdate, "Birthdate")
+        self._birthdate = birthdate
+
+    @property
+    def country(self) -> str:
+        return self._country
+
+    @country.setter
+    def country(self, country: str) -> None:
+        Validator.checkStr(country, "Country")
+        self._country = country
