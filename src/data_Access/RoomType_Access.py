@@ -54,44 +54,29 @@ class RoomType_Access:
         result = self.db.fetchone(query, (f"{max_guests}"))
         return self._sqlite3row_to_roomtype(result)
     
-    def add_roomtype(self, description, max_guests, user_id, password):
-        is_admin = self.user_controller.check_admin(user_id, password)
-        if is_admin == False:
-            return None
+    def add_roomtype(self, description, max_guests):
         query = "INSERT INTO Room_Type (description, max_guests) VALUES (?, ?)"
         params = (description, max_guests)
         cursor = self.db.execute(query, params)
         new_id = cursor.lastrowid
         return new_id  
 
-    def modify_roomtype(self, type_id, description, max_guests, user_id, password):
-        is_admin = self.user_controller.check_admin(user_id, password)
-        if is_admin == False:
-            return False  
-        query = "UPDATE Room_Type SET description = ?, max_guests = ? WHERE type_id = ?"
-        params = (description, max_guests, type_id)
-        try:
-            cursor = self.db.execute(query, params)
-            return True
-        except: 
+    def modify_roomtype(self, type_id, description:str=None, max_guests:int=None):
+        if not description and not max_guests:
             return False
+        elif not description and max_guests:
+            query = "UPDATE Room_Type SET max_guests = ? WHERE type_id = ?"
+            params = (max_guests, type_id)
+        elif description and not max_guests:
+            query = "UPDATE Room_Type SET description = ? WHERE type_id = ?"
+            params = (description, type_id)
+        else:
+            query = "UPDATE Room_Type SET description = ?, max_guests = ? WHERE type_id = ?"
+            params = (description, max_guests, type_id)
+        cursor = self.db.execute(query, params)
+        return True
 
 
 
        
-"""
-
-rrr = RoomType_Access()
-
-print("1: 2 exp")
-shee = rrr.get_all_roomtypes([1])
-for s in shee:
-    print(s)
-
-print("3: 4 exp")
-shee = rrr.get_all_roomtypes([])
-for s in shee:
-    print(s)
-"""
-
 
