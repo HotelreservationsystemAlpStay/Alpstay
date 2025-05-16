@@ -17,7 +17,6 @@ class RoomType_Controller():
         roomType_Access = RoomType_Access()
         return roomType_Access.add_roomtype()
             
-        
 
     def modify_roomType(self, user_id:int, password:str, description:str=None, max_guests:int=None, type_id):
         user_Controller = User_Controller()
