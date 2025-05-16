@@ -100,9 +100,9 @@ class Room_Access:
         if "WHERE" in query: query +=f" {self._AND}"
         if "AND" not in query: query +=f" {self._WHERE}"
         if len(hotel_ids) == 1:
-            query += f" {self._WHERE} {self._WHERE_HOTELID} ({hotel_ids[0]})"
+            query += f" {self._WHERE_HOTELID} ({hotel_ids[0]})"
         else:    
-            query += f" {self._WHERE} {self._WHERE_HOTELID} {tuple(hotel_ids)}"
+            query += f" {self._WHERE_HOTELID} {tuple(hotel_ids)}"
         return query, param
 
     def _add_roomType(self, query:str, param:list, roomType:RoomType):
