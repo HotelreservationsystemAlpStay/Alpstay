@@ -1,9 +1,11 @@
 from views.StartMenu import StartMenu
 from controller.Hotel_Controller import Hotel_Controller
+from controller.Room_Controller import RoomController
 
 class Application:
     def __init__(self):
         self.hotel_Controller = Hotel_Controller()
+        self.room_Controller = RoomController()
         self.__is_running = True
 
     def stop(self):

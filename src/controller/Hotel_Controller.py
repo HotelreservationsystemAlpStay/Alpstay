@@ -18,4 +18,6 @@ class Hotel_Controller:
                 self.query += f" {self.WHERE_CITY}"
             param.append(city)
         if stars:
+            pass
+        return
             
