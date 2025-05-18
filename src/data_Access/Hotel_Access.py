@@ -38,7 +38,7 @@ class Hotel_Access:
             output = []
             for hotel in hotels:
                 output.append(f"{hotel.name} has {hotel.stars} stars and is located in {city}")
-            return output
+            return hotels
 
     def get_hotel_in_city_stars(self, city, min_stars):
         Validator.checkStr(city, "city")

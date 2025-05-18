@@ -1,6 +1,7 @@
 # @staticmethod ermöglicht es die Methoden ohne das Objekt aufzurufen, also wenn ich z. B. bei Hotel sternen prüfen möchte
 # kann ich einfach sagen Validator.checkInteger(min_stars)
 from datetime import date
+import re
 
 
 class Validator:
@@ -76,5 +77,10 @@ class Validator:
     def checkBoolean(value: bool, name: str):
         if not isinstance(value, bool):
             raise ValueError(f"{name} has to be of type boolean")
-        if not value.strip():
-            raise ValueError(f"{name} must not be empty")
+
+    @staticmethod
+    def checkEmail(value: str, name: str = "Email"):
+        Validator.checkStr(value, name)
+        email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        if not re.match(email_regex, value):
+            raise ValueError(f"Invalid {name} format")

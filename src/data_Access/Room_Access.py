@@ -48,11 +48,11 @@ class Room_Access:
         #else return winter
         return "Winter"
 
-    def _sqlite3row_to_room(self, row: sqlite3.Row, facilities=[], roomType:RoomType=None, season:str=None) -> Room:
+    def _sqlite3row_to_room(self, row: sqlite3.Row, facilities=[], roomType:RoomType=None) -> Room:
         return Room(
             room_id=row["room_id"],
             room_no=row["room_number"],
-            price_per_night= self._get_seasonal_multiplier(season)*row["price_per_night"],
+            price_per_night= row["price_per_night"],
             facilities=facilities,
             roomType=roomType
         )
@@ -133,8 +133,6 @@ class Room_Access:
         query, providedList = self._add_dates(query, providedList,dateStart,dateEnd)
         query, providedList = self._add_hotel_ids(query,providedList,hotel_ids)
         query, providedList = self._add_roomType(query,providedList, roomType)
-        print(f"query {query}")
-        print(providedList)
         results = self.db.fetchall(
             query, self._get_list_to_tuple(providedList)
         )
@@ -144,41 +142,8 @@ class Room_Access:
                 self._sqlite3row_to_room(
                     row=room,
                     facilities=self._strId_to_facility(room["facilities_list"]),
-                    roomType=self._intId_to_roomType(room["type_id:1"]),
-                    season=self._get_season(input_date=dateStart)
+                    roomType=self._intId_to_roomType(room["type_id:1"])
                 )
             )
         return rooms
     
-
-
-
-rs = Room_Access()
-print("### 1")
-tempRooms = rs.get_rooms(date(2025, 6, 1), date(2025, 6, 5))
-for room in tempRooms:
-    print(room)
-    for facility in room.facilities:
-        print(facility)
-    print(room.roomType)
-print("### 2")
-tempRooms = rs.get_rooms(date(2025, 6, 1), date(2025, 6, 5), hotel_ids=[2])
-for room in tempRooms:
-    print(room)
-    for facility in room.facilities:
-        print(facility)
-    print(room.roomType)
-print("### 3")
-tempRooms = rs.get_rooms(date(2025, 6, 1), date(2025, 6, 5), hotel_ids=[2, 3, 5])
-for room in tempRooms:
-    print(room)
-    for facility in room.facilities:
-        print(facility)
-    print(room.roomType)
-print("### 4")
-tempRooms = rs.get_rooms(date(2025, 6, 1), date(2025, 6, 5), hotel_ids=[2, 3, 5], roomType=RoomType(4,"stuff",2))
-for room in tempRooms:
-    print(room)
-    for facility in room.facilities:
-        print(facility)
-    print(room.roomType)
