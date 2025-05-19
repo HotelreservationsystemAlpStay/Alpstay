@@ -1,41 +1,33 @@
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from Base_Access_Controller import Base_Access_Controller
+from datetime import datetime
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from Data_Access.Base_Access_Controller import Base_Access_Controller
+from models.Rating import Rating
 
-class Rating_Access:
-
-    def __init__(self):
+class RatingAccess:
+    def __init__(self): 
         self.db = Base_Access_Controller()
 
- #3 Als Gast möchte ich vor der Buchung Hotelbewertungen lesen, damit ich das beste Hotel auswählen kann.
+    def create_rating(self, hotel_id: int, guest_id: int, score: int, comment: str, created_at: datetime):
 
-    def get_hotel_ratings(self, hotel_id):
+        query_max_id = """
+            SELECT MAX(rating_id) FROM Rating
+        """
+        result_max = self.db.fetchone(query_max_id)[0]
+        if result_max is None:
+            result_max = 0
 
         sql = """
-        SELECT 
-        Rating.rating, Rating.comment, Guest.first_name || ' ' || Guest.last_name AS guest_name, Rating.created_at
-        FROM Rating
-        JOIN Guest ON Rating.guest_id = Guest.guest_id
-        WHERE Rating.hotel_id = ?
-        ORDER BY Rating.created_at DESC 
+            INSERT INTO Rating VALUES(?, ?, ?, ?, ?, ?)
         """
-        ratings = self.db.fetchall(sql, (hotel_id,))
 
-        if not ratings: 
-            print(f"Keine Bewertung für Hotel ID {hotel_id} gefunden.")
-            return
-        print(f"\nBewertungen für Hotel ID {hotel_id}:")
-        for rating in ratings:
-            print(f"\n{rating['rating']}/5")
-            print(f"{rating['comment']}")
-            print(f"{rating['guest_name']}")
-            print(f"{rating['created_at'].split()[0]}")
+        c = self.db.execute(sql, tuple([result_max+1, hotel_id, guest_id, score, comment, created_at.timestamp()]))
+        row_id = c.lastrowid
+        return Rating(row_id, hotel_id, guest_id, score, comment) # TODO: created_at to model
+    
 
 if __name__ == "__main__":
-    access = Rating_Access()
-    
-    #Abfrage:
-
-    print("Testabfrage für Hotel ID 1")
-    access.get_hotel_ratings(1)
+    ra = RatingAccess()
+    r = ra.create_rating(1, 1, 3, "War super", datetime.now())
+    print(r)

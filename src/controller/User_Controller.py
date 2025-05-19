@@ -8,12 +8,11 @@ import hashlib
 
 class User_Controller:
     def __init__(self):
-        self.db = Base_Access_Controller()
+        self.ua = User_Access()
 
 
     def check_admin(self, user_id, password):
-        ua = User_Access()
-        user_return = ua.get_user(user_id=user_id, password=hashlib.sha256(password.encode()).hexdigest())
+        user_return = self.ua.get_user(user_id=user_id, password=hashlib.sha256(password.encode()).hexdigest())
         if not user_return or user_return['user_role'] != "Admin":
             return False
         return True
