@@ -8,19 +8,30 @@ from controller.User_Controller import User_Controller
 
 class RoomType_Controller():
     def __init__(self):
-        pass 
+        self.roomType_Access = RoomType_Access() 
 
     def add_roomType(self, user_id:int, password:str, description:str, max_guests:int):
         user_Controller = User_Controller()
         if not user_Controller.check_admin(user_id, password):
             return False
-        roomType_Access = RoomType_Access()
-        return roomType_Access.add_roomtype()
+        return self.roomType_Access.add_roomtype(description, max_guests) 
             
 
-    def modify_roomType(self, user_id:int, password:str, description:str=None, max_guests:int=None, type_id=None):
+    def modify_roomType(self, user_id:int, password:str, type_id:int, description:str=None, max_guests:int=None):
         user_Controller = User_Controller()
         if not user_Controller.check_admin(user_id, password):
             return False
-        roomType_Access = RoomType_Access()
-        return roomType_Access.modify_roomtype()
+        return self.roomType_Access.modify_roomtype(type_id, description, max_guests)
+
+    def get_room_occupancy_data(self):
+        """
+        Prepares data for occupancy rates by room type chart.
+        Expected format for ChartView: {'room_type': [...], 'count': [...]}
+        """
+        raw_data = self.roomType_Access.access_room_occupancy_by_type()
+        if not raw_data:
+            return {'room_type': [], 'count': []}
+        
+        room_types = [row['room_type'] for row in raw_data]
+        counts = [row['booking_count'] for row in raw_data]
+        return {'room_type': room_types, 'count': counts}

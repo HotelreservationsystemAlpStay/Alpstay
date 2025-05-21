@@ -76,7 +76,23 @@ class RoomType_Access:
         cursor = self.db.execute(query, params)
         return True
 
+    def access_room_occupancy_by_type(self):
+        """
+        Fetches data for occupancy rates by room type.
+        Assumes tables: Booking, Room, Room_Type.
+        And columns: Room_Type.description, Room.type_id (foreign key to Room_Type), Booking.room_id.
+        """
+        query = """
+            SELECT RT.description AS room_type, COUNT(B.booking_id) AS booking_count
+            FROM Booking B
+            JOIN Room R ON B.room_id = R.room_id
+            JOIN Room_Type RT ON R.type_id = RT.type_id -- Changed R.room_type_id to R.type_id
+            GROUP BY RT.description
+            ORDER BY booking_count DESC;
+        """
+        return self.db.fetchall(query)
 
 
-       
+
+
 
