@@ -1,88 +1,32 @@
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from utils.Validator import Validator
-from models.Hotels import Hotel
-from models.Room import Room
-from models.Address import Address
-from models.RoomType import RoomType
-from Data_Access.Base_Access_Controller import Base_Access_Controller
+from data_Access.Base_Access_Controller import Base_Access_Controller
 from datetime import date
-from controller.User_Controller import User_Controller
-from Data_Access.RoomType_Access import RoomType_Access
-from Data_Access.Room_Access import Room_Access
-import sqlite3
-
-#do not touch
+from models.Hotels import Hotel
 
 class Hotel_Access:
     def __init__(self): 
         self.db = Base_Access_Controller()
 
-    @staticmethod
-    def _sqlite3row_to_address(row: sqlite3.Row):
-        return Address(
-            id=row["address_id"],
-            street=row["street"],
-            city=row["city"],
-            zip=row["zip_code"]
-        )
-
-    def get_hotel_in_city(self, city):
-        Validator.checkStr(city, "city")
+    def access_hotel_in_city(self, city):
         query = """
         SELECT hotel_id, name, stars
         FROM extended_hotel
         WHERE city = ?
         """
-        result = self.db.fetchall(query, (city,)) #bei fetchall ist definiert, dass alle ? mit den Parametern in der Tupel ersetzt werden, hier also city, aber achtung Reihenfolge muss stimmen
-        if not result:
-            return[]
-        else:
-            hotels = [] #leere Liste wird erstellt, die dann mit dem for loop gefüllt wird
-            for row in result:
-                data = dict(row) #dict macht den Output von SQLite lesbar, Daten von Hotel werden in data gespeichert
-                hotel = Hotel( 
-                    hotel_id=data["hotel_id"], 
-                    name=data["name"],
-                    stars=data["stars"]
-                )     #In diesem Block wird die Klasse Hotel aufgerufen, deshalb muss man hotel_id definieren, muss aber nicht verwendet werden
-                hotels.append(hotel) #Liste wird ergänzt um Hotel
-            output = []
-            for hotel in hotels:
-                output.append(f"{hotel.name} has {hotel.stars} stars and is located in {city}")
-            return hotels
-
-    def get_hotel_in_city_stars(self, city, min_stars):
-        Validator.checkStr(city, "city")
-        Validator.checkStars(min_stars)
+        return self.db.fetchall(query, (city,))
+    
+    def access_hotel_in_city_stars(self, city, min_stars):
         query = """
         SELECT hotel_id, name, stars
         FROM extended_hotel
         WHERE city = ? 
         AND stars >= ?
         """
-        result = self.db.fetchall(query, (city, min_stars))
-        if not result:
-            return[]
-        else:
-            hotels = []
-            for row in result: 
-                data = dict(row)
-                hotel = Hotel(
-                hotel_id = data["hotel_id"],
-                name = data["name"],
-                stars = data["stars"]
-                )
-                hotels.append(hotel)
-            output = []
-            for hotel in hotels:
-                output.append(f"{hotel.name} has {hotel.stars} stars and is located in {city}")
-            return output
-    def get_hotel_in_city_stars_guests(self, city, min_stars, guests):
-        Validator.checkStr(city, "city")
-        Validator.checkStars(min_stars)
-        Validator.checkPositiveInteger(guests, "Guests")
+        return self.db.fetchall(query, (city, min_stars))
+
+    def access_hotel_in_city_stars_guests(self, city, min_stars, guests):
         query = """
         SELECT hotel_id, name, stars
         FROM extended_hotel_room
@@ -90,88 +34,51 @@ class Hotel_Access:
         AND stars >= ?
         AND max_guests >= ? 
         """
-        result = self.db.fetchall(query, (city, min_stars, guests))
-        if not result:
-            return []
-        else:
-            hotels = []
-            for row in result:
-                data = dict(row)
-                hotel = Hotel(
-                hotel_id = data["hotel_id"],
-                name = data["name"],
-                stars = data["stars"]
-                )
-                hotels.append(hotel)
-            result = []
-            for hotel in hotels:
-                result.append(f"{hotel.name} has {hotel.stars} stars and is located in {city}")
-            return result
+        return self.db.fetchall(query, (city, min_stars, guests))
 
 
 #User Story 4 müsste eigentlich stars und guests nicht enthalten, habe es trotzdem mal drin gelassen 
-    def get_hotel_in_city_booking(self, city, min_stars, guests, check_in_date, check_out_date):
-        Validator.checkStr(city, "city")
-        Validator.checkStars(min_stars)
-        Validator.checkPositiveInteger(guests, "Guests")
-        Validator.checkDate(check_in_date, "Check-in date")
-        Validator.checkDate(check_out_date, "Check-out date")
-        Validator.checkDateDifference(check_in_date, check_out_date)
+    def access_hotel_in_city_booking(self, city, min_stars, guests, check_in_date, check_out_date):
         query = """
         SELECT DISTINCT hotel_id, name, stars
         FROM extended_hotel_room_booking
         WHERE city = ? 
         AND stars >= ?
         AND max_guests >= ?
-        AND room_id NOT IN (SELECT room_id
+        AND room_id NOT IN (
+        SELECT room_id
         FROM extended_hotel_room_booking
         WHERE (check_in_date BETWEEN ? AND ?)
         OR (check_out_date BETWEEN ? AND ?)
-        OR (check_in_date <= ? AND check_out_date >= ?))
+        OR (check_in_date <= ? AND check_out_date >= ?)
+        )
         """
-        result = self.db.fetchall(query, (city, min_stars, guests, check_in_date, check_out_date, check_in_date, check_out_date, check_in_date, check_out_date))
-        if not result:
-            return []
-        else:
-            hotels = []
-            for row in result: 
-                data = dict(row)
-                hotel = Hotel(
-                hotel_id = data["hotel_id"],
-                name = data["name"],
-                stars = data["stars"]    
-                )
-                hotels.append(hotel)
-            output = []
-            for hotel in hotels: 
-                output.append(f"{hotel.name} has {hotel.stars} stars and is located in {city}")
-            return output
+        params = (
+            city, min_stars, guests,
+            check_in_date, check_out_date,
+            check_in_date, check_out_date,
+            check_in_date, check_out_date
+        )
+        return self.db.fetchall(query, params)
 
-    def get_selected_filters(self, city, min_stars, guests, check_in_date, check_out_date): #All als Default Wert, damit nachher einfach die nicht gewünschten Werte weggelassen werden können bzw. nichts eingegeben werden muss
+    def access_selected_filters(self, city, min_stars, guests, check_in_date, check_out_date):
         query = """
         SELECT DISTINCT hotel_id, name, stars, city, street
         FROM extended_hotel_room_booking
         WHERE 1=1
-        """ #1=1 ist dafür, dass später alle modularen Abfragen mit AND geschrieben werden können, 1=1 ist immer true, also wenn nichts gefiltert werden einfach alle Hotels angezeigt
+        """
         parameters = []
+
         if city != "all":
             query += " AND city = ?"
             parameters.append(city)
-            Validator.checkStr(city, "city")
         if min_stars != "all":
             query += " AND stars >= ? "
             parameters.append(min_stars)
-            Validator.checkStars(min_stars)
         if guests != "all":
             query += " AND max_guests >= ?"
             parameters.append(guests)
-            Validator.checkPositiveInteger(guests, "Guests")
-        if (check_in_date != "all" and check_out_date == "all") or (check_in_date == "all" and check_out_date != "all"):
-            raise ValueError("If you provide a check-in-date, you must provide a check-out-date and the other way around")  
-        elif check_in_date != "all" and check_out_date != "all":
-            Validator.checkDate(check_in_date, "Check-in date")
-            Validator.checkDate(check_out_date, "Check-out date")
-            Validator.checkDateDifference(check_in_date, check_out_date)
+        if check_in_date != "all" and check_out_date != "all":
             query += """
                     AND room_id NOT IN (SELECT room_id
                     FROM extended_hotel_room_booking
@@ -185,89 +92,46 @@ class Hotel_Access:
             parameters.append(check_out_date)
             parameters.append(check_in_date)
             parameters.append(check_out_date)
-        result = self.db.fetchall(query,parameters)
-        if not result:
-            return []
-        else:
-            hotels = []
-            for row in result:
-                data = dict(row)
-                hotel = Hotel(
-                hotel_id = data["hotel_id"],
-                name = data["name"],
-                stars = data["stars"]    
-                )
-                hotels.append((hotel, data["city"], data["street"]))
 
-            output = []
+        return self.db.fetchall(query, parameters)
 
-            for hotel, city, street in hotels:
-                output.append(f"{hotel.name} has {hotel.stars} stars, is located in {city} at: {street}")
-            return output
-    def get_hotel_details(self, hotel_name):
+    def access_hotel_details(self, hotel_name):
         query = """
         SELECT DISTINCT hotel_id, name, stars, street, city 
         FROM extended_hotel_room
         WHERE (name) = (?)       
         """
-        result = self.db.fetchall(query, (hotel_name,))
-        if not result:
-            return []
-        else:
-            hotels = []
-            for row in result: 
-                data = dict(row)
-                hotel = Hotel(hotel_id = data["hotel_id"], name = data["name"], stars = data["stars"])
-                street = data["street"]
-                city = data["city"]
-                hotels.append((hotel, data["street"], data["city"]))
-            output = []
-            for hotel, street, city in hotels: 
-                output.append(f"The hotel {hotel.name} you mentioned has {hotel.stars} stars and is located in {city} at {street}")
-            return output
+        return self.db.fetchall(query, (hotel_name,))
     
-    def add_hotel(self, user_id, password, name, stars, address_id):
-        uh = User_Controller()
-        if uh.check_admin(user_id, password) != True:
-            raise ValueError("You need admin rights to perform this action")
+    def access_add_hotel(self, name, stars, address_id):
+        query_max_id = """
+        SELECT MAX(hotel_id) FROM Hotel
+        """
+        result_max = self.db.fetchone(query_max_id)[0]
+        if result_max is None:
+            result_max = 0
+
+        query_add_hotel = """
+        INSERT INTO Hotel
+        VALUES (?, ?, ?, ?)
+        """
+        self.db.execute(query_add_hotel, (result_max + 1, name, stars, address_id))
+        return True
+
+
+    def access_delete_hotel(self, hotel_id):
+        query = """
+        DELETE
+        FROM Hotel 
+        WHERE hotel_id = ?
+        """
+        rows_deleted = self.db.execute(query, (hotel_id,)).rowcount
+        if rows_deleted < 1:
+            return False
         else:
-            query_max_id = """
-            SELECT MAX(hotel_id) FROM Hotel
-            """
-            result_max = self.db.fetchone(query_max_id)[0]
-            if result_max is None:
-                result_max = 0
-            query_add_hotel = """
-            INSERT INTO Hotel
-            VALUES (?, ?, ?, ?)
-            """
-            self.db.execute(query_add_hotel,(result_max + 1, name, stars, address_id))
             return True
 
-    def delete_hotel(self, user_id, password, hotel_id):
-        uh = User_Controller()
-        if uh.check_admin(user_id, password) != True:
-            raise ValueError("You need admin rights to perform this action")
-        else:
-            query = """
-            DELETE
-            FROM Hotel 
-            WHERE hotel_id = ?
-            """
-            rows_deleted = self.db.execute(query, (hotel_id,)).rowcount
-            if rows_deleted <1:
-                return False
-            else:
-                return True
-    def update_hotel(self, user_id, password, hotel_id, name, stars, address_id):
-        uh = User_Controller()
-        if uh.check_admin(user_id, password) != True:
-            raise ValueError("You need admin rights to perform this action")
-        if not hotel_id:
-            raise ValueError("You must provide the hotel ID of the hotel you would like to change")
-        if name is None and stars is None and address_id is None:
-            raise ValueError("You must change at least one information of the hotel")
-
+    def access_update_hotel(self, hotel_id, name, stars, address_id):
         query = "UPDATE Hotel SET "
         fields = []
         parameters = []
@@ -292,12 +156,12 @@ class Hotel_Access:
         else:
             return True
 
-    def get_available_rooms(self, dateStart:date=None, dateEnd:date=None, hotel:Hotel=None, roomType:RoomType=None) -> list | list[Room]:
-        roomAccess = Room_Access()
-        if not hotel: return []
-        return roomAccess.get_rooms(dateStart, dateEnd, [hotel.hotel_id], roomType)
+    #????  - Wer macht das und wo wird es gebraucht und wieso ist das in Hotel_access
+    #def get_available_rooms(self, dateStart:date=None, dateEnd:date=None, hotel:Hotel=None, roomType:RoomType=None) -> list | list[Room]:
+    #roomAccess = Room_Access()
+    #if not hotel: return []
+    #return roomAccess.get_rooms(dateStart, dateEnd, [hotel.hotel_id], roomType)
 """
-
 # Nutzung User Story 1.1
 hotels = Hotel_Access()
 hotels.get_hotel_in_city("Zürich")
@@ -332,6 +196,3 @@ story32.delete_hotel(6, "admin", 7)
 story33 = Hotel_Access()
 story33.update_hotel(6, "admin", 7, "Hotel Lustighof")
 """
-
-if __name__ == "__main":
-    pass
