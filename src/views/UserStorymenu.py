@@ -44,8 +44,15 @@ class UserStoryMenu(Menu):
         pass
         
     def min_1_1(self):
-        pass
-    
+        city = input("Please enter the city you want to search for: ")
+        hotels = self.app.hotel_Controller.get_hotel_in_city(city)
+        print("---------------------")
+        if hotels:
+            for hotel in hotels:
+                print(hotel)
+        else:
+            print("No hotels found in the specified city.")
+        print("---------------------")
     def min_1_2(self):
         pass
     
