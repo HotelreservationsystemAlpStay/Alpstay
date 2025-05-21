@@ -5,6 +5,7 @@ from utils.Validator import Validator
 from data_Access.Hotel_Access import Hotel_Access
 from models.Hotels import Hotel
 from controller.User_Controller import User_Controller
+from utils.Formatting import Format
 
 class Hotel_Controller:
     def __init__(self):
@@ -66,6 +67,8 @@ class Hotel_Controller:
         return output
     
     def get_hotel_in_city_booking(self, city, min_stars, guests, check_in_date, check_out_date):
+        check_in_date = Format().parse(check_in_date)
+        check_out_date = Format().parse(check_out_date)
         Validator.checkStr(city, "city")
         Validator.checkStars(min_stars)
         Validator.checkPositiveInteger(guests, "Guests")
@@ -91,6 +94,8 @@ class Hotel_Controller:
         return output
     
     def get_selected_filters(self, city, min_stars, guests, check_in_date, check_out_date):
+        check_in_date = Format().parse(check_in_date)
+        check_out_date = Format().parse(check_out_date)
         if city != "all":
             Validator.checkStr(city, "city")
         if min_stars != "all":

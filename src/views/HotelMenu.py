@@ -4,7 +4,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from views.Menu import Menu
 from controller.Access_Controller import Access_Controller
 from datetime import date
-from views.Formatting import Format
+from utils.Formatting import Format
 from views.Room_Menu import Room_Menu
 
 class HotelMenu(Menu):
