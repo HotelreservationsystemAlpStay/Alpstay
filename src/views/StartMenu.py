@@ -3,7 +3,7 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from views.Menu import Menu
 from mythic.mythic_code import Mythic
-from views.Chartview import ChartView
+from views.Chart_View import ChartView
 from views.UserStorymenu import UserStoryMenu
 
 class StartMenu(Menu):
