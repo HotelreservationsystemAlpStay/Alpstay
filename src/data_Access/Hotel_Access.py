@@ -4,16 +4,27 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.Validator import Validator
 from models.Hotels import Hotel
 from models.Room import Room
+from models.Address import Address
 from models.RoomType import RoomType
-from data_Access.Base_Access_Controller import Base_Access_Controller
+from Data_Access.Base_Access_Controller import Base_Access_Controller
 from datetime import date
 from controller.User_Controller import User_Controller
-from data_Access.RoomType_Access import RoomType_Access
-from data_Access.Room_Access import Room_Access
+from Data_Access.RoomType_Access import RoomType_Access
+from Data_Access.Room_Access import Room_Access
+import sqlite3
 
 class Hotel_Access:
     def __init__(self): 
         self.db = Base_Access_Controller()
+
+    @staticmethod
+    def _sqlite3row_to_address(row: sqlite3.Row):
+        return Address(
+            id=row["address_id"],
+            street=row["street"],
+            city=row["city"],
+            zip=row["zip_code"]
+        )
 
     def get_hotel_in_city(self, city):
         Validator.checkStr(city, "city")
@@ -319,3 +330,6 @@ story32.delete_hotel(6, "admin", 7)
 story33 = Hotel_Access()
 story33.update_hotel(6, "admin", 7, "Hotel Lustighof")
 """
+
+if __name__ == "__main":
+    pass

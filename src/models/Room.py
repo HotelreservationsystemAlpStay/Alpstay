@@ -6,7 +6,7 @@ from models.Facility import Facility
 from models.RoomType import RoomType
 
 class Room:
-    def __init__(self, room_id: int, room_no: str, price_per_night: float, facilities:list[Facility] = [], roomType = None):
+    def __init__(self, room_id: int, room_no: str, price_per_night: float, facilities:list[Facility] = [], roomType:RoomType = None, hotelid:int=None):
         self.validator = Validator()
         self.validator.checkID(room_id)
         self.validator.checkStr(room_no, "room_no")
@@ -16,6 +16,7 @@ class Room:
         self.price_per_night = price_per_night
         self.facilities = facilities
         self.roomType = roomType
+        self.hotelid = hotelid
     """
     @property
     def room_id(self):

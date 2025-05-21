@@ -1,5 +1,8 @@
+from models.Room import Room
+from models.Address import Address
+
 class Hotel:
-    def __init__(self, hotel_id: int, name: str, stars: int):
+    def __init__(self, hotel_id: int, name: str, stars: int, rooms:list[Room]=None, address:Address=None):
         self._validate_hotel_id(hotel_id)
         self._validate_name(name)
         self._validate_stars(stars)
@@ -7,6 +10,8 @@ class Hotel:
         self._hotel_id = hotel_id
         self._name = name
         self._stars = stars
+        self.rooms = rooms
+        self.address = address
 
     def _validate_hotel_id(self, hotel_id):
         if not isinstance(hotel_id, int):
