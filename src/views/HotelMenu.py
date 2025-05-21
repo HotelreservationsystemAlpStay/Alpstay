@@ -23,14 +23,13 @@ class HotelMenu(Menu):
         self.add_item("Go back", self.back)
 
     def search_city(self):
-        city = input("Please name the city, in which you are looking for a hotel:")
-        hotels = self.app.hotel_Controller.get_hotels(city=city)
+        city = input("Please name the city, in which you are looking for a hotel: ")
+        hotels = self.app.hotel_Controller.get_hotel_in_city(city)
         if not hotels:
             print("Unfortunately no hotels match your criteria")
         else:
             for hotel in hotels:
-                print(hotel)
-        return Room_Menu(self.app, hotels)
+                print(f"{hotel.name} has {hotel.stars} stars and is located in {city}")
         return None
 
     def search_city_stars(self):
@@ -166,3 +165,4 @@ class HotelMenu(Menu):
 
     def back(self):
         return None
+    

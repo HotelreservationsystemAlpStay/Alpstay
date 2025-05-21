@@ -15,7 +15,7 @@ class ConsoleView:
 
     def run(self):
         while True:
-            print("\nAlpsty Hotelreservationsystem Console")
+            print("\nAlpstay Hotelreservationsystem Console")
             print("1. Hello World")
             print("2. Show all guests")
             print("3. Show all rooms")
