@@ -1,4 +1,6 @@
 from views.Menu import Menu
+from views.Chart_View import ChartView 
+import tkinter as tk
 
 class UserStoryMenu(Menu):
     def __init__(self, app):
@@ -185,10 +187,23 @@ class UserStoryMenu(Menu):
         pass
     
     def dv_1(self):
-        pass
+        print("Fetching room occupancy data...")
+
+        main_tk_root = tk.Tk()
+        main_tk_root.withdraw()
+        occupancy_data = self.app.roomType_Controller.get_room_occupancy_data()
+        if occupancy_data and occupancy_data.get('room_type') and occupancy_data.get('count'):
+            print("Displaying occupancy chart in a new window")
+            chart = ChartView(self.app, occupancy_data, "occupancy")
+            return chart.show_and_wait() 
+        else:
+            print("No occupancy data available to display.")
+            if occupancy_data:
+                print(f"Data received: {occupancy_data}")
+            return self
     
     def dv_2(self):
-        pass
+       pass
     
     def opt_1(self):
         pass
@@ -207,4 +222,3 @@ class UserStoryMenu(Menu):
     
     def opt_4(self):
         pass
-    

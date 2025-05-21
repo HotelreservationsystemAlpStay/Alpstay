@@ -1,25 +1,22 @@
 import tkinter as tk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
-import sys 
 
 class ChartView:
-    def __init__(self, data, chart_type):
+    def __init__(self, app, data, chart_type):
         """
-        Initializes the ChartView, creates a new Tkinter Toplevel window,
-        and displays a chart based on the provided data and chart type.
+        Initializes the ChartView.
 
         Args:
-            data (dict): The data to be plotted. The structure depends on the chart_type.
+            app: The main application instance.
+            data (dict): The data to be plotted.
             chart_type (str): The type of chart to display.
-                              (e.g., "occupancy", "guest_country", "guest_age_histogram", "guest_booking_frequency").
         """
+        self.app = app
         self.data = data
         self.root = tk.Toplevel()
         self.root.title("Chart")
         
-        # Create Figure and Axes directly
         self.figure = Figure(figsize=(6, 5), dpi=100)
         chart_axes = self.figure.add_subplot(111)
 
@@ -33,30 +30,23 @@ class ChartView:
             self.draw_guest_booking_frequency_pie_chart(chart_axes)
             
         canvas = FigureCanvasTkAgg(self.figure, master=self.root)
-        canvas.draw() # Draw the canvas
+        canvas.draw()
         canvas.get_tk_widget().pack(fill="both", expand=True)
         
-        tk.Button(self.root, text="Close", command=self.close_window).pack()
-        # Handle the window's "X" button
-        self.root.protocol("WM_DELETE_WINDOW", self.close_window) 
-        self.root.mainloop()
+        tk.Button(self.root, text="Close", command=self._handle_close).pack()
+        self.root.protocol("WM_DELETE_WINDOW", self._handle_close)
 
-    def close_window(self):
-        """
-        Destroys the Tkinter Toplevel window, closes the Matplotlib figure,
-        and then exits the entire program.
-        """
-        if self.root:
-            try:
-                self.root.destroy()
-            except tk.TclError:
-                pass
+    def _handle_close(self):
+        """Handles closing the window and allows wait_window to unblock."""
+        self.root.destroy()
 
-        # close the Matplotlib figure to release its resources.
-        if hasattr(self, 'figure') and self.figure:
-            plt.close(self.figure)
-        
-        sys.exit()
+    def show_and_wait(self):
+        """Displays the chart window and waits until it's closed.
+           Returns the StartMenu instance to be displayed next."""
+        self.root.grab_set()
+        self.root.wait_window()
+        from views.StartMenu import StartMenu
+        return StartMenu(self.app)
 
     def draw_occupancy_chart(self, chart_axes):
         """
@@ -65,10 +55,13 @@ class ChartView:
         Args:
             chart_axes (matplotlib.axes.Axes): The axes object to draw the chart on.
         """
-        chart_axes.bar(self.data["room_type"], self.data["count"])
-        chart_axes.set_title("Occupancy Rates by Room Type")
-        chart_axes.set_xlabel("Room Type")
-        chart_axes.set_ylabel("Number of Bookings")
+        if self.data and self.data.get('room_type') and self.data.get('count'):
+            chart_axes.bar(self.data['room_type'], self.data['count'])
+            chart_axes.set_xlabel("Room Type")
+            chart_axes.set_ylabel("Booking Count")
+            chart_axes.set_title("Room Occupancy by Type")
+        else:
+            chart_axes.text(0.5, 0.5, "No occupancy data available", ha='center', va='center')
         self.figure.tight_layout()
 
     def draw_guest_country_chart(self, chart_axes):
@@ -78,15 +71,15 @@ class ChartView:
         Args:
             chart_axes (matplotlib.axes.Axes): The axes object to draw the chart on.
         """
-        chart_axes.bar(self.data["countries"], self.data["counts"])
-        chart_axes.set_title("Guest Distribution by Country")
-        chart_axes.set_xlabel("Country")
-        chart_axes.set_ylabel("Number of Guests")
-        # Apply rotation and alignment to x-axis tick labels
-        for label in chart_axes.get_xticklabels():
-            label.set_rotation(45)
-            label.set_ha('right')
-        self.figure.tight_layout() 
+        if self.data and self.data.get('countries') and self.data.get('counts'):
+            chart_axes.bar(self.data['countries'], self.data['counts'])
+            chart_axes.set_xlabel("Country")
+            chart_axes.set_ylabel("Number of Guests")
+            chart_axes.set_title("Guest Distribution by Country")
+            chart_axes.tick_params(axis='x', rotation=45)
+        else:
+            chart_axes.text(0.5, 0.5, "No country data available", ha='center', va='center')
+        self.figure.tight_layout()
 
     def draw_guest_age_histogram(self, chart_axes):
         """
@@ -95,11 +88,14 @@ class ChartView:
         Args:
             chart_axes (matplotlib.axes.Axes): The axes object to draw the chart on.
         """
-        chart_axes.hist(self.data["ages"], bins=self.data.get("bins", 10), edgecolor='black')
-        chart_axes.set_title("Guest Age Distribution")
-        chart_axes.set_xlabel("Age Range")
-        chart_axes.set_ylabel("Number of Guests")
-        self.figure.tight_layout() 
+        if self.data and self.data.get('ages'):
+            chart_axes.hist(self.data['ages'], bins=self.data.get('bins', 10), edgecolor='black')
+            chart_axes.set_xlabel("Age")
+            chart_axes.set_ylabel("Number of Guests")
+            chart_axes.set_title("Guest Age Distribution")
+        else:
+            chart_axes.text(0.5, 0.5, "No age data available", ha='center', va='center')
+        self.figure.tight_layout()
 
     def draw_guest_booking_frequency_pie_chart(self, chart_axes):
         """
@@ -108,28 +104,27 @@ class ChartView:
         Args:
             chart_axes (matplotlib.axes.Axes): The axes object to draw the chart on.
         """
-        chart_axes.pie(self.data["sizes"], labels=self.data["labels"], autopct='%1.1f%%', startangle=90)
-        chart_axes.set_title("Guest Booking Frequency (New vs. Returning)")
-        chart_axes.axis('equal')
-        self.figure.tight_layout() 
+        if self.data and self.data.get('labels') and self.data.get('sizes') and any(self.data['sizes']):
+            chart_axes.pie(self.data['sizes'], labels=self.data['labels'], autopct='%1.1f%%', startangle=90)
+            chart_axes.axis('equal')
+            chart_axes.set_title("Guest Booking Frequency (New vs. Returning)")
+        else:
+            chart_axes.text(0.5, 0.5, "No booking frequency data available", ha='center', va='center')
+        self.figure.tight_layout()
 
 if __name__ == "__main__":
-    # parent for all Toplevel chart windows.
+    class MockApp:
+        def __init__(self):
+            self.roomType_Controller = None
+            from views.StartMenu import StartMenu
+            self.StartMenu = StartMenu
+
     main_tk_root = tk.Tk()
     main_tk_root.withdraw()
 
-    # Example data for occupancy chart
+    mock_app_instance = MockApp()
+
     occupancy_data = {'room_type': ['Single', 'Double', 'Suite'], 'count': [10, 25, 5]}
-    ChartView(occupancy_data, "occupancy")
+    ChartView(mock_app_instance, occupancy_data, "occupancy")
 
-    # Example data for guest country chart
-    #country_data = {'countries': ['Switzerland', 'Germany', 'France'], 'counts': [50, 30, 20]}
-    #ChartView(country_data, "guest_country")
-
-    # Example data for guest age histogram
-    #age_data = {'ages': [22, 34, 45, 23, 33, 35, 28, 50, 61, 39, 42], 'bins': 5}
-    #ChartView(age_data, "guest_age_histogram")
-    
-    # Example data for guest booking frequency
-    #booking_freq_data = {'labels': ['New Guests', 'Returning Guests'], 'sizes': [70, 30]}
-    #ChartView(booking_freq_data, "guest_booking_frequency")
+    main_tk_root.mainloop()
