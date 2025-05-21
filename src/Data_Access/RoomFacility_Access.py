@@ -3,11 +3,11 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from models.Facility import Facility
 from models.Room import Room
-from Data_Access.Base_Access_Controller import Base_Access_Controller
-from Data_Access.Facility_Access import Facility_Access
+from data_Access.Base_Access_Controller import Base_Access_Controller
+from data_Access.Facility_Access import Facility_Access
 import sqlite3
 
-class RoomFacility_Acces:
+class RoomFacility_Access:
     def __init__(self):
         self.db = Base_Access_Controller()
 
