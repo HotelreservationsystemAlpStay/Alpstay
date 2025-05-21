@@ -4,46 +4,69 @@ class Booking:
     def __init__(self, booking_id: int, check_in_date: date, check_out_date: date, is_cancelled: bool, 
                  total_amount: float, guest_id: int, room_id: int):
         
-        self._validate_booking_id(booking_id)
-        self._validate_dates(check_in_date, check_out_date)
-        self._validate_is_cancelled(is_cancelled)
-        self._validate_guest_id(guest_id)
-        self._validate_room_id(room_id)
+        self._booking_id = booking_id
+        self._check_in_date = check_in_date
+        self._check_out_date = check_out_date 
+        self._is_cancelled = is_cancelled
+        self._total_amount = total_amount 
+        self._guest_id = guest_id
+        self._room_id = room_id
+
+    @property
+    def booking_id(self) -> int:
+        return self._booking_id
+
+    @booking_id.setter
+    def booking_id(self, booking_id: int) -> None:
+        self._booking_id = booking_id
+
+    @property
+    def check_in_date(self) -> date:
+        return self._check_in_date
+
+    @check_in_date.setter
+    def check_in_date(self, check_in_date: date) -> None:
+        self._check_in_date = check_in_date
+
+    @property
+    def check_out_date(self) -> date:
+        return self._check_out_date
+
+    @check_out_date.setter
+    def check_out_date(self, check_out_date: date) -> None:
+        self._check_out_date = check_out_date
+
+    @property
+    def is_cancelled(self) -> bool:
+        return self._is_cancelled
+
+    @is_cancelled.setter
+    def is_cancelled(self, is_cancelled: bool) -> None:
+        self._is_cancelled = is_cancelled
         
-        self.booking_id = booking_id
-        self.check_in_date = check_in_date
-        self._heck_out_date = check_out_date
-        self.is_cancelled = is_cancelled
-        self.guest_id = guest_id  # Foreign key to Guest
-        self.room_id = room_id    # Foreign key to Room
+    @property
+    def total_amount(self) -> float:
+        return self._total_amount
 
-    def _validate_booking_id(self, booking_id: int) -> None:
-        if not isinstance(booking_id, int):
-            raise TypeError("Booking ID must be an integer.")
-        if booking_id <= 0:
-            raise ValueError("Booking ID must be a positive integer.")
+    @total_amount.setter
+    def total_amount(self, total_amount: float) -> None:
+        self._total_amount = total_amount
 
-    def _validate_dates(self, check_in_date: date, check_out_date: date) -> None:
-        if not isinstance(check_in_date, date) or not isinstance(check_out_date, date):
-            raise TypeError("Check-in and check-out dates must be date objects.")
-        if check_in_date >= check_out_date:
-            raise ValueError("Check-in date must be before check-out date.")
+    @property
+    def guest_id(self) -> int:
+        return self._guest_id
 
-    def _validate_is_cancelled(self, is_cancelled: bool) -> None:
-        if not isinstance(is_cancelled, bool):
-            raise TypeError("is_cancelled must be a boolean.")
+    @guest_id.setter
+    def guest_id(self, guest_id: int) -> None:
+        self._guest_id = guest_id
 
-    def _validate_guest_id(self, guest_id: int) -> None:
-        if not isinstance(guest_id, int):
-            raise TypeError("Guest ID must be an integer.")
-        if guest_id <= 0:
-            raise ValueError("Guest ID must be a positive integer.")
+    @property
+    def room_id(self) -> int:
+        return self._room_id
 
-    def _validate_room_id(self, room_id: int) -> None:
-        if not isinstance(room_id, int):
-            raise TypeError("Room ID must be an integer.")
-        if room_id <= 0:
-            raise ValueError("Room ID must be a positive integer.")
+    @room_id.setter
+    def room_id(self, room_id: int) -> None:
+        self._room_id = room_id
 
     def calculate_total_days(self) -> int:
         """
@@ -52,7 +75,9 @@ class Booking:
         Returns:
             int: The number of days between check-in and check-out.
         """
-        return (self._check_out_date - self._check_in_date).days
+        if self._check_out_date and self._check_in_date:
+            return (self._check_out_date - self._check_in_date).days
+        return 0
 
     def cancel_booking(self):
         """
@@ -60,7 +85,7 @@ class Booking:
         
         This sets the `is_cancelled` attribute to True.
         """
-        self._is_cancelled = True
+        self._is_cancelled = True 
     
     def __str__(self):
         """
@@ -71,14 +96,15 @@ class Booking:
         """
         return (f"Booking(booking_id={self._booking_id}, check_in_date={self._check_in_date}, "
                 f"check_out_date={self._check_out_date}, is_cancelled={self._is_cancelled}, "
-                f"guest_id={self._guest_id}, room_id={self._room_id}, invoice={self._invoice})")
+                f"total_amount={self._total_amount}, guest_id={self._guest_id}, room_id={self._room_id})")
     
     def to_dict(self) -> dict:
         return {
-            'booking_id': self.booking_id,
-            'check_in_date': self.check_in_date.isoformat() if self.check_in_date else None,
-            'check_out_date': self._heck_out_date.isoformat() if self._heck_out_date else None,
-            'is_cancelled': self.is_cancelled,
-            'guest_id': self.guest_id,
-            'room_id': self.room_id
+            'booking_id': self._booking_id,
+            'check_in_date': self._check_in_date.isoformat() if self._check_in_date else None,
+            'check_out_date': self._check_out_date.isoformat() if self._check_out_date else None,
+            'is_cancelled': self._is_cancelled,
+            'total_amount': self._total_amount,
+            'guest_id': self._guest_id,
+            'room_id': self._room_id
         }

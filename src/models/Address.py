@@ -1,55 +1,51 @@
 class Address:
     def __init__(self, id: int, street: str, city: str, zip: str):
-        self.id = id
-        self.street = street
-        self.city = city
-        self.zip = zip
+        self._id = id
+        self._street = street
+        self._city = city
+        self._zip = zip
 
     @property
-    def getId(self) -> int:
-        return self.id
+    def id(self) -> int:
+        return self._id
 
-    @getId.setter
-    def setId(self, id: int) -> None:
-        self._validateId(id)
-        self.id = id
-
-    @property
-    def getStreet(self) -> str:
-        return self.street
-
-    @getStreet.setter
-    def setStreet(self, street: str) -> None:
-        self._validateStreet(street)
-        self.street = street
+    @id.setter
+    def id(self, id: int) -> None:
+        self._id = id
 
     @property
-    def getCity(self) -> str:
-        return self.city
+    def street(self) -> str:
+        return self._street
 
-    @getCity.setter
-    def setCity(self, city: str) -> None:
-        self._validateCity(city)
-        self.city = city
+    @street.setter
+    def street(self, street: str) -> None:
+        self._street = street
 
     @property
-    def getZip(self) -> str:
-        return self.zip
+    def city(self) -> str:
+        return self._city
 
-    @getZip.setter
-    def setZip(self, zip: str) -> None:
-        self._validateZip(zip)
-        self.zip = zip
+    @city.setter
+    def city(self, city: str) -> None:
+        self._city = city
+
+    @property
+    def zip(self) -> str:
+        return self._zip
+
+    @zip.setter
+    def zip(self, zip_code: str) -> None: # Renamed parameter to avoid conflict with module
+        self._zip = zip_code
 
     def __str__(self) -> str:
         return "Address(id={0},street={1},zip={2},city={3})".format(
-            self.id, self.street, self.zip, self.city
+            self._id, self._street, self._zip, self._city
         )
 
     def to_dict(self):
         return {
-            "id": self.id,
-            "street": self.street,
-            "zip": self.zip,
-            "city": self.city,
+            "id": self._id,
+            "street": self._street,
+            "zip": self._zip,
+            "city": self._city,
         }

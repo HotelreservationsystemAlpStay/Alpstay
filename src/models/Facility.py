@@ -1,41 +1,29 @@
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from utils.Validator import Validator
-
 class Facility:
     def __init__(self, id: int, name: str) -> None:
-        self.validator = Validator()
-        self.validator.checkID(id)
-        self.validator.checkStr(name, "name")
-        self.id = id
-        self.name = name
+        self._id = id
+        self._name = name
 
-    """
     @property
     def id(self) -> int:
-        return self.id
+        return self._id
 
     @id.setter
-    def setId(self, id: int) -> None:
-        self.validator.checkID(id)
-        self.id = id
+    def id(self, id: int) -> None:
+        self._id = id
 
     @property
     def name(self) -> str:
-        return self.name
+        return self._name
 
     @name.setter
-    def setName(self, name: str) -> None:
-        self.validator.checkStr(name, "name")
-        self.name = name
-    """
+    def name(self, name: str) -> None:
+        self._name = name
 
     def __str__(self):
-        return "Facility(id={0}, name={1})".format(self.id, self.name)
+        return "Facility(id={0}, name={1})".format(self._id, self._name)
     
     def to_dict(self):
         return {
-            'id': self.id,
-            'name': self.name
+            'id': self._id,
+            'name': self._name
         }
