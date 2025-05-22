@@ -126,11 +126,9 @@ class Hotel_Controller:
             hotels.append((hotel, street, city))
         return hotels
     
-    def add_hotel(self, user_id, password, name, stars, address_id):
-        uh = User_Controller()
-        if uh.check_admin(user_id, password) != True:
-            raise ValueError("You need admin rights to perform this action")
-        return self.hotel_access.access_add_hotel(name, stars, address_id)
+    def add_hotel(self, name, stars, address_id):
+        status = self.hotel_access.access_add_hotel(name, stars, address_id)
+        return status
 
     def delete_hotel(self, user_id, password, hotel_id):
         uh = User_Controller()

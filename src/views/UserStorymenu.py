@@ -1,6 +1,7 @@
 from views.Menu import Menu
 from views.Chart_View import ChartView 
 import tkinter as tk
+from controller.User_Controller import User_Controller
 
 class UserStoryMenu(Menu):
     def __init__(self, app):
@@ -142,8 +143,24 @@ class UserStoryMenu(Menu):
         pass
     
     def min_3_1(self):
-        pass
-    
+        user_id = int(input("This action requires admin access, pleasse name your Id: "))
+        password = input("Please name your password: ")
+        ca = User_Controller()
+        rights = ca.check_admin(user_id, password)
+        if not rights:
+            print("Youre not an admin or your combination is wrong")
+        elif rights:
+            print("Admin access granted")
+            name = input("Please name the name of the new hotel: ")
+            stars = input("Please type how many stars the hotel has: ")
+            address_id = input("Please name the Address-ID of the hotel: ")
+            status = self.app.hotel_Controller.add_hotel(name, stars, address_id)
+            if status:
+                print("Hotel was added successfuly")
+            else:
+                print("Something went wrong, please try again later")
+
+
     def min_3_2(self):
         pass
     
