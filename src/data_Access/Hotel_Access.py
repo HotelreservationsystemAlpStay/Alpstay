@@ -42,16 +42,19 @@ class Hotel_Access:
         query = """
         SELECT DISTINCT hotel_id, name, stars
         FROM extended_hotel_room_booking
-        WHERE city = ? 
+        WHERE room_id IS NOT NULL
+        AND city = ? 
         AND stars >= ?
         AND max_guests >= ?
         AND room_id NOT IN (
         SELECT room_id
         FROM extended_hotel_room_booking
-        WHERE (check_in_date BETWEEN ? AND ?)
+        WHERE is_cancelled = 0
+        AND(
+        (check_in_date BETWEEN ? AND ?)
         OR (check_out_date BETWEEN ? AND ?)
         OR (check_in_date <= ? AND check_out_date >= ?)
-        )
+        ))
         """
         params = (
             city, min_stars, guests,

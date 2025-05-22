@@ -112,7 +112,17 @@ class UserStoryMenu(Menu):
         
 
     def min_1_6(self):
-        pass
+        hotel_name = input("Please enter the name of the hotel of which you would like to know the details")
+        details = self.app.hotel_Controller.get_hotel_details(hotel_name)
+        print("---------------------")
+        if not details:
+            print("Unfortunately no hotel name matches your description")
+        else:
+            for hotel, street, city in details:
+                print(f"Hotel {hotel.name} has {hotel.stars} stars and is located in {city} at {street}")
+        print("---------------------")
+
+
     
     def min_2(self):
         pass
