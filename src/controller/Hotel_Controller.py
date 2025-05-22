@@ -23,7 +23,6 @@ class Hotel_Controller:
                 stars=data["stars"]
             )
             hotels.append(hotel)
-
         return hotels
     
     def get_hotel_in_city_stars(self, city, min_stars):
@@ -39,10 +38,7 @@ class Hotel_Controller:
                 stars=data["stars"]
             )
             hotels.append(hotel)
-        output = []
-        for hotel in hotels:
-            output.append(f"{hotel.name} in {city} has {hotel.stars} stars")
-        return output
+        return hotels
     
     def get_hotel_in_city_stars_guests(self, city, min_stars, guests):
         Validator.checkStr(city, "city")
@@ -58,10 +54,7 @@ class Hotel_Controller:
                 stars=data["stars"]
             )
             hotels.append(hotel)
-        output = []
-        for hotel in hotels:
-            output.append(f"{hotel.name} in {city} has {hotel.stars} stars")
-        return output
+        return hotels
     
     def get_hotel_in_city_booking(self, city, min_stars, guests, check_in_date, check_out_date):
         check_in_date = Format().parse(check_in_date)
@@ -85,23 +78,22 @@ class Hotel_Controller:
                 stars=data["stars"]
             )
             hotels.append(hotel)
-        output = []
-        for hotel in hotels:
-            output.append(f"{hotel.name} in {city} has {hotel.stars} stars")
-        return output
+        return hotels
     
     def get_selected_filters(self, city, min_stars, guests, check_in_date, check_out_date):
-        check_in_date = Format().parse(check_in_date)
-        check_out_date = Format().parse(check_out_date)
-        if city != "all":
+        if city:
             Validator.checkStr(city, "city")
-        if min_stars != "all":
+        if min_stars:
+            min_stars = int(min_stars)
             Validator.checkStars(min_stars)
-        if guests != "all":
+        if guests:
+            guests = int(guests)
             Validator.checkPositiveInteger(guests, "Guests")
-        if (check_in_date != "all" and check_out_date == "all") or (check_in_date == "all" and check_out_date != "all"):
+        if (not check_in_date and check_out_date) or (check_in_date and not check_out_date):
             raise ValueError("If you provide a check-in-date, you must provide a check-out-date and the other way around")  
-        elif check_in_date != "all" and check_out_date != "all":
+        elif check_in_date and check_out_date:
+            check_in_date = Format().parse(check_in_date)
+            check_out_date = Format().parse(check_out_date)
             Validator.checkDate(check_in_date, "Check-in date")
             Validator.checkDate(check_out_date, "Check-out date")
             Validator.checkDateDifference(check_in_date, check_out_date)
@@ -114,11 +106,8 @@ class Hotel_Controller:
                 name=data["name"],
                 stars=data["stars"]
             )
-            hotels.append((hotel, data["city"], data["street"]))
-        output = []
-        for hotel, city, street in hotels:
-            output.append(f"{hotel.name} has {hotel.stars} stars, is located in {city} at: {street}")
-        return output
+            hotels.append(hotel)
+        return hotels
     
     def get_hotel_details(self, hotel_name):
         result = self.hotel_access.access_hotel_details(hotel_name)
@@ -135,10 +124,7 @@ class Hotel_Controller:
             street = data["street"]
             city = data["city"]
             hotels.append((hotel, street, city))
-        output = []
-        for hotel, street, city in hotels: 
-            output.append(f"The hotel {hotel.name} you mentioned has {hotel.stars} stars and is located in {city} at {street}")
-        return output
+        return hotels
     
     def add_hotel(self, user_id, password, name, stars, address_id):
         uh = User_Controller()
@@ -163,16 +149,3 @@ class Hotel_Controller:
         if name is None and stars is None and address_id is None:
             raise ValueError("You must change at least one information of the hotel")
         return self.hotel_access.access_update_hotel(hotel_id, name, stars, address_id)
-
-
-
-
-
-
-
-            
-
-hotels = Hotel_Controller()
-hotels = hotels.get_hotel_in_city("Zürich")
-for hotel in hotels:
-    print(hotel)

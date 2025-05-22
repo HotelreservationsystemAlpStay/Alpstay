@@ -62,7 +62,7 @@ class UserStoryMenu(Menu):
         print("---------------------")
         if hotels:
             for hotel in hotels:
-                print(hotel)
+                print(f"Hotel {hotel.name} has {hotel.stars} stars")
         else:
             print("No hotels match you filters.")
             print("---------------------")
@@ -75,7 +75,7 @@ class UserStoryMenu(Menu):
         print("---------------------")
         if hotels:
             for hotel in hotels:
-                print(hotel)
+                print(f"Hotel {hotel.name} has {hotel.stars} stars")
         else:
             print("No hotels match you filters.")
         print("---------------------")
@@ -90,7 +90,7 @@ class UserStoryMenu(Menu):
         print("---------------------")
         if hotels:
             for hotel in hotels:
-                print(hotel)
+                print(f"Hotel {hotel.name} has {hotel.stars} stars")
         else:
             print("No hotels match you filters.")
         print("---------------------")
@@ -98,18 +98,14 @@ class UserStoryMenu(Menu):
     def min_1_5(self):
         city = input("Plesae enter the city in which you are looking for a hotel - if you dant want to filter by city, hit enter:")
         stars = input("How many stars should your hotel at least have - if you dont want to filter by stars, hit enter: ")
-        if stars != "":
-            int(stars)
         guests = input("How many guests should at least fit into your room - if you dont want to filter by stars, hit enter: ")
-        if guests:
-            int(guests)
         check_in_date = input("When is you check in date - if you dont want to filter by stars, hit enter: ")
         check_out_date = input("When is you check out date - if you dont want to filter by stars, hit enter: ")
         hotels = self.app.hotel_Controller.get_selected_filters(city, stars, guests, check_in_date, check_out_date)
         print("---------------------")
         if hotels:
             for hotel in hotels:
-                print(hotel)
+                print(f"Hotel {hotel.name} has {hotel.stars} stars")
         else:
             print("No hotels match you filters.")
         print("---------------------")
