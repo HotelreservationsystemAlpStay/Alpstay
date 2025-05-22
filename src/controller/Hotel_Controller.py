@@ -24,10 +24,7 @@ class Hotel_Controller:
             )
             hotels.append(hotel)
 
-        output = []
-        for hotel in hotels:
-            output.append(f"{hotel.name} in {city} has {hotel.stars} stars")
-        return output
+        return hotels
     
     def get_hotel_in_city_stars(self, city, min_stars):
         Validator.checkStr(city, "city")

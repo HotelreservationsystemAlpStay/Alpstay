@@ -51,7 +51,7 @@ class UserStoryMenu(Menu):
         print("---------------------")
         if hotels:
             for hotel in hotels:
-                print(hotel)
+                print(f"Hotel {hotel.name} has {hotel.stars} stars")
         else:
             print("No hotels found in the specified city.")
         print("---------------------")
