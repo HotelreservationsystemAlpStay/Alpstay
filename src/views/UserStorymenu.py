@@ -179,7 +179,25 @@ class UserStoryMenu(Menu):
 
 
     def min_3_3(self):
-        pass
+        user_id = int(input("This action requires admin access, pleasse name your Id: "))
+        password = input("Please name your password: ")
+        ca = User_Controller()
+        rights = ca.check_admin(user_id, password)
+        if not rights:
+            print("Youre not an admin or your combination is wrong")
+        elif rights:
+            print("Admin access granted")
+            hotel_id = int(input("Plesae name the Hotel ID of the hotel, of which you'd like to change the information to"))
+            name = input("If you'd like to change the name of the hotel please type it in, if you dont want to change the name, hit enter: ")
+            stars = input("Please name the new amount of updated stars, if you dont want to change them, press enter: ")
+            address_id = input("Please type the new Address ID, if you dont want to change the address, press enter: ")
+            status = self.app.hotel_Controller.update_hotel(hotel_id, name, stars, address_id)
+            if status:
+                print("Hotel information was updated successfully")
+            if not status:
+                print("There is no hotel with this Hotel ID")
+
+
     
     def min_4(self):
         pass

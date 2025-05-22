@@ -134,12 +134,11 @@ class Hotel_Controller:
         status = self.hotel_access.access_delete_hotel(hotel_id)
         return status
     
-    def update_hotel(self, user_id, password, hotel_id, name, stars, address_id):
-        uh = User_Controller()
-        if uh.check_admin(user_id, password) != True:
-            raise ValueError("You need admin rights to perform this action")
-        if not hotel_id:
-            raise ValueError("You must provide the hotel ID of the hotel you would like to change")
-        if name is None and stars is None and address_id is None:
-            raise ValueError("You must change at least one information of the hotel")
+    def update_hotel(self, hotel_id, name, stars, address_id):
+        if not name and not stars and not address_id:
+            raise ValueError("You must change at least one information")
+        if stars:
+            stars = int(stars)
+        if address_id:
+            address_id = int(address_id)
         return self.hotel_access.access_update_hotel(hotel_id, name, stars, address_id)

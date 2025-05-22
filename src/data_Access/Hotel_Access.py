@@ -142,13 +142,13 @@ class Hotel_Access:
         fields = []
         parameters = []
 
-        if name is not None:
+        if name:
             fields.append("name = ?")
             parameters.append(name)
-        if stars is not None:
+        if stars:
             fields.append("stars = ?")
             parameters.append(stars)
-        if address_id is not None:
+        if address_id:
             fields.append("address_id = ?")
             parameters.append(address_id)
 
