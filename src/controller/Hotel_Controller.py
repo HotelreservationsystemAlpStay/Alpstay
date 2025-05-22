@@ -130,13 +130,9 @@ class Hotel_Controller:
         status = self.hotel_access.access_add_hotel(name, stars, address_id)
         return status
 
-    def delete_hotel(self, user_id, password, hotel_id):
-        uh = User_Controller()
-        if uh.check_admin(user_id, password) != True:
-            raise ValueError("You need admin rights to perform this action")
-
-        result = self.hotel_access.access_delete_hotel(hotel_id)
-        return result
+    def delete_hotel(self, hotel_id):
+        status = self.hotel_access.access_delete_hotel(hotel_id)
+        return status
     
     def update_hotel(self, user_id, password, hotel_id, name, stars, address_id):
         uh = User_Controller()

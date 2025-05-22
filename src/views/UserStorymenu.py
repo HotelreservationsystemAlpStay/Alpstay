@@ -162,8 +162,22 @@ class UserStoryMenu(Menu):
 
 
     def min_3_2(self):
-        pass
-    
+        user_id = int(input("This action requires admin access, pleasse name your Id: "))
+        password = input("Please name your password: ")
+        ca = User_Controller()
+        rights = ca.check_admin(user_id, password)
+        if not rights:
+            print("Youre not an admin or your combination is wrong")
+        elif rights:
+            print("Admin access granted")
+            hotel_id = int(input("Please name the Hotel ID of the hotel you would like to delete"))
+            status = self.app.hotel_Controller.delete_hotel(hotel_id)
+            if status:
+                print("Hotel was delted successfully")
+            elif not status:
+                print("Unfortunately there is no Hotel with this Hotel ID, so please try again")
+
+
     def min_3_3(self):
         pass
     
