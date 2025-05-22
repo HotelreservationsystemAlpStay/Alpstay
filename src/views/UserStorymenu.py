@@ -242,20 +242,27 @@ class UserStoryMenu(Menu):
         pass
     
     def dv_1(self):
-        print("Fetching room occupancy data...")
-
-        main_tk_root = tk.Tk()
-        main_tk_root.withdraw()
-        occupancy_data = self.app.roomType_Controller.get_room_occupancy_data()
-        if occupancy_data and occupancy_data.get('room_type') and occupancy_data.get('count'):
-            print("Displaying occupancy chart in a new window")
-            chart = ChartView(self.app, occupancy_data, "occupancy")
-            return chart.show_and_wait() 
-        else:
-            print("No occupancy data available to display.")
-            if occupancy_data:
-                print(f"Data received: {occupancy_data}")
-            return self
+        user_id = int(input("This action requires admin access, pleasse name your Id: "))
+        password = input("Please name your password: ")
+        ca = User_Controller()
+        rights = ca.check_admin(user_id, password)
+        if not rights:
+            print("Youre not an admin or your combination is wrong")
+        elif rights:
+            print("Admin access granted")
+            print("Fetching room occupancy data...")
+            main_tk_root = tk.Tk()
+            main_tk_root.withdraw()
+            occupancy_data = self.app.roomType_Controller.get_room_occupancy_data()
+            if occupancy_data and occupancy_data.get('room_type') and occupancy_data.get('count'):
+                print("Displaying occupancy chart in a new window")
+                chart = ChartView(self.app, occupancy_data, "occupancy")
+                return chart.show_and_wait() 
+            else:
+                print("No occupancy data available to display.")
+                if occupancy_data:
+                    print(f"Data received: {occupancy_data}")
+                return self
     
     def dv_2(self):
        pass
