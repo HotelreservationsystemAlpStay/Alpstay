@@ -3,14 +3,25 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.Validator import Validator
 from data_Access.Hotel_Access import Hotel_Access
+from data_Access.Address_Access import Address_access
 from models.Hotels import Hotel
 from controller.User_Controller import User_Controller
+from controller.Room_Controller import RoomController
 from utils.Formatting import Format
 
 class Hotel_Controller:
     def __init__(self):
         self.hotel_access = Hotel_Access()
     
+    @staticmethod
+    def _sqlite3row_to_hotel(row, address):
+        return Hotel(
+            hotel_id=row["hotel_id"],
+            name=row["name"],
+            stars=row["stars"],
+            address=address
+        )
+
     def get_hotel_in_city(self, city):
         Validator.checkStr(city, "city")
         result = self.hotel_access.access_hotel_in_city(city)
@@ -126,6 +137,16 @@ class Hotel_Controller:
             hotels.append((hotel, street, city))
         return hotels
     
+    def get_full_hotel(self, hotel_name = None, start_date = None, end_date = None):
+        result = self.hotel_access.access_hotel_details(hotel_name)
+        hotels = []
+        for res in result:
+            print(res["name"])
+            hotels.append(self._sqlite3row_to_hotel(row=res,address=Address_access().sqlite3row_to_address(res)))
+        for hotel in hotels:
+            hotel.rooms = RoomController().get_rooms(dateStart=start_date, dateEnd=end_date, hotel_ids=[hotel.hotel_id])
+        return hotels
+
     def add_hotel(self, name, stars, address_id):
         status = self.hotel_access.access_add_hotel(name, stars, address_id)
         return status
@@ -142,3 +163,12 @@ class Hotel_Controller:
         if address_id:
             address_id = int(address_id)
         return self.hotel_access.access_update_hotel(hotel_id, name, stars, address_id)
+    
+
+if __name__ == "__main__":
+    hc = Hotel_Controller()
+    hotels = hc.get_full_hotel("Hotel Baur au Lac", start_date="2025-06-05", end_date="2025-06-07")
+    for hotel in hotels:
+        print(hotel)
+        for room in hotel.rooms:
+            print(room)

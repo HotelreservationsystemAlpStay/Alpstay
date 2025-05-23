@@ -20,7 +20,7 @@ class Room_Access:
         self._SELECT = "SELECT * from extended_room JOIN Booking ON Booking.room_id = extended_room.room_id"
         self._WHERE = "WHERE"
         self._AND = "AND"
-        self._WHERE_BOOKINGDATE = "(Booking.check_in_date BETWEEN ? AND ?) OR (Booking.check_out_date BETWEEN ? AND ?) OR (Booking.check_in_date <= ? AND Booking.check_out_date >= ?)"
+        self._WHERE_BOOKINGDATE = "NOT ( (Booking.check_in_date BETWEEN ? AND ?) OR (Booking.check_out_date BETWEEN ? AND ?) OR (Booking.check_in_date <= ? AND Booking.check_out_date >= ?) )"
         self._WHERE_HOTELID = "extended_room.hotel_id in"
         self._WHERE_ROOMTYPE = "extended_room.type_id = ?"
 

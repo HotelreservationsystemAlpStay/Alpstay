@@ -66,7 +66,7 @@ class Hotel_Access:
 
     def access_selected_filters(self, city, min_stars, guests, check_in_date, check_out_date):
         query = """
-        SELECT DISTINCT hotel_id, name, stars, city, street
+        SELECT DISTINCT hotel_id, name, stars, city, street, address_id, zip_code
         FROM extended_hotel_room_booking
         WHERE room_id IS NOT NULL
         """
@@ -103,7 +103,7 @@ class Hotel_Access:
 
     def access_hotel_details(self, hotel_name):
         query = """
-        SELECT DISTINCT hotel_id, name, stars, street, city 
+        SELECT DISTINCT hotel_id, name, stars, address_id, street, city, zip_code
         FROM extended_hotel_room
         WHERE (name) = (?)       
         """
