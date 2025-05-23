@@ -61,6 +61,14 @@ class Room:
     def __str__(self):
         return f"Room {self._room_no} costs {self._price_per_night} per night and has room ID: {self._room_id}"
 
+    def extendedStr(self):
+        rstr = f"Room {self._room_no} costs {self._price_per_night}, is of type {self.roomType.description} with max guests of {self.roomType.maxGuests} per night and has room ID: {self._room_id}"
+        rstr += f"\nFacilities"
+        for facility in self.facilities:
+            rstr += f"\n{facility.name}"
+            
+        return rstr
+    
     def to_dict(self):
         return{
             "room_id": self._room_id,

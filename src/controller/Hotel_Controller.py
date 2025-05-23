@@ -171,4 +171,4 @@ if __name__ == "__main__":
     for hotel in hotels:
         print(hotel)
         for room in hotel.rooms:
-            print(room)
+            print(room.extendedStr())

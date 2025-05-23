@@ -126,19 +126,29 @@ class UserStoryMenu(Menu):
 
     
     def min_2(self):
-        pass
+        return self.min_2_2()
     
     def min_2_1(self):
         rooms = self.app.room_Controller.get_rooms()
         counter = 1
         for room in rooms:
             print(f"## {counter} ##")
-            print(room)
+            print(room.extendedStr())
             counter += 1
     
     def min_2_2(self):
-        pass
-    
+        name = input("Plesae enter the hotel name in which you are looking for a hotel - if you dant want to filter by city, hit enter:")
+        check_in_date = input("When is you check in date - if you dont want to filter by stars, hit enter: ")
+        check_out_date = input("When is you check out date - if you dont want to filter by stars, hit enter: ")
+        hotels = self.app.hotel_Controller.get_full_hotel(name, check_in_date, check_out_date)
+        print("---------------------")
+        for hotel in hotels:
+            print(hotel)
+            for room in hotel.rooms:
+                print(room.extendedStr())
+        print("---------------------")
+
+
     def min_3(self):
         pass
     
