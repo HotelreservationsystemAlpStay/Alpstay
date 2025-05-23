@@ -8,6 +8,7 @@ from models.Hotels import Hotel
 from controller.User_Controller import User_Controller
 from controller.Room_Controller import RoomController
 from utils.Formatting import Format
+from datetime import date
 
 class Hotel_Controller:
     def __init__(self):
@@ -137,7 +138,17 @@ class Hotel_Controller:
             hotels.append((hotel, street, city))
         return hotels
     
-    def get_full_hotel(self, hotel_name = None, start_date = None, end_date = None):
+    def get_full_hotel(self, hotel_name:str, start_date:date = None, end_date:date = None):
+        """Returns full hotel with address and rooms, for the moment only 1 Hotel but able to expand
+
+        Args:
+            hotel_name (str): 
+            start_date (date, optional): Defaults to None.
+            end_date (date, optional): Defaults to None.
+
+        Returns:
+            list[Hotels]: List of hotels
+        """
         result = self.hotel_access.access_hotel_details(hotel_name)
         hotels = []
         for res in result:
