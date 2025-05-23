@@ -35,7 +35,7 @@ class UserStoryMenu(Menu):
         self.add_item("",self.db_5)
         self.add_item("",self.db_6)
         self.add_item("As an admin, I want to see the occupancy rate for each room type",self.dv_1)
-        self.add_item("As an admin, I want to analyze my guests based on demografic attributes",self.dv_2)
+        self.add_item("As an admin, I want to analyze my guests",self.dv_2)
         self.add_item("",self.opt_1)
         self.add_item("",self.opt_1_1)
         self.add_item("",self.opt_1_2)
