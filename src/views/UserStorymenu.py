@@ -43,6 +43,28 @@ class UserStoryMenu(Menu):
         self.add_item("",self.opt_3)
         self.add_item("",self.opt_4)
         
+    def _authenticate_admin(self):
+        """Handles admin authentication."""
+        try:
+            user_id_input = input("This action requires admin access, please enter your ID: ")
+            user_id = int(user_id_input)
+        except ValueError:
+            print("Invalid ID format. Please enter a number.")
+            input("Press Enter to return to the menu.")
+            return False
+        password = input("Please enter your password: ")
+        
+        ca = User_Controller()
+        rights = ca.check_admin(user_id, password)
+        
+        if not rights:
+            print("Access denied. You are not an admin or your credentials are incorrect.")
+            input("Press Enter to return to the menu.")
+            return False
+        
+        print("Admin access granted.")
+        return True
+
     def min_1(self):
         pass
         
@@ -153,59 +175,44 @@ class UserStoryMenu(Menu):
         pass
     
     def min_3_1(self):
-        user_id = int(input("This action requires admin access, pleasse name your Id: "))
-        password = input("Please name your password: ")
-        ca = User_Controller()
-        rights = ca.check_admin(user_id, password)
-        if not rights:
-            print("Youre not an admin or your combination is wrong")
-        elif rights:
-            print("Admin access granted")
-            name = input("Please name the name of the new hotel: ")
-            stars = input("Please type how many stars the hotel has: ")
-            address_id = input("Please name the Address-ID of the hotel: ")
-            status = self.app.hotel_Controller.add_hotel(name, stars, address_id)
-            if status:
-                print("Hotel was added successfuly")
-            else:
-                print("Something went wrong, please try again later")
+        if not self._authenticate_admin():
+            return self
+        
+        name = input("Please name the name of the new hotel: ")
+        stars = input("Please type how many stars the hotel has: ")
+        address_id = input("Please name the Address-ID of the hotel: ")
+        status = self.app.hotel_Controller.add_hotel(name, stars, address_id)
+        if status:
+            print("Hotel was added successfuly")
+        else:
+            print("Something went wrong, please try again later")
 
 
     def min_3_2(self):
-        user_id = int(input("This action requires admin access, pleasse name your Id: "))
-        password = input("Please name your password: ")
-        ca = User_Controller()
-        rights = ca.check_admin(user_id, password)
-        if not rights:
-            print("Youre not an admin or your combination is wrong")
-        elif rights:
-            print("Admin access granted")
-            hotel_id = int(input("Please name the Hotel ID of the hotel you would like to delete"))
-            status = self.app.hotel_Controller.delete_hotel(hotel_id)
-            if status:
-                print("Hotel was delted successfully")
-            elif not status:
-                print("Unfortunately there is no Hotel with this Hotel ID, so please try again")
+        if not self._authenticate_admin():
+            return self
+        
+        hotel_id = int(input("Please name the Hotel ID of the hotel you would like to delete"))
+        status = self.app.hotel_Controller.delete_hotel(hotel_id)
+        if status:
+            print("Hotel was delted successfully")
+        elif not status:
+            print("Unfortunately there is no Hotel with this Hotel ID, so please try again")
 
 
     def min_3_3(self):
-        user_id = int(input("This action requires admin access, pleasse name your Id: "))
-        password = input("Please name your password: ")
-        ca = User_Controller()
-        rights = ca.check_admin(user_id, password)
-        if not rights:
-            print("Youre not an admin or your combination is wrong")
-        elif rights:
-            print("Admin access granted")
-            hotel_id = int(input("Plesae name the Hotel ID of the hotel, of which you'd like to change the information to"))
-            name = input("If you'd like to change the name of the hotel please type it in, if you dont want to change the name, hit enter: ")
-            stars = input("Please name the new amount of updated stars, if you dont want to change them, press enter: ")
-            address_id = input("Please type the new Address ID, if you dont want to change the address, press enter: ")
-            status = self.app.hotel_Controller.update_hotel(hotel_id, name, stars, address_id)
-            if status:
-                print("Hotel information was updated successfully")
-            if not status:
-                print("There is no hotel with this Hotel ID")
+        if not self._authenticate_admin():
+            return self
+        
+        hotel_id = int(input("Plesae name the Hotel ID of the hotel, of which you'd like to change the information to"))
+        name = input("If you'd like to change the name of the hotel please type it in, if you dont want to change the name, hit enter: ")
+        stars = input("Please name the new amount of updated stars, if you dont want to change them, press enter: ")
+        address_id = input("Please type the new Address ID, if you dont want to change the address, press enter: ")
+        status = self.app.hotel_Controller.update_hotel(hotel_id, name, stars, address_id)
+        if status:
+            print("Hotel information was updated successfully")
+        if not status:
+            print("There is no hotel with this Hotel ID")
 
 
     
@@ -252,46 +259,28 @@ class UserStoryMenu(Menu):
         pass
     
     def dv_1(self):
-        user_id = int(input("This action requires admin access, pleasse name your Id: "))
-        password = input("Please name your password: ")
-        ca = User_Controller()
-        rights = ca.check_admin(user_id, password)
-        if not rights:
-            print("Youre not an admin or your combination is wrong")
-        elif rights:
-            print("Admin access granted")
-            print("Fetching room occupancy data...")
-            main_tk_root = tk.Tk()
-            main_tk_root.withdraw()
-            occupancy_data = self.app.roomType_Controller.get_room_occupancy_data()
-            if occupancy_data and occupancy_data.get('room_type') and occupancy_data.get('count'):
-                print("Displaying occupancy chart in a new window")
-                chart = ChartView(self.app, occupancy_data, "occupancy")
-                return chart.show_and_wait() 
-            else:
-                print("No occupancy data available to display.")
-                if occupancy_data:
-                    print(f"Data received: {occupancy_data}")
-                return self
+        if not self._authenticate_admin():
+            return self
+
+        print("Fetching room occupancy data...")
+        main_tk_root = tk.Tk()
+        main_tk_root.withdraw()
+        occupancy_data = self.app.roomType_Controller.get_room_occupancy_data()
+        if occupancy_data and occupancy_data.get('room_type') and occupancy_data.get('count'):
+            print("Displaying occupancy chart in a new window")
+            chart = ChartView(self.app, occupancy_data, "occupancy")
+            return chart.show_and_wait() 
+        else:
+            print("No occupancy data available to display.")
+            if occupancy_data:
+                print(f"Data received: {occupancy_data}")
+            return self
     
     def dv_2(self):
-        user_id_input = input("This action requires admin access, please enter your ID: ")
-        try:
-            user_id = int(user_id_input)
-        except ValueError:
-            print("Invalid ID format. Please enter a number.")
-            return self
-        password = input("Please enter your password: ")
-        
-        uc = User_Controller() 
-        rights = uc.check_admin(user_id, password)
-
-        if not rights:
-            print("Access denied. You are not an admin or your credentials are incorrect.")
+        if not self._authenticate_admin():
             wait = input("Press Enter to return to the menu.")
             return self
 
-        print("Admin access granted.")
         print("\nSelect demographic analysis to display:")
         print("1: Guest Age Distribution")
         print("2: Guest Country Distribution")
