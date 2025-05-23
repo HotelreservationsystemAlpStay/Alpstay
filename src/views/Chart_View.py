@@ -111,20 +111,3 @@ class ChartView:
         else:
             chart_axes.text(0.5, 0.5, "No booking frequency data available", ha='center', va='center')
         self.figure.tight_layout()
-
-if __name__ == "__main__":
-    class MockApp:
-        def __init__(self):
-            self.roomType_Controller = None
-            from views.StartMenu import StartMenu
-            self.StartMenu = StartMenu
-
-    main_tk_root = tk.Tk()
-    main_tk_root.withdraw()
-
-    mock_app_instance = MockApp()
-
-    occupancy_data = {'room_type': ['Single', 'Double', 'Suite'], 'count': [10, 25, 5]}
-    ChartView(mock_app_instance, occupancy_data, "occupancy")
-
-    main_tk_root.mainloop()
