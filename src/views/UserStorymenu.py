@@ -265,7 +265,67 @@ class UserStoryMenu(Menu):
                 return self
     
     def dv_2(self):
-       pass
+        user_id_input = input("This action requires admin access, please enter your ID: ")
+        try:
+            user_id = int(user_id_input)
+        except ValueError:
+            print("Invalid ID format. Please enter a number.")
+            return self
+        password = input("Please enter your password: ")
+        
+        uc = User_Controller() 
+        rights = uc.check_admin(user_id, password)
+
+        if not rights:
+            print("Access denied. You are not an admin or your credentials are incorrect.")
+            wait = input("Press Enter to return to the menu.")
+            return self
+
+        print("Admin access granted.")
+        print("\nSelect demographic analysis to display:")
+        print("1: Guest Age Distribution")
+        print("2: Guest Country Distribution")
+        print("3: Guest Booking Frequency (New vs. Returning)")
+        choice = input("Enter your choice (1-3): ")
+
+        data = None
+        chart_type = None
+        data_valid = False
+
+        if choice == '1':
+            print("Fetching guest age distribution data...")
+            data = self.app.guest_Controller.get_guest_age_distribution_data()
+            chart_type = "guest_age_histogram"
+            if data and isinstance(data.get('ages'), list) and data['ages']:
+                data_valid = True
+        elif choice == '2':
+            print("Fetching guest country distribution data...")
+            data = self.app.guest_Controller.get_guest_country_distribution_data()
+            chart_type = "guest_country"
+            if data and isinstance(data.get('countries'), list) and data['countries']:
+                data_valid = True
+        elif choice == '3':
+            print("Fetching guest booking frequency data...")
+            data = self.app.guest_Controller.get_guest_booking_frequency_data()
+            chart_type = "guest_booking_frequency"
+            if data and isinstance(data.get('labels'), list) and data['labels'] and \
+               isinstance(data.get('sizes'), list) and sum(data['sizes']) > 0:
+                data_valid = True
+        else:
+            print("Invalid choice. Please select a number between 1 and 3.")
+            return self
+
+        if data_valid:
+            print(f"Displaying {chart_type.replace('_', ' ')} chart in a new window.")
+            main_tk_root = tk.Tk()
+            main_tk_root.withdraw()
+            chart_view = ChartView(self.app, data, chart_type) 
+            return chart_view.show_and_wait()
+        else:
+            print(f"No valid data available to display for {chart_type.replace('_', ' ') if chart_type else 'the selected analysis'}.")
+            if data: 
+                print(f"Data received but deemed invalid or empty: {data}")
+            return self
     
     def opt_1(self):
         pass
