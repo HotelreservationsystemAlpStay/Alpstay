@@ -7,7 +7,6 @@ class Guest_Access:
     def access_guest_ages(self):
         """
         Fetches the ages of all guests.
-        Assumes a 'Guest' table with an 'age' column.
         """
         query = "SELECT age FROM Guest WHERE age IS NOT NULL;"
         return self.db.fetchall(query)
@@ -15,7 +14,6 @@ class Guest_Access:
     def access_guest_countries(self):
         """
         Fetches the distribution of guests by country.
-        Assumes a 'Guest' table with a 'country' column.
         """
         query = """
             SELECT country, COUNT(*) AS guest_count
@@ -30,7 +28,6 @@ class Guest_Access:
         """
         Fetches counts of new and returning guests.
         A guest is returning if they have more than one booking.
-        Assumes a 'Booking' table with a 'guest_id' column.
         """
         query_new_guests = """
             SELECT COUNT(*) as count
