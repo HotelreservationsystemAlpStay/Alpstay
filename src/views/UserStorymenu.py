@@ -69,6 +69,10 @@ class UserStoryMenu(Menu):
         pass
         
     def min_1_1(self):
+        """Asks the user for a city and shows all hotels in that city.
+
+        Calls the hotel controller to get hotels and prints their names and star ratings.
+        """
         city = input("Please enter the city you want to search for: ")
         hotels = self.app.hotel_Controller.get_hotel_in_city(city)
         print("---------------------")
@@ -79,6 +83,10 @@ class UserStoryMenu(Menu):
             print("No hotels found in the specified city.")
         print("---------------------")
     def min_1_2(self):
+        """Asks the user for a city and minimum stars, then shows matching hotels.
+
+        Gets hotels from the controller and prints their names and star ratings.
+        """
         city = input("Please enter the city in which you are looking for a hotel")
         stars = int(input("How many stars should your hotel at least have?"))
         hotels = self.app.hotel_Controller.get_hotel_in_city_stars(city, stars)
@@ -91,6 +99,10 @@ class UserStoryMenu(Menu):
             print("---------------------")
     
     def min_1_3(self):
+        """Asks the user for city, stars, and guests, then shows matching hotels.
+
+        Gets hotels from the controller that match the filters and prints their names and star ratings.
+        """
         city = input("Please enter the city in which you are looking for a hotel")
         stars = int(input("How many stars should your hotel at least have?"))
         guests = int(input("How many guests should at least fit into your room"))
@@ -104,6 +116,11 @@ class UserStoryMenu(Menu):
         print("---------------------")
     
     def min_1_4(self):
+        """Asks the user for city, stars, guests, and dates, then shows available hotels.
+
+        Gets hotels from the controller that match all filters and are available in the given date range.
+        Prints hotel names and star ratings.
+        """
         city = input("Please enter the city in which you are looking for a hotel: ")
         stars = int(input("How many stars should your hotel at least have: "))
         guests = int(input("How many guests should at least fit into your room: "))
@@ -119,6 +136,11 @@ class UserStoryMenu(Menu):
         print("---------------------")
         
     def min_1_5(self):
+        """Asks the user for optional filters (city, stars, guests, dates) and shows matching hotels.
+
+        The user can leave any input empty to skip that filter.
+        Gets matching hotels from the controller and prints their names and star ratings.
+        """
         city = input("Plesae enter the city in which you are looking for a hotel - if you dant want to filter by city, hit enter:")
         stars = input("How many stars should your hotel at least have - if you dont want to filter by stars, hit enter: ")
         guests = input("How many guests should at least fit into your room - if you dont want to filter by stars, hit enter: ")
@@ -135,6 +157,10 @@ class UserStoryMenu(Menu):
         
 
     def min_1_6(self):
+        """Asks the user for a hotel name and shows detailed information.
+
+        Gets hotel details from the controller and prints name, stars, city, and street.
+        """
         hotel_name = input("Please enter the name of the hotel of which you would like to know the details")
         details = self.app.hotel_Controller.get_hotel_details(hotel_name)
         print("---------------------")
@@ -175,6 +201,11 @@ class UserStoryMenu(Menu):
         pass
     
     def min_3_1(self):
+        """Adds a new hotel to the database.
+
+        Only works if the user is authenticated as admin.
+        Asks for name, stars, and address ID, then tries to add the hotel and shows a success or error message.
+        """
         if not self._authenticate_admin():
             return self
         
@@ -189,6 +220,11 @@ class UserStoryMenu(Menu):
 
 
     def min_3_2(self):
+        """Asks the admin to delete a hotel by its ID.
+
+        Only works if the user is authenticated as admin.
+        Asks for the hotel ID, then tries to delete it and shows a success or error message.
+        """
         if not self._authenticate_admin():
             return self
         
@@ -201,6 +237,12 @@ class UserStoryMenu(Menu):
 
 
     def min_3_3(self):
+        """Asks the admin to update hotel information.
+
+        Only works if the user is authenticated as admin.
+        Asks for hotel ID and optional new values (name, stars, address ID). 
+        Then tries to update the hotel and shows a success or error message.
+        """
         if not self._authenticate_admin():
             return self
         
@@ -220,6 +262,11 @@ class UserStoryMenu(Menu):
         pass
     
     def min_5(self):
+        """Creates and shows an invoice for a booking.
+
+        Asks the user for a booking ID. If the booking is cancelled, no invoice is created.
+        If successful, prints all invoice details. Otherwise, shows an error message.
+        """
         booking_id = int(input("Please name the booking ID of which you'd like to create an invoice"))
         result = self.app.invoice_Controller.create_invoice(booking_id)
         if result == "cancelled":

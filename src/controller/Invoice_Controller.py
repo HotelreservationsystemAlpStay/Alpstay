@@ -13,6 +13,19 @@ class Invoice_Controller:
     def __init__(self):
         self.invoice_access = Invoice_Access()
     def create_invoice(self, booking_id):
+        """Creates an invoice for a booking if it is not cancelled.
+
+        Gets the booking details, checks if it was cancelled, and creates the invoice.
+        Returns the hotel, invoice, booking, guest name, and number of nights if successful.
+
+        Args:
+            booking_id (int): ID of the booking
+
+        Returns:
+            str: "cancelled" if the booking was cancelled
+            tuple: (Hotel, Invoice, Booking, first_name, last_name, nights) if successful
+            bool: False if invoice creation failed
+        """
         booking_details = self.invoice_access.get_booking_details(booking_id)
         data = dict(booking_details)
         is_cancelled = bool(data["is_cancelled"])

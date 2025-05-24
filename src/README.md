@@ -1,3 +1,6 @@
+## Transparency
+We used Chatgpt, Deepl etc. to translate some parts of the docstring documentation.
+
 ## UV Installation
 
 Install uv with our standalone installers:

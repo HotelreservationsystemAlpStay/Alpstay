@@ -24,6 +24,14 @@ class Hotel_Controller:
         )
 
     def get_hotel_in_city(self, city):
+        """Returns all hotels in a given city
+
+        Args:
+            city (str): Name of the city
+
+        Returns:
+            list[Hotel]: List of Hotel objects in the specified city
+        """
         Validator.checkStr(city, "city")
         result = self.hotel_access.access_hotel_in_city(city)
         hotels = []
@@ -38,6 +46,15 @@ class Hotel_Controller:
         return hotels
     
     def get_hotel_in_city_stars(self, city, min_stars):
+        """Returns all hotels in a city with at least the given number of stars
+
+        Args:
+            city (str): Name of the city
+            min_stars (int): Minimum number of stars the hotel must have
+
+        Returns:
+            list[Hotel]: List of Hotel objects matching the criteria
+        """
         Validator.checkStr(city, "city")
         Validator.checkStars(min_stars)
         result = self.hotel_access.access_hotel_in_city_stars(city, min_stars)
@@ -53,6 +70,16 @@ class Hotel_Controller:
         return hotels
     
     def get_hotel_in_city_stars_guests(self, city, min_stars, guests):
+        """Returns all hotels in a city with at least the given number of stars and enough capacity for the specified number of guests
+
+        Args:
+            city (str): Name of the city
+            min_stars (int): Minimum number of stars the hotel must have
+            guests (int): Minimum number of guests the hotel must accommodate
+
+        Returns:
+            list[Hotel]: List of Hotel objects matching the criteria
+        """
         Validator.checkStr(city, "city")
         Validator.checkStars(min_stars)
         Validator.checkPositiveInteger(guests, "Guests")
@@ -69,6 +96,18 @@ class Hotel_Controller:
         return hotels
     
     def get_hotel_in_city_booking(self, city, min_stars, guests, check_in_date, check_out_date):
+        """Returns all hotels in a city that match minimum stars and guest requirements, and have available rooms in the given date range
+
+        Args:
+            city (str): Name of the city
+            min_stars (int): Minimum number of stars the hotel must have
+            guests (int): Minimum number of guests the hotel must accommodate
+            check_in_date (str): Check-in date in string format
+            check_out_date (str): Check-out date in string format
+
+        Returns:
+            list[Hotel]: List of Hotel objects available in the given date range and matching the criteria
+        """
         check_in_date = Format().parse(check_in_date)
         check_out_date = Format().parse(check_out_date)
         Validator.checkStr(city, "city")
@@ -93,6 +132,22 @@ class Hotel_Controller:
         return hotels
     
     def get_selected_filters(self, city, min_stars, guests, check_in_date, check_out_date):
+        """Returns all hotels that match the given optional filters: city, minimum stars, guests, and date range
+
+        All filters are optional, but check-in and check-out dates must be provided together.
+
+        However at least one filter needs to be provided. 
+
+        Args:
+            city (str or None): Name of the city (optional)
+            min_stars (int or None): Minimum number of stars (optional)
+            guests (int or None): Minimum number of guests (optional)
+            check_in_date (str or None): Check-in date (optional, must be used with check_out_date)
+            check_out_date (str or None): Check-out date (optional, must be used with check_in_date)
+
+        Returns:
+            list[Hotel]: List of Hotel objects matching the given filters
+        """
         if city:
             Validator.checkStr(city, "city")
         if min_stars:
@@ -122,6 +177,14 @@ class Hotel_Controller:
         return hotels
     
     def get_hotel_details(self, hotel_name):
+        """Returns detailed hotel information including address data for a given hotel name
+
+        Args:
+            hotel_name (str): Name of the hotel
+
+        Returns:
+            list[tuple[Hotel, str, str]]: List of tuples containing Hotel object, street, and city
+        """
         result = self.hotel_access.access_hotel_details(hotel_name)
         if not result:
             return []
@@ -159,14 +222,46 @@ class Hotel_Controller:
         return hotels
 
     def add_hotel(self, name, stars, address_id):
+        """Adds a new hotel to the database
+
+        Args:
+            name (str): Name of the hotel
+            stars (int): Star rating of the hotel
+            address_id (int): ID of the associated address
+
+        Returns:
+            bool: True if the hotel was added successfully, False otherwise
+        """
         status = self.hotel_access.access_add_hotel(name, stars, address_id)
         return status
 
     def delete_hotel(self, hotel_id):
+        """Deletes a hotel from the database by its ID
+
+        Args:
+            hotel_id (int): ID of the hotel to delete
+
+        Returns:
+            bool: True if the hotel was deleted successfully, False otherwise
+        """
         status = self.hotel_access.access_delete_hotel(hotel_id)
         return status
     
     def update_hotel(self, hotel_id, name, stars, address_id):
+        """Updates hotel information, at least one field must be changed
+
+        Args:
+            hotel_id (int): ID of the hotel to update
+            name (str or None): New name of the hotel (optional)
+            stars (int or None): New star rating (optional)
+            address_id (int or None): New address ID (optional)
+
+        Raises:
+            ValueError: If no fields are provided for update
+
+        Returns:
+            bool: True if the hotel was updated successfully, False otherwise
+        """
         if not name and not stars and not address_id:
             raise ValueError("You must change at least one information")
         if stars:
@@ -183,3 +278,4 @@ if __name__ == "__main__":
         print(hotel)
         for room in hotel.rooms:
             print(room.extendedStr())
+
