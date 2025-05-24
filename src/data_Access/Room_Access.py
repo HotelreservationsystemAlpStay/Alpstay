@@ -3,6 +3,7 @@ import os
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.Validator import Validator
+from utils.Formatting import Format
 from models.Room import Room
 from models.RoomType import RoomType
 from models.Facility import Facility
@@ -146,4 +147,24 @@ class Room_Access:
                 )
             )
         return rooms
+    
+    def get_available_rooms_city(self, city:str, check_in_date: date, check_out_date: date):
+        query = """
+        SELECT r.room_id, r.room_number, r.price_per_night, h.name AS name, a.city, rt.description AS room_type
+        FROM Room r
+        JOIN Room_Type rt ON r.type_id = rt.type_id
+        JOIN Hotel h ON r.hotel_id = h.hotel_id
+        JOIN Address a ON h.address_id = a.address_id
+        WHERE a.city = ?
+        AND r.room_id NOT IN (
+        SELECT b.room_id
+        FROM Booking b
+        WHERE b.is_cancelled = 0
+        AND (
+        (b.check_in_date BETWEEN ? AND ?)
+        OR (b.check_out_date BETWEEN ? AND ?)
+        OR (b.check_in_date <= ? AND b.check_out_date >= ?)))
+        """
+        params = (city, check_in_date, check_out_date, check_in_date, check_out_date, check_in_date, check_out_date)
+        return self.db.fetchall(query, params)
     

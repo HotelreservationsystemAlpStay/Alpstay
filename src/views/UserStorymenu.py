@@ -2,6 +2,7 @@ from views.Menu import Menu
 from views.Chart_View import ChartView 
 import tkinter as tk
 from controller.User_Controller import User_Controller
+import time
 
 class UserStoryMenu(Menu):
     def __init__(self, app):
@@ -120,6 +121,8 @@ class UserStoryMenu(Menu):
 
         Gets hotels from the controller that match all filters and are available in the given date range.
         Prints hotel names and star ratings.
+
+        We added some additional filters like stars and guests, so its more precise to the needs of the customer
         """
         city = input("Please enter the city in which you are looking for a hotel: ")
         stars = int(input("How many stars should your hotel at least have: "))
@@ -294,7 +297,19 @@ class UserStoryMenu(Menu):
         pass
     
     def min_7(self):
-        pass
+        city = input("Please name the city in which you would like to stay")
+        check_in_date = input("Please name you desired check-in date")
+        check_out_date = input("Please name you desired check-out date")
+        print("Thank you, we will now show you all avaiable rooms in this city with their price per night")
+        time.sleep(3)
+        rooms = self.app.room_Controller.get_available_rooms_city(city, check_in_date, check_out_date)
+
+        for room, price_per_night, name, room_type, nights_high_season, nights_off_season, total_price, average_price_per_night in rooms:
+            print(f"{name} | Room ID: {room.room_id} | Type: {room_type}")
+            print(f"Base price: {price_per_night:.2f} CHF | High season: {nights_high_season} nights | Off season: {nights_off_season} nights")
+            print(f"Total: {total_price:.2f} CHF | Avg. price per night: {average_price_per_night:.2f} CHF")
+            print("---------------------")
+
     
     def min_8(self):
         pass
