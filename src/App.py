@@ -4,6 +4,8 @@ from controller.Room_Controller import RoomController
 from controller.RoomType_Controller import RoomType_Controller
 from controller.Guest_Controller import Guest_Controller
 from controller.Invoice_Controller import Invoice_Controller
+from controller.User_Controller import User_Controller
+from controller.Booking_Controller import Booking_Controller
 
 class Application:
     def __init__(self):
@@ -12,6 +14,8 @@ class Application:
         self.roomType_Controller = RoomType_Controller()
         self.guest_Controller = Guest_Controller()
         self.invoice_Controller = Invoice_Controller()
+        self.user_Controller = User_Controller()
+        self.booking_Controller = Booking_Controller()
         self.__is_running = True
 
     def stop(self):

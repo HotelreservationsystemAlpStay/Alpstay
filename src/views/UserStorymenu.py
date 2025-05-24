@@ -3,6 +3,9 @@ from views.Chart_View import ChartView
 import tkinter as tk
 from controller.User_Controller import User_Controller
 import time
+from models.User import User
+from datetime import datetime
+from utils.Formatting import Format
 
 class UserStoryMenu(Menu):
     def __init__(self, app):
@@ -187,17 +190,35 @@ class UserStoryMenu(Menu):
             print(room.extendedStr())
             counter += 1
     
-    def min_2_2(self):
-        name = input("Plesae enter the hotel name in which you are looking for a hotel - if you dant want to filter by city, hit enter:")
-        check_in_date = input("When is you check in date - if you dont want to filter by stars, hit enter: ")
-        check_out_date = input("When is you check out date - if you dont want to filter by stars, hit enter: ")
+    def min_2_2(self, fromFunction:bool=False):
+        name = input("Please enter the hotel name in which you are looking for a room: ")
+        if fromFunction:
+            check_in_date = ""
+            while check_in_date == "":
+                check_in_date = input("When is your check in date: ")
+            check_out_date = ""
+            while check_out_date == "":
+                check_out_date = input("When is your check out date: ")
+        else:
+            check_in_date = input("When is your check in date - if you dont want to filter by dates, hit enter: ")
+            check_out_date = input("When is your check out date - if you dont want to filter by dates, hit enter: ")
+        #Check date format
         hotels = self.app.hotel_Controller.get_full_hotel(name, check_in_date, check_out_date)
-        print("---------------------")
-        for hotel in hotels:
-            print(hotel)
-            for room in hotel.rooms:
-                print(room.extendedStr())
-        print("---------------------")
+        rooms = []
+        if len(hotels) != 0:
+            print("---------------------")
+            for hotel in hotels:
+                print(hotel)
+                for room in hotel.rooms:
+                    print(f"{len(rooms) + 1}. {room.extendedStr()}")
+                    rooms.append(room)
+            print("---------------------")
+        else:
+            print("---------------------")
+            print("No Rooms found")
+            print("---------------------")
+        if fromFunction and len(hotels) != 0:
+            return rooms, Format().parse(check_in_date), Format().parse(check_out_date)
 
 
     def min_3(self):
@@ -258,11 +279,14 @@ class UserStoryMenu(Menu):
             print("Hotel information was updated successfully")
         if not status:
             print("There is no hotel with this Hotel ID")
-
-
     
     def min_4(self):
-        pass
+        rooms, check_in, check_out = self.min_2_2(fromFunction=True)
+        if rooms:
+            inputnumber = input("Please enter the choice number")
+            # print(rooms[int(inputnumber)-1])
+            user = self.app.user_Controller.login_user(self.login_user())
+            self.app.booking_Controller.create_booking(user, rooms[int(inputnumber)-1], check_in, check_out)
     
     def min_5(self):
         """Creates and shows an invoice for a booking.
@@ -426,3 +450,8 @@ class UserStoryMenu(Menu):
     
     def opt_4(self):
         pass
+
+    def login_user(self) -> tuple[int, str]:
+        id = int(input("Please provide user id: "))
+        password = input("Please provide password: ")
+        return id, password
