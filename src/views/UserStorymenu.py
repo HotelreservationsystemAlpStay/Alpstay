@@ -220,7 +220,28 @@ class UserStoryMenu(Menu):
         pass
     
     def min_5(self):
-        pass
+        booking_id = int(input("Please name the booking ID of which you'd like to create an invoice"))
+        result = self.app.invoice_Controller.create_invoice(booking_id)
+        if result == "cancelled":
+            print("This booking was cancelled, so there is not going to be an invoice")
+        elif result:
+            hotel, invoice, booking, first_name, last_name, nights = result
+            print(f"The invoice was created successfuly, below you can view the invoice:")
+            print("---------------------")
+            print(f"Invoice ID: {invoice.invoice_id}")
+            print(f"Issue Date: {invoice.issue_date}")
+            print("---------------------")
+            print(f"Guest: {first_name} {last_name}")
+            print(f"Hotel: {hotel.name} ({hotel.stars}★)")
+            print(f"Check-in: {booking.check_in_date}")
+            print(f"Check-out: {booking.check_out_date}")
+            print(f"Nights: {nights}")
+            print(f"Room ID: {booking.room_id}")
+            print("---------------------")
+            print(f"Total Amount: {invoice.total_amount:.2f} CHF")
+            print("---------------------")
+        else:
+            print("There was an error genearting the invoice, please try again later")
     
     def min_6(self):
         pass
