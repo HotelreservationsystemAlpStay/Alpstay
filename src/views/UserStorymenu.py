@@ -6,6 +6,7 @@ import time
 from models.User import User
 from datetime import datetime,date
 from utils.Formatting import Format
+from mythic.mythic_code import Mythic
 
 class UserStoryMenu(Menu):
     def __init__(self, app):
@@ -325,8 +326,26 @@ class UserStoryMenu(Menu):
         else:
             print("There was an error genearting the invoice, please try again later")
     
+    # Schönere Lösung mit Coach zu besprechen, gefällt mir nicht weil BL in GUI
     def min_6(self):
-        pass
+        id, pwd = self.login_user()
+        user = self.app.user_Controller.login_user(id, pwd)
+        if not user:
+            ms = Mythic()
+            ms.wtf()
+            return UserStoryMenu(self.app)
+        bookings = self.app.booking_Controller.get_bookings_from_user(user.guest_id)
+        counter = 1
+        for booking in bookings:
+            print(f"{counter}. : {booking}")
+            counter += 1
+        choice = input("Which booking would you like to cancel? ")
+        state = self.app.booking_Controller.update_booking(bookings[int(choice)-1], "cancel")
+        if state:
+            print("Booking has been canceled")
+            return UserStoryMenu(self.app)
+        print("Something went wrong, please open support ticket on localhost:8080/support")
+        UserStoryMenu(self.app)
     
     def min_7(self):
         city = input("Please name the city in which you would like to stay")

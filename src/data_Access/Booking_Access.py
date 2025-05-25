@@ -16,7 +16,13 @@ class Booking_Access:
     @staticmethod
     def _sqlite3row_to_booking(row:Row):
         return Booking(
-            booking_id=""
+            booking_id=row["booking_id"],
+            guest_id=row["guest_id"],
+            room_id=row["room_id"],
+            check_in_date=row["check_in_date"],
+            check_out_date=row["check_out_date"],
+            is_cancelled=row["is_cancelled"],
+            total_amount=row["total_amount"]
         )
 
     def create_booking(self, check_in_date: date, check_out_date: date, is_cancelled: bool, total_amount: float, guest_id: int, room_id: int) -> Booking:
@@ -138,7 +144,15 @@ class Booking_Access:
                 data = dict(row)
                 print(f"Booking NR: {data['booking_id']}, check-in: {data['check_in_date']}, check-out: {data['check_out_date']}, hotel: {data['name']}, cost: {data['total_amount']}")
 
-
+    def access_booking_guest(self, guest_id):
+        query = """
+        SELECT * FROM Booking WHERE guest_id = ?
+        """
+        result = self.db.fetchall(query, (guest_id,))
+        bookings = []
+        for row in result:
+            bookings.append(self._sqlite3row_to_booking(row))
+        return bookings
 
 
 #us3 = Booking_Access()

@@ -271,11 +271,4 @@ class Hotel_Controller:
         return self.hotel_access.access_update_hotel(hotel_id, name, stars, address_id)
     
 
-if __name__ == "__main__":
-    hc = Hotel_Controller()
-    hotels = hc.get_full_hotel("Hotel Baur au Lac", start_date=Format().parse("2024-06-23"), end_date=Format().parse("2027-06-23"))
-    for hotel in hotels:
-        print(len(hotel.rooms))
-        for room in hotel.rooms:
-            print(room.extendedStr())
 
