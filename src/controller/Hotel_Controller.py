@@ -8,7 +8,7 @@ from models.Hotels import Hotel
 from controller.User_Controller import User_Controller
 from controller.Room_Controller import RoomController
 from utils.Formatting import Format
-from datetime import date
+from datetime import date, datetime
 
 class Hotel_Controller:
     def __init__(self):
@@ -215,8 +215,8 @@ class Hotel_Controller:
         result = self.hotel_access.access_hotel_details(hotel_name)
         hotels = []
         for res in result:
-            print(res["name"])
             hotels.append(self._sqlite3row_to_hotel(row=res,address=Address_access().sqlite3row_to_address(res)))
+        print(len(hotels))
         for hotel in hotels:
             hotel.rooms = RoomController().get_rooms(dateStart=start_date, dateEnd=end_date, hotel_ids=[hotel.hotel_id])
         return hotels
@@ -273,9 +273,9 @@ class Hotel_Controller:
 
 if __name__ == "__main__":
     hc = Hotel_Controller()
-    hotels = hc.get_full_hotel("Hotel Baur au Lac", start_date="2025-06-05", end_date="2025-06-07")
+    hotels = hc.get_full_hotel("Hotel Baur au Lac", start_date=Format().parse("2024-06-23"), end_date=Format().parse("2027-06-23"))
     for hotel in hotels:
-        print(hotel)
+        print(len(hotel.rooms))
         for room in hotel.rooms:
             print(room.extendedStr())
 

@@ -18,10 +18,18 @@ import sqlite3
 class Room_Access:
     def __init__(self):
         self.db = Base_Access_Controller()
-        self._SELECT = "SELECT * from extended_room JOIN Booking ON Booking.room_id = extended_room.room_id"
+        self._SELECT = "SELECT DISTINCT extended_room.* from extended_room JOIN Booking ON Booking.room_id = extended_room.room_id"
         self._WHERE = "WHERE"
         self._AND = "AND"
-        self._WHERE_BOOKINGDATE = "NOT ( (Booking.check_in_date BETWEEN ? AND ?) OR (Booking.check_out_date BETWEEN ? AND ?) OR (Booking.check_in_date <= ? AND Booking.check_out_date >= ?) )"
+        self._WHERE_BOOKINGDATE = """
+        Booking.room_id not IN (
+	        SELECT extended_room.room_id from extended_room 
+            JOIN Booking ON Booking.room_id = extended_room.room_id 
+            WHERE ( 
+                (Booking.check_in_date BETWEEN ? AND ?) OR 
+                (Booking.check_out_date BETWEEN ? AND ?) OR 
+                (Booking.check_in_date <= ? AND Booking.check_out_date >= ?) ) )
+            """
         self._WHERE_HOTELID = "extended_room.hotel_id in"
         self._WHERE_ROOMTYPE = "extended_room.type_id = ?"
 
@@ -131,7 +139,8 @@ class Room_Access:
         """
         providedList = []
         query = self._SELECT
-        query, providedList = self._add_dates(query, providedList,dateStart,dateEnd)
+        print(type(dateStart))
+        query, providedList = self._add_dates(query, providedList,dateStart.isoformat(),dateEnd.isoformat())
         query, providedList = self._add_hotel_ids(query,providedList,hotel_ids)
         query, providedList = self._add_roomType(query,providedList, roomType)
         results = self.db.fetchall(

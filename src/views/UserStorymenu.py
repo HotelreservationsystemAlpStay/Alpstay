@@ -4,7 +4,7 @@ import tkinter as tk
 from controller.User_Controller import User_Controller
 import time
 from models.User import User
-from datetime import datetime
+from datetime import datetime,date
 from utils.Formatting import Format
 
 class UserStoryMenu(Menu):
@@ -203,7 +203,7 @@ class UserStoryMenu(Menu):
             check_in_date = input("When is your check in date - if you dont want to filter by dates, hit enter: ")
             check_out_date = input("When is your check out date - if you dont want to filter by dates, hit enter: ")
         #Check date format
-        hotels = self.app.hotel_Controller.get_full_hotel(name, check_in_date, check_out_date)
+        hotels = self.app.hotel_Controller.get_full_hotel(name, Format().parse(check_in_date), Format().parse(check_out_date))
         rooms = []
         if len(hotels) != 0:
             print("---------------------")
@@ -285,8 +285,16 @@ class UserStoryMenu(Menu):
         if rooms:
             inputnumber = input("Please enter the choice number")
             # print(rooms[int(inputnumber)-1])
-            user = self.app.user_Controller.login_user(self.login_user())
-            self.app.booking_Controller.create_booking(user, rooms[int(inputnumber)-1], check_in, check_out)
+            id, pwd = self.login_user()
+            user = self.app.user_Controller.login_user(id, pwd)
+            booking = self.app.booking_Controller.create_booking(user, rooms[int(inputnumber)-1], check_in, check_out)
+            if booking:
+                print(f"Success: Booking was created with id {booking.booking_id}")
+            else:
+                print("unfortunatelly, this did not work, please try again")
+        else:
+            print("unfortunatelly, this did not work, please try again")    
+        return UserStoryMenu(self.app)
     
     def min_5(self):
         """Creates and shows an invoice for a booking.

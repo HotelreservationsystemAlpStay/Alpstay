@@ -7,18 +7,23 @@ from data_Access.Base_Access_Controller import Base_Access_Controller
 from datetime import date, datetime
 from controller.User_Controller import User_Controller
 from mythic.mythic_code import Mythic
-
+from sqlite3 import Cursor, Row
 
 class Booking_Access:
     def __init__(self): 
         self.db = Base_Access_Controller()
 
-    def create_booking(self, booking_id: int, check_in_date: date, check_out_date: date, is_cancelled: bool, total_amount: float, guest_id: int, room_id: int) -> Booking:
+    @staticmethod
+    def _sqlite3row_to_booking(row:Row):
+        return Booking(
+            booking_id=""
+        )
+
+    def create_booking(self, check_in_date: date, check_out_date: date, is_cancelled: bool, total_amount: float, guest_id: int, room_id: int) -> Booking:
         """
         Create a new booking and save it to the database.
         
         Args:
-            booking_id (int): The ID of the booking.
             check_in_date (date): The check-in date.
             check_out_date (date): The check-out date.
             is_cancelled (bool): Whether the booking is cancelled or not.
@@ -28,23 +33,19 @@ class Booking_Access:
         Returns:
             Booking: The created booking object.
         """
-        Validator.checkID(booking_id, "Booking ID")
-        Validator.checkDateFormat(check_in_date, "Check-in date")
-        Validator.checkDateFormat(check_out_date, "Check-out date")
+        #Validator.checkDateFormat(check_in_date, "Check-in date")
+        #Validator.checkDateFormat(check_out_date, "Check-out date")
         Validator.checkDates(check_in_date, check_out_date)
         Validator.checkBoolean(is_cancelled, "is_cancelled")
         Validator.checkID(guest_id, "Guest ID")
         Validator.checkID(room_id, "Room ID")
 
-        booking = Booking(booking_id, check_in_date, check_out_date, is_cancelled, total_amount, guest_id, room_id)
-        
         query = """
-        INSERT INTO bookings (booking_id, check_in_date, check_out_date, is_cancelled, total_amount, guest_id, room_id) 
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO Booking (check_in_date, check_out_date, is_cancelled, total_amount, guest_id, room_id) 
+        VALUES (?, ?, ?, ?, ?, ?)
         """
-        self.db.execute(query, (booking.booking_id, booking.check_in_date, booking.check_out_date, booking.is_cancelled, booking.total_amount, booking.guest_id, booking.room_id))
-        
-        return booking
+        result = self.db.execute(query, (check_in_date, check_out_date, is_cancelled, total_amount, guest_id, room_id))
+        return self.get_booking(result.lastrowid)
 
     def get_booking(self, booking_id: int) -> Booking:
         Validator.checkID(booking_id, "Booking ID")
