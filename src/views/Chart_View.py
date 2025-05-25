@@ -111,3 +111,22 @@ class ChartView:
         else:
             chart_axes.text(0.5, 0.5, "No booking frequency data available", ha='center', va='center')
         self.figure.tight_layout()
+    
+    @staticmethod
+    def total_revenue_per_hotel(data):
+        window = tk.Toplevel()
+        window.title("Revenue per Hotel")
+
+        fig = Figure(figsize=(6, 4))
+        ax = fig.add_subplot(111)
+
+        hotel = [x[0] for x in data]
+        amount = [x[1] for x in data]
+        ax.bar(hotel, amount)
+        ax.set_title("Total Revenue per Hotel")
+        ax.set_xlabel("Hotel")
+        ax.set_ylabel("Revenue (CHF)")
+
+        canvas = FigureCanvasTkAgg(fig, master=window)
+        canvas.draw()
+        canvas.get_tk_widget().pack()

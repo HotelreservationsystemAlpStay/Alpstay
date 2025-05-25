@@ -41,6 +41,7 @@ class UserStoryMenu(Menu):
         self.add_item("",self.db_6)
         self.add_item("As an admin, I want to see the occupancy rate for each room type",self.dv_1)
         self.add_item("As an admin, I want to analyze my guests",self.dv_2)
+        self.add_item("As an admin, I would like to see the revenue per hotel", self.dv_3)
         self.add_item("",self.opt_1)
         self.add_item("",self.opt_1_1)
         self.add_item("",self.opt_1_2)
@@ -475,7 +476,11 @@ class UserStoryMenu(Menu):
             if data: 
                 print(f"Data received but deemed invalid or empty: {data}")
             return self
-    
+        
+    def dv_3(self):
+        results = self.app.chartview_Controller.get_amount_per_hotel()
+        ChartView.total_revenue_per_hotel(results)
+
     def opt_1(self):
         pass
     
