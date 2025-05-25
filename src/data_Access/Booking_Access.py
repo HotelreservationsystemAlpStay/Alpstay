@@ -69,34 +69,12 @@ class Booking_Access:
             )
         return None
 
-    def get_all_bookings_and_hotels(self) -> list:
-        query = """
-        SELECT b.booking_id, b.check_in_date, b.check_out_date, b.is_cancelled, b.total_amount,
-               b.guest_id, h.name, h.stars r.room_id
-        FROM Booking b
-        JOIN Room r ON b.room_id = r.room_id
-        JOIN Hotel h ON r.hotel_id = h.hotel_id
+    def access_all_booking(self):
+        query="""
+        SELECT hotel_id, name, stars, booking_id, check_in_date, check_out_date, is_cancelled, total_amount, guest_id, room_id
+        FROM booking_view
         """
-        rows = self.db.fetchall(query)
-        results = []
-        for row in rows:
-            results.append({
-                "booking": Booking(
-                    row["booking_id"],
-                    datetime.strptime(row["check_in_date"], "%Y-%m-%d").date(),
-                    datetime.strptime(row["check_out_date"], "%Y-%m-%d").date(),
-                    bool(row["is_cancelled"]),
-                    row["total_amount"],
-                    row["guest_id"],
-                    row["room_id"]
-                ),
-                "hotel": {
-                    "hotel_id": row["hotel_id"],
-                    "name": row["name"],
-                    "stars": row["stars"]
-                }
-            })
-        return results
+        return self.db.fetchall(query)
 
     def cancel_booking(self, booking_id: int):
         Validator.checkID(booking_id, "Booking ID")

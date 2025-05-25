@@ -1,12 +1,13 @@
 from models.User import User
 from models.Room import Room
 from models.Booking import Booking
+from models.Hotels import Hotel
 from datetime import datetime
 from data_Access.Booking_Access import Booking_Access
 
 class Booking_Controller:
     def __init__(self):
-        pass
+        self.Booking_Access = Booking_Access()
     
     def create_booking(self, user:User, room:Room, startDate:datetime, endDate:datetime):
         delta = (endDate-startDate).days
@@ -25,3 +26,12 @@ class Booking_Controller:
                 return True
             case _:
                 pass
+
+    def get_all_bookings(self):
+        result = self.Booking_Access.access_all_booking()
+        bookings = []
+        for row in result:
+            hotel = Hotel(row["hotel_id"], row["name"], row["stars"])
+            booking = Booking(row["booking_id"], row["check_in_date"], row["check_out_date"], row["is_cancelled"], row["total_amount"], row["guest_id"], row["room_id"])
+            bookings.append((hotel, booking))
+        return bookings

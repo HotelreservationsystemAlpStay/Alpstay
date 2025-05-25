@@ -363,7 +363,23 @@ class UserStoryMenu(Menu):
 
     
     def min_8(self):
-        pass
+        if self._authenticate_admin():
+            print("Shorty all bookings will be displayed")
+            time.sleep(2)
+            bookings = self.app.booking_Controller.get_all_bookings()
+            print("---------------------")
+            for hotel, booking in bookings:
+                if booking.is_cancelled:
+                    continue
+                else:
+                    print(f"Hotel: {hotel.name}, {hotel.stars} stars, ID: {hotel.hotel_id}")
+                    print(f"Booking: ID {booking.booking_id}, Guest {booking.guest_id}, Room {booking.room_id}")
+                    print(f"Check-in: {booking.check_in_date}, Check-out: {booking.check_out_date}")
+                    print(f"Amount: {booking.total_amount:.2f} CHF")
+                    print("---------------------")
+            print("---------------------")
+        else:
+            print("You need to be an admin to perform this action")
     
     def min_9(self):
         pass
