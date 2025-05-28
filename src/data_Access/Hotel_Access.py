@@ -15,7 +15,17 @@ class Hotel_Access:
         FROM extended_hotel
         WHERE city = ?
         """
-        return self.db.fetchall(query, (city,))
+        result = self.db.fetchall(query, (city,))
+        hotels = []
+        for row in result:
+            data = dict(row)
+            hotel = Hotel(
+                hotel_id=data["hotel_id"],
+                name=data["name"],
+                stars=data["stars"]
+            )
+            hotels.append(hotel)
+        return hotels
     
     def access_hotel_in_city_stars(self, city, min_stars):
         query = """

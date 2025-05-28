@@ -34,16 +34,7 @@ class Hotel_Controller:
         """
         Validator.checkStr(city, "city")
         result = self.hotel_access.access_hotel_in_city(city)
-        hotels = []
-        for row in result:
-            data = dict(row)
-            hotel = Hotel(
-                hotel_id=data["hotel_id"],
-                name=data["name"],
-                stars=data["stars"]
-            )
-            hotels.append(hotel)
-        return hotels
+        return result
     
     def get_hotel_in_city_stars(self, city, min_stars):
         """Returns all hotels in a city with at least the given number of stars
