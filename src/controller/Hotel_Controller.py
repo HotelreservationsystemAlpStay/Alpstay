@@ -48,17 +48,7 @@ class Hotel_Controller:
         """
         Validator.checkStr(city, "city")
         Validator.checkStars(min_stars)
-        result = self.hotel_access.access_hotel_in_city_stars(city, min_stars)
-        hotels = []
-        for row in result:
-            data = dict(row)
-            hotel = Hotel(
-                hotel_id=data["hotel_id"],
-                name=data["name"],
-                stars=data["stars"]
-            )
-            hotels.append(hotel)
-        return hotels
+        return self.hotel_access.access_hotel_in_city_stars(city, min_stars)
     
     def get_hotel_in_city_stars_guests(self, city, min_stars, guests):
         """Returns all hotels in a city with at least the given number of stars and enough capacity for the specified number of guests
@@ -74,17 +64,8 @@ class Hotel_Controller:
         Validator.checkStr(city, "city")
         Validator.checkStars(min_stars)
         Validator.checkPositiveInteger(guests, "Guests")
-        result = self.hotel_access.access_hotel_in_city_stars_guests(city, min_stars, guests)
-        hotels = []
-        for row in result:
-            data = dict(row)
-            hotel = Hotel(
-                hotel_id=data["hotel_id"],
-                name=data["name"],
-                stars=data["stars"]
-            )
-            hotels.append(hotel)
-        return hotels
+        return self.hotel_access.access_hotel_in_city_stars_guests(city, min_stars, guests)
+
     
     def get_hotel_in_city_booking(self, city, min_stars, guests, check_in_date, check_out_date):
         """Returns all hotels in a city that match minimum stars and guest requirements, and have available rooms in the given date range
@@ -111,16 +92,7 @@ class Hotel_Controller:
         result = self.hotel_access.access_hotel_in_city_booking(
             city, min_stars, guests, check_in_date, check_out_date
         )
-        hotels = []
-        for row in result:
-            data = dict(row)
-            hotel = Hotel(
-                hotel_id=data["hotel_id"],
-                name=data["name"],
-                stars=data["stars"]
-            )
-            hotels.append(hotel)
-        return hotels
+        return result
     
     def get_selected_filters(self, city, min_stars, guests, check_in_date, check_out_date):
         """Returns all hotels that match the given optional filters: city, minimum stars, guests, and date range
@@ -148,24 +120,17 @@ class Hotel_Controller:
             guests = int(guests)
             Validator.checkPositiveInteger(guests, "Guests")
         if (not check_in_date and check_out_date) or (check_in_date and not check_out_date):
-            raise ValueError("If you provide a check-in-date, you must provide a check-out-date and the other way around")  
+            raise ValueError("If you provide a check-in-date, you must provide a check-out-date and the other way around, please try again")  
         elif check_in_date and check_out_date:
             check_in_date = Format().parse(check_in_date)
             check_out_date = Format().parse(check_out_date)
             Validator.checkDate(check_in_date, "Check-in date")
             Validator.checkDate(check_out_date, "Check-out date")
             Validator.checkDateDifference(check_in_date, check_out_date)
+        elif not city and not min_stars and not guests and not check_in_date and not check_out_date:
+            raise ValueError("You must provide at least one filter, please try again")
         result = self.hotel_access.access_selected_filters(city, min_stars, guests, check_in_date, check_out_date)
-        hotels = []
-        for row in result:
-            data = dict(row)
-            hotel = Hotel(
-                hotel_id=data["hotel_id"],
-                name=data["name"],
-                stars=data["stars"]
-            )
-            hotels.append(hotel)
-        return hotels
+        return result
     
     def get_hotel_details(self, hotel_name):
         """Returns detailed hotel information including address data for a given hotel name
@@ -179,18 +144,7 @@ class Hotel_Controller:
         result = self.hotel_access.access_hotel_details(hotel_name)
         if not result:
             return []
-        hotels = []
-        for row in result: 
-            data = dict(row)
-            hotel = Hotel(
-                hotel_id=data["hotel_id"],
-                name=data["name"],
-                stars=data["stars"]
-            )
-            street = data["street"]
-            city = data["city"]
-            hotels.append((hotel, street, city))
-        return hotels
+        return result
     
     def get_full_hotel(self, hotel_name:str, start_date:date = None, end_date:date = None):
         """Returns full hotel with address and rooms, for the moment only 1 Hotel but able to expand

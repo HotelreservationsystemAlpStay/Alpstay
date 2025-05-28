@@ -34,7 +34,17 @@ class Hotel_Access:
         WHERE city = ? 
         AND stars >= ?
         """
-        return self.db.fetchall(query, (city, min_stars))
+        result =  self.db.fetchall(query, (city, min_stars))
+        hotels = []
+        for row in result:
+            data = dict(row)
+            hotel = Hotel(
+                hotel_id=data["hotel_id"],
+                name=data["name"],
+                stars=data["stars"]
+            )
+            hotels.append(hotel)
+        return hotels
 
     def access_hotel_in_city_stars_guests(self, city, min_stars, guests):
         query = """
@@ -44,7 +54,17 @@ class Hotel_Access:
         AND stars >= ?
         AND max_guests >= ? 
         """
-        return self.db.fetchall(query, (city, min_stars, guests))
+        result =  self.db.fetchall(query, (city, min_stars, guests))
+        hotels = []
+        for row in result:
+            data = dict(row)
+            hotel = Hotel(
+                hotel_id=data["hotel_id"],
+                name=data["name"],
+                stars=data["stars"]
+            )
+            hotels.append(hotel)
+        return hotels
 
 
 #User Story 4 müsste eigentlich stars und guests nicht enthalten, habe es trotzdem mal drin gelassen 
@@ -72,7 +92,17 @@ class Hotel_Access:
             check_in_date, check_out_date,
             check_in_date, check_out_date
         )
-        return self.db.fetchall(query, params)
+        result = self.db.fetchall(query, params)
+        hotels = []
+        for row in result:
+            data = dict(row)
+            hotel = Hotel(
+                hotel_id=data["hotel_id"],
+                name=data["name"],
+                stars=data["stars"]
+            )
+            hotels.append(hotel)
+        return hotels
 
     def access_selected_filters(self, city, min_stars, guests, check_in_date, check_out_date):
         query = """
@@ -108,7 +138,17 @@ class Hotel_Access:
             parameters.append(check_out_date)
             parameters.append(check_in_date)
             parameters.append(check_out_date)
-        return self.db.fetchall(query, parameters)
+        result = self.db.fetchall(query, parameters)
+        hotels = []
+        for row in result:
+            data = dict(row)
+            hotel = Hotel(
+                hotel_id=data["hotel_id"],
+                name=data["name"],
+                stars=data["stars"]
+            )
+            hotels.append(hotel)
+        return hotels
 
 
     def access_hotel_details(self, hotel_name):
@@ -117,7 +157,18 @@ class Hotel_Access:
         FROM extended_hotel_room
         WHERE (name) = (?)       
         """
-        return self.db.fetchall(query, (hotel_name,))
+        result = self.db.fetchall(query, (hotel_name,))
+        hotels = []
+        for row in result: 
+            data = dict(row)
+            hotel = Hotel(
+                hotel_id=data["hotel_id"],
+                name=data["name"],
+                stars=data["stars"]
+            )
+            street = data["street"]
+            city = data["city"]
+            hotels.append((hotel, street, city))
     
     def access_add_hotel(self, name, stars, address_id):
         query_max_id = """

@@ -149,12 +149,16 @@ class UserStoryMenu(Menu):
         The user can leave any input empty to skip that filter.
         Gets matching hotels from the controller and prints their names and star ratings.
         """
-        city = input("Plesae enter the city in which you are looking for a hotel - if you dant want to filter by city, hit enter:")
-        stars = input("How many stars should your hotel at least have - if you dont want to filter by stars, hit enter: ")
-        guests = input("How many guests should at least fit into your room - if you dont want to filter by stars, hit enter: ")
-        check_in_date = input("When is you check in date - if you dont want to filter by stars, hit enter: ")
-        check_out_date = input("When is you check out date - if you dont want to filter by stars, hit enter: ")
-        hotels = self.app.hotel_Controller.get_selected_filters(city, stars, guests, check_in_date, check_out_date)
+        try:
+            city = input("Plesae enter the city in which you are looking for a hotel - if you dant want to filter by city, hit enter:")
+            stars = input("How many stars should your hotel at least have - if you dont want to filter by stars, hit enter: ")
+            guests = input("How many guests should at least fit into your room - if you dont want to filter by stars, hit enter: ")
+            check_in_date = input("When is you check in date - if you dont want to filter by check-in date, hit enter: ")
+            check_out_date = input("When is you check out date - if you dont want to filter by check-in-date, hit enter: ")
+            hotels = self.app.hotel_Controller.get_selected_filters(city, stars, guests, check_in_date, check_out_date)
+        except ValueError as e:
+            print(e)
+            self.min_1_5()
         print("---------------------")
         if hotels:
             for hotel in hotels:
