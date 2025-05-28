@@ -291,8 +291,7 @@ class UserStoryMenu(Menu):
         if rooms:
             inputnumber = input("Please enter the choice number")
             # print(rooms[int(inputnumber)-1])
-            id, pwd = self.login_user()
-            user = self.app.user_Controller.login_user(id, pwd)
+            user = self.login_user()
             booking = self.app.booking_Controller.create_booking(user, rooms[int(inputnumber)-1], check_in, check_out)
             if booking:
                 print(f"Success: Booking was created with id {booking.booking_id}")
@@ -333,9 +332,7 @@ class UserStoryMenu(Menu):
     
     # Schönere Lösung mit Coach zu besprechen, gefällt mir nicht weil BL in GUI
     def min_6(self):
-        id, pwd = self.login_user()
-        user = self.app.user_Controller.login_user(id, pwd)
-        if not user:
+        if not self._authenticate_admin():
             ms = Mythic()
             ms.wtf()
             return UserStoryMenu(self.app)
@@ -367,7 +364,7 @@ class UserStoryMenu(Menu):
             print("---------------------")
 
     
-    def min_8(self):
+    def min_8(self, fromFunction:bool=False):
         if self._authenticate_admin():
             print("Shorty all bookings will be displayed")
             time.sleep(2)
@@ -383,17 +380,32 @@ class UserStoryMenu(Menu):
                     print(f"Amount: {booking.total_amount:.2f} CHF")
                     print("---------------------")
             print("---------------------")
+            if fromFunction:
+                return bookings
         else:
             print("You need to be an admin to perform this action")
     
     def min_9(self):
-        pass
+        if self._authenticate_admin():
+            rooms = self.app.roomController.get_rooms()
+            print("---------------------")
+            for room in rooms:
+                print(room.extendedStr())
+            print("---------------------")
     
     def min_10(self):
         pass
     
     def db_1(self):
-        pass
+        bookings = self.min_8(fromFunction=True)
+        counter = 1
+        for booking in bookings:
+            print(f"{counter}. {booking}")
+            counter += 1
+        choice = input("Which booking would you like to alter? ")
+        booking = bookings[int(choice)-1]
+        phonenumber = int(input("Enter altered Phone number"))
+        self.app.hotelController.update_booking(phonenumber=phonenumber)
     
     def db_2(self):
         pass
@@ -503,7 +515,7 @@ class UserStoryMenu(Menu):
     def opt_4(self):
         pass
 
-    def login_user(self) -> tuple[int, str]:
+    def login_user(self) -> User:
         id = int(input("Please provide user id: "))
         password = input("Please provide password: ")
-        return id, password
+        return self.app.user_Controller.login_user(id, pwd)

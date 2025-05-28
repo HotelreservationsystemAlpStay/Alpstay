@@ -62,6 +62,7 @@ CREATE TABLE
         check_out_date DATE NOT NULL,
         is_cancelled BOOLEAN NOT NULL DEFAULT 0, -- 0 = confirmed, 1 = cancelled
         total_amount REAL,
+        telefon INT,
         FOREIGN KEY (guest_id) REFERENCES Guest (guest_id) ON DELETE CASCADE,
         FOREIGN KEY (room_id) REFERENCES Room (room_id) ON DELETE CASCADE
     );
@@ -140,7 +141,13 @@ INSERT INTO
         address_id
     )
 VALUES
-    (1, 'Hans', 'Müller', 'hans.mueller@example.ch', 1),
+    (
+        1, 
+        'Hans', 
+        'Müller', 
+        'hans.mueller@example.ch', 
+        1
+    ),
     (
         2,
         'Sophie',
@@ -148,7 +155,13 @@ VALUES
         'sophie.meier@example.ch',
         2
     ),
-    (3, 'Luca', 'Rossi', 'luca.rossi@example.ch', 3),
+    (
+        3, 
+        'Luca', 
+        'Rossi', 
+        'luca.rossi@example.ch', 
+        3
+    ),
     (
         4,
         'Elena',
@@ -156,8 +169,20 @@ VALUES
         'elena.keller@example.ch',
         4
     ),
-    (5, 'Marc', 'Weber', 'marc.weber@example.ch', 5),
-    (6, 'System', 'Admin', 'admin@aplstay.ch', 5);
+    (
+        5, 
+        'Marc', 
+        'Weber', 
+        'marc.weber@example.ch', 
+        5
+    ),
+    (
+        6, 
+        'System', 
+        'Admin', 
+        'admin@aplstay.ch', 
+        5
+    );
 
 INSERT INTO
     User (user_id, guest_id, user_role, user_password)

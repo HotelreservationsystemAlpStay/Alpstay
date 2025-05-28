@@ -35,3 +35,6 @@ class Booking_Controller:
             booking = Booking(row["booking_id"], row["check_in_date"], row["check_out_date"], row["is_cancelled"], row["total_amount"], row["guest_id"], row["room_id"])
             bookings.append((hotel, booking))
         return bookings
+    
+    def update_booking(self, booking:Booking, phonenumber:int=None, iscancelled:bool=None, totalamount:int=None):
+        self.Booking_Access.update_booking(self, booking, phonenumber, iscancelled, totalamount)

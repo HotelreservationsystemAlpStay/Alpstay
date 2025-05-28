@@ -25,6 +25,10 @@ class Booking_Access:
             total_amount=row["total_amount"]
         )
 
+    @staticmethod
+    def _get_list_to_tuple(providedList:list):
+        return tuple(providedList)
+
     def create_booking(self, check_in_date: date, check_out_date: date, is_cancelled: bool, total_amount: float, guest_id: int, room_id: int) -> Booking:
         """
         Create a new booking and save it to the database.
@@ -131,7 +135,16 @@ class Booking_Access:
         for row in result:
             bookings.append(self._sqlite3row_to_booking(row))
         return bookings
-
+    
+    def update_booking(self, booking:Booking, phonenumber:int=None, iscancelled:bool=None, totalamount:int=None):
+        query = "update Booking set "
+        param = []
+        if phonenumber:
+            query += "phonenumber = ?"
+            param.append(phonenumber)
+        query += " WHERE booking_id = ?"
+        param.append(booking.booking_id)
+        self.db.execute(query, params=self._get_list_to_tuple(param))
 
 #us3 = Booking_Access()
 #us3.view_booking(6, "admin")

@@ -2,7 +2,7 @@ from datetime import date
 
 class Booking:
     def __init__(self, booking_id: int, check_in_date: date, check_out_date: date, is_cancelled: bool, 
-                 total_amount: float, guest_id: int, room_id: int):
+                 total_amount: float, guest_id: int, room_id: int, telefon:int=None):
         
         self._booking_id = booking_id
         self._check_in_date = check_in_date
@@ -11,6 +11,7 @@ class Booking:
         self._total_amount = total_amount 
         self._guest_id = guest_id
         self._room_id = room_id
+        self._telefon = telefon
 
     @property
     def booking_id(self) -> int:
@@ -67,6 +68,14 @@ class Booking:
     @room_id.setter
     def room_id(self, room_id: int) -> None:
         self._room_id = room_id
+
+    @property
+    def telefon(self)->int:
+        return self._telefon
+    
+    @telefon.setter
+    def telefon(self, telefon:int):
+        self._telefon = telefon
 
     def calculate_total_days(self) -> int:
         """
