@@ -62,7 +62,7 @@ CREATE TABLE
         check_out_date DATE NOT NULL,
         is_cancelled BOOLEAN NOT NULL DEFAULT 0, -- 0 = confirmed, 1 = cancelled
         total_amount REAL,
-        telefon INT,
+        telefon INTEGER,
         FOREIGN KEY (guest_id) REFERENCES Guest (guest_id) ON DELETE CASCADE,
         FOREIGN KEY (room_id) REFERENCES Room (room_id) ON DELETE CASCADE
     );
