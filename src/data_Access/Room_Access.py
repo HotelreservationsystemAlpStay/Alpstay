@@ -97,6 +97,8 @@ class Room_Access:
         """
         if not dateStart:
             return query, param
+        dateStart = dateStart.isoformat()
+        dateEnd = dateEnd.isoformat()
         if "WHERE" in query: query +=f" {self._AND}"
         if "AND" not in query: query +=f" {self._WHERE}"
         query += f" {self._WHERE_BOOKINGDATE}"
@@ -122,7 +124,15 @@ class Room_Access:
         query += f" {self._WHERE_ROOMTYPE}"
         param.append(roomType.id)
         return query, param
-                    
+                   
+    def get_room(self, room_id:int):
+        query = f"{self._SELECT} WHERE extended_room.room_id = ?"
+        room = self.db.fetchone(query=query, params=(room_id,))
+        return self._sqlite3row_to_room(
+                    row=room,
+                    facilities=self._strId_to_facility(room["facilities_list"]),
+                    roomType=self._intId_to_roomType(room["type_id:1"])
+                )
 
     def get_rooms(
         self, dateStart: date = None, dateEnd: date = None, hotel_ids: list[int] = None, roomType:RoomType = None
@@ -140,7 +150,7 @@ class Room_Access:
         providedList = []
         query = self._SELECT
         print(type(dateStart))
-        query, providedList = self._add_dates(query, providedList,dateStart.isoformat(),dateEnd.isoformat())
+        query, providedList = self._add_dates(query, providedList,dateStart,dateEnd)
         query, providedList = self._add_hotel_ids(query,providedList,hotel_ids)
         query, providedList = self._add_roomType(query,providedList, roomType)
         results = self.db.fetchall(
@@ -177,3 +187,7 @@ class Room_Access:
         params = (city, check_in_date, check_out_date, check_in_date, check_out_date, check_in_date, check_out_date)
         return self.db.fetchall(query, params)
     
+    def updateRoom(self, room:Room):
+        query = "UPDATE Room SET room_number = ?, type_id = ?, price_per_night = ? WHERE room_id = ?"
+        self.db.execute(query, (room.room_no, room.roomType.id, room.price_per_night, room.room_id))
+        return self.get_room(room.room_id)

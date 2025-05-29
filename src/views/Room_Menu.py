@@ -1,28 +1,40 @@
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from views.Menu import Menu
 from models.Hotels import Hotel
 from models.Room import Room
-from controller.Room_Controller import RoomController
 
 class Room_Menu(Menu):
-    def __init__(self, app, hotels:list[Hotel]=None):
+    def __init__(self, app, prev:Menu):
         super().__init__(title="Room Menu", app=app)
-        self.hotels = hotels
-        self.add_item("Rooms for provided hotels", self.get_rooms)
-        if not hotels:
-            pass
-        elif len(hotels) == 1:
-            pass
-        else:
-            pass
+        self._prev_menu = prev
+        self.add_item("Get Rooms", self.get_rooms)
+        self.add_item("Update Room", self.update_room)
+        self.add_item("Back", self.back)
 
-    def get_rooms(self):
-        print(self.hotels)
-        hotel_ids = []
-        for hotel in self.hotels:
-            hotel_ids.append(hotel.hotel_id)
-        result = self.app.room_controller.get_rooms(hotel_ids=hotel_ids)
-        for item in result:
-            print(item)
+    def get_rooms(self,fromFunction=False):
+        rooms = self.app.room_Controller.get_rooms()
+        print("------")
+        counter = 1
+        for room in rooms:
+            print(f"{counter}. {room.extendedStr()}")
+            counter +=1
+        print("------")
+        if fromFunction:
+            return rooms
+        return self
+        
+    def update_room(self):
+        rooms = self.get_rooms(fromFunction=True)
+        choice = int(input("Please enter choice of Room to update: "))-1
+        price = input("Enter new price, hit enter to skip: ")
+        if price == "":
+            print("No price provided")
+        price = float(price)
+        room = rooms[choice]
+        room.price_per_night = price
+        room = self.app.room_Controller.update_room(room)
+        print(room)
+        return self
+    
+            
+    def back(self)->Menu:
+        return self._prev_menu

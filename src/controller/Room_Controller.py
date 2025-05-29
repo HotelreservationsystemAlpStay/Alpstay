@@ -7,10 +7,13 @@ from utils.Formatting import Format
 
 class RoomController():
     def __init__(self):
-        self.Room_Access = Room_Access()
+        self.room_Access = Room_Access()
     
     def get_rooms(self, dateStart: date = None, dateEnd: date = None, hotel_ids: list[int] = None, roomType:RoomType = None)->list[Room]:
-        return Room_Access().get_rooms(dateStart=dateStart, dateEnd=dateEnd, hotel_ids=hotel_ids, roomType=roomType)
+        return self.room_Access.get_rooms(dateStart=dateStart, dateEnd=dateEnd, hotel_ids=hotel_ids, roomType=roomType)
+    
+    def update_room(self, room:Room):
+        return self.room_Access.updateRoom(room)
     
     def get_available_rooms_city(self, city:str, check_in_date:str, check_out_date:str):
         check_in_date = Format.parse(check_in_date)
