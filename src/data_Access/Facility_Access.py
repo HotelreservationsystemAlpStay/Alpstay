@@ -13,15 +13,65 @@ class Facility_Access:
         self.db = Base_Access_Controller()
 
     @staticmethod
-    def _sqlite3row_to_room(row: sqlite3.Row) -> Facility:
+    def _sqlite3row_to_facility(row: sqlite3.Row) -> Facility:
+        """generates an object of type facility based on sqlite3row
+
+        Args:
+            row (sqlite3.Row): row from databse
+
+        Returns:
+            Facility: translated object
+        """
         return Facility(id=row["facility_id"], name=row["facility_name"])
 
+    def get_facilities(self)->list[Facility]:
+        """returns list of facilities
+
+        Returns:
+            list[Facility]: list of facilities
+        """
+        query = "SELECT * FROM Facilities"
+        result = self.db.fetchall(query=query)
+        facilities = []
+        for row in result:
+            facilities.append(self._sqlite3row_to_facility(row))
+        return facilities
+
     def get_facility_by_id(self, facility_id: int)->Facility:
+        """returns facility of provided id
+
+        Args:
+            facility_id (int): facility id as is in db
+
+        Returns:
+            Facility: translated object
+        """
         query = "SELECT * FROM Facilities WHERE facility_id = ?"
         results = self.db.fetchone(query, (facility_id,))
-        return self._sqlite3row_to_room(results)
+        return self._sqlite3row_to_facility(results)
     
-    def get_room_facilities(self, room_id: int) -> list:
+    def update_facility(self, facility: Facility) -> Facility:
+        """updates facility in db to object provided, return updated and newly loaded facility to may check whether everything has been done correctly
+
+        Args:
+            facility (Facility): object to be saved in db
+
+        Returns:
+            Facility: updated row in db to translated object
+        """
+        query = "UPDATE Facilities SET facility_name = ? WHERE facility_id = ?"
+        self.db.execute(query=query, params=(facility.name,facility.id))
+        return self.get_facility_by_id(facility_id=facility.id)
+    
+    def get_room_facilities(self, room_id: int) -> list[Facility]:
+        """return list of facilities which are connected to provided room id
+        
+        Args:
+            room_id (int): room id
+            
+        Return:
+            list[Facility]: list of associated facilities
+        """
         query = """
         SELECT Facilities.facility_id, Facilities.facility_name
         FROM Facilities

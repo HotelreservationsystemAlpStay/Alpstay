@@ -7,6 +7,7 @@ from controller.Invoice_Controller import Invoice_Controller
 from controller.User_Controller import User_Controller
 from controller.Booking_Controller import Booking_Controller
 from controller.Chartview_Controller import Chartview_Controller
+from controller.Facility_Controller import Facility_Controller
 
 class Application:
     def __init__(self):
@@ -18,6 +19,7 @@ class Application:
         self.user_Controller = User_Controller()
         self.booking_Controller = Booking_Controller()
         self.chartview_Controller = Chartview_Controller()
+        self.facility_Controller = Facility_Controller()
         self.__is_running = True
 
     def stop(self):

@@ -1,6 +1,7 @@
 from views.Menu import Menu
 from views.Chart_View import ChartView
 from views.RoomType_Menu import RoomType_Menu 
+from views.Facility_Menu import Facility_Menu 
 import tkinter as tk
 from controller.User_Controller import User_Controller
 import time
@@ -413,7 +414,7 @@ class UserStoryMenu(Menu):
             case 1:
                 return RoomType_Menu(self.app, self)
             case 2:
-                pass
+                return Facility_Menu(self.app, self)
             case 3:
                 pass
             case 4:
