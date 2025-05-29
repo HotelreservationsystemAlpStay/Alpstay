@@ -18,7 +18,7 @@ class StartMenu(Menu):
         return self
     
     def link_userstories(self):
-        return UserStoryMenu(self.app)
+        return UserStoryMenu(self.app, self)
     
     def quit(self):
         print("Everything has an end but the sausage has two")

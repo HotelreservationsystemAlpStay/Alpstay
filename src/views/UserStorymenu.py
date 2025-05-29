@@ -1,5 +1,6 @@
 from views.Menu import Menu
-from views.Chart_View import ChartView 
+from views.Chart_View import ChartView
+from views.RoomType_Menu import RoomType_Menu 
 import tkinter as tk
 from controller.User_Controller import User_Controller
 import time
@@ -9,7 +10,7 @@ from utils.Formatting import Format
 from mythic.mythic_code import Mythic
 
 class UserStoryMenu(Menu):
-    def __init__(self, app):
+    def __init__(self, app, prev):
         super().__init__("UserStories", app)
         self.add_item("As a guest, I want to search for a hotel in a city, so that i can choose the one, that meets my criteria",self.min_1)
         self.add_item("Criteria 1: City",self.min_1_1)
@@ -48,6 +49,8 @@ class UserStoryMenu(Menu):
         self.add_item("",self.opt_2)
         self.add_item("",self.opt_3)
         self.add_item("",self.opt_4)
+        self.add_item("back", self.back)
+        self._prev_menu = prev
         
     def _authenticate_admin(self):
         """Handles admin authentication."""
@@ -332,7 +335,8 @@ class UserStoryMenu(Menu):
     
     # Schönere Lösung mit Coach zu besprechen, gefällt mir nicht weil BL in GUI
     def min_6(self):
-        if not self._authenticate_admin():
+        user = self.login_user()
+        if not user:
             ms = Mythic()
             ms.wtf()
             return UserStoryMenu(self.app)
@@ -394,8 +398,27 @@ class UserStoryMenu(Menu):
             print("---------------------")
     
     def min_10(self):
-        pass
-    
+        if not self._authenticate_admin():
+            ms = Mythic()
+            ms.wtf()
+            return UserStoryMenu(self.app)
+        possibleValues = ["RoomType", "Facilities", "Rooms"]
+        counter = 1
+        for value in possibleValues:
+            print(f"{counter}. {value}")
+            counter += 1
+        print(f"{counter}. back")
+        choice = int(input("pleasy enter your choice"))
+        match choice:
+            case 1:
+                return RoomType_Menu(self.app, self)
+            case 2:
+                pass
+            case 3:
+                pass
+            case 4:
+                return UserStoryMenu(self.app)
+            
     def db_1(self):
         bookings = self.min_8(fromFunction=True)
         counter = 1
@@ -515,7 +538,10 @@ class UserStoryMenu(Menu):
     def opt_4(self):
         pass
 
+    def back(self):
+        return self._prev_menu
+
     def login_user(self) -> User:
         id = int(input("Please provide user id: "))
         password = input("Please provide password: ")
-        return self.app.user_Controller.login_user(id, pwd)
+        return self.app.user_Controller.login_user(id, password)
