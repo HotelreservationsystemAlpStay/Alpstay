@@ -58,3 +58,16 @@ class Booking_Controller:
             return result
         else:
             return False
+    
+    def check_user_id_matches_booking_id(self, booking_id, guest_id):
+        booking_id = int(booking_id)
+        guest_id = int(guest_id)
+        Validator.checkID(booking_id)
+        Validator.checkID(guest_id)
+        hotel_id = self.Booking_Access.check_user_id_matches_booking_id(booking_id, guest_id)
+        if not hotel_id:
+            return False
+        else:
+            hotel_id = hotel_id["hotel_id"]
+            return hotel_id
+

@@ -26,6 +26,19 @@ class RatingAccess:
         row_id = c.lastrowid
         return Rating(row_id, hotel_id, guest_id, score, comment) # TODO: created_at to model
     
+    def create_rating_new(self, booking_id, hotel_id, score, review, created_at):
+        query = """
+        INSERT INTO Rating (booking_id, hotel_id, score, review, created_at)
+        VALUES (?, ?, ?, ?, ?)
+        """
+        params = (booking_id, hotel_id, score, review, created_at)
+        status = self.db.execute(query, params)
+        if status.rowcount == 1:
+            return True
+        else:
+            return False
+
+    
 
 if __name__ == "__main__":
     ra = RatingAccess()

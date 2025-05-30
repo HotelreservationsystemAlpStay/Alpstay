@@ -37,7 +37,7 @@ class UserStoryMenu(Menu):
         self.add_item("As an admin, I want to be capable to update master data (RoomTypes, Facilities, Prices)",self.min_10)
         self.add_item("As an admin, I want to update missing information in bookings",self.db_1)
         self.add_item("As a guest, I want to see my booking history",self.db_2)
-        self.add_item("For all bookings, I should be able to use the following action 'create', 'update', 'cancel'",self.db_2_1)
+        self.add_item("I want to create a new booking",self.db_2_1_1)
         self.add_item("As a guest, I want to create a rating about the stay at a hotel",self.db_3)
         self.add_item("As a guest, I want to read ratings before I book",self.db_4)
         self.add_item("",self.db_5)
@@ -453,7 +453,7 @@ class UserStoryMenu(Menu):
     def db_2(self):
         pass
     
-    def db_2_1(self):
+    def db_2_1_1(self):
         def available_rooms(hotel_id):
             check_in_date = input("Please enter your check-in date: ")
             check_out_date = input("Please enter your check-out date: ")
@@ -494,6 +494,10 @@ class UserStoryMenu(Menu):
                     return UserStoryMenu(self.app)
             else:
                 print("Sorry this room does not exist, please try again")
+        def db_2_1_2(self):
+            pass 
+        #I have no clue how we should do update and cancel booking, they were already done above, so no need for that to be done again, also what should we update??
+
 
         hotel_name = input("Please enter the name of the hotel you'd like to book with:")
         hotels = self.app.hotel_Controller.get_hotel_details(hotel_name)
@@ -520,7 +524,31 @@ class UserStoryMenu(Menu):
 
     
     def db_3(self):
-        pass
+        uc = User_Controller()
+        user_id = self._authentice_guest()
+        if not user_id:
+            print("Your login details were wrong, please try again")
+            return UserStoryMenu(self.app)
+        else:
+            user_id = int(user_id)
+            booking_id = input("Please name your booking id, for which you'd like to leave a review")
+            guest_id = self.app.user_Controller.get_guest_id(user_id)
+            hotel_id = self.app.booking_Controller.check_user_id_matches_booking_id(booking_id, guest_id)
+            if not hotel_id:
+                print("This is not your booking, please try again")
+            else:
+                score = input("Please leave your desired score, you can leave any number between 1 and 5")
+                review = input("Please leave a comment reagarding your score")
+                status = self.app.rating_Controller.create_rating(booking_id, hotel_id, score, review)
+                if status:
+                    print("Rating was created successfully")
+                else:
+                    print("Something went wrong, please try again")
+
+                
+
+
+
     
     def db_4(self):
         pass

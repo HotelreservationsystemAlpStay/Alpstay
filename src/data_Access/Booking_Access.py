@@ -139,6 +139,18 @@ class Booking_Access:
         query += " WHERE booking_id = ?"
         param.append(booking.booking_id)
         self.db.execute(query, params=self._get_list_to_tuple(param))
+    
+    def check_user_id_matches_booking_id(self, booking_id, guest_id):
+        query = """
+        SELECT hotel_id
+        FROM booking_view
+        WHERE booking_id = ?
+        AND guest_id = ?
+        """
+        params = (booking_id, guest_id)
+        result = self.db.fetchone(query, params)
+        return result
+        
 
 #us3 = Booking_Access()
 #us3.view_booking(6, "admin")
