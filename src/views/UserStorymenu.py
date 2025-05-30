@@ -75,6 +75,24 @@ class UserStoryMenu(Menu):
         
         print("Admin access granted.")
         return True
+    
+    def _authentice_guest(self):
+        #try user id 1 with this password fciwke-peOlme-8rutjj
+        try:
+            user_id_input = input("This action requires you to be logged in, please enter your ID: ")
+            user_id = int(user_id_input)
+        except ValueError:
+            print("Invalid ID format. Please enter a number.")
+            input("Press Enter to return to the menu.")
+            return False
+        password = input("Please enter your password: ")
+        
+        ca = User_Controller()
+        rights = ca.login_user(user_id, password)
+        if rights:
+            return user_id
+        else:
+            return False
 
     def min_1(self):
         pass
@@ -439,20 +457,41 @@ class UserStoryMenu(Menu):
         def available_rooms(hotel_id):
             check_in_date = input("Please enter your check-in date: ")
             check_out_date = input("Please enter your check-out date: ")
-            rooms, nights = self.app.room_Controller.get_available_rooms_by_hotel_id(hotel_id, check_in_date, check_out_date)
+            rooms = self.app.room_Controller.get_available_rooms_by_hotel_id(hotel_id, check_in_date, check_out_date)
             if not rooms:
                 print("Unfortunately there are no available rooms during your dates.")
                 return UserStoryMenu(self.app)
             else:
                 print("The following rooms are available:")
+                room_selection = []
                 room_ids = []
                 for room, room_type, total_amount in rooms:
                     print(f"Room ID: {room.room_id}, Price per night: {room.price_per_night}, Type: {room_type.description}, Max guests: {room_type.maxGuests}, total amount: {total_amount}")
+                    room_selection.append((room.room_id, float(total_amount)))
                     room_ids.append(room.room_id)
+                    
                 time.sleep(5)
-                room_id = input("Please enter the Room ID of the room you'd like to book: ")
+                room_id = int(input("Please enter the Room ID of the room you'd like to book: "))
+                amount = next((amt for rid, amt in room_selection if rid == room_id), None)
+                if amount is None:
+                    print("Invalid Room ID.")
+                    return UserStoryMenu(self.app)
+                
             if room_id in room_ids:
-                self.app.booking_Controller.create_booking_new()
+                user_id = self._authentice_guest()
+                if user_id:
+                    guest_id = self.app.user_Controller.get_guest_id(user_id)
+                    total_amount = amount
+                    phone_number = input("If you would like to add a phone number, then plese enter this right here, else hit enter")
+                    booking_id = self.app.booking_Controller.create_booking_new(guest_id, room_id, check_in_date, check_out_date, total_amount, phone_number)
+                    if booking_id:
+                        print(f"Your booking with the ID {booking_id.booking_id} is confirmed")
+                    else:
+                        print("Something went wrong, please try again")
+                        return UserStoryMenu(self.app)
+                else:
+                    print("Your login credentials were wrong, please try again")
+                    return UserStoryMenu(self.app)
             else:
                 print("Sorry this room does not exist, please try again")
 

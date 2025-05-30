@@ -47,6 +47,18 @@ class User_Access:
         if not result:
             return None
         return self._sqlite3row_to_user(result)
+    
+    def get_user_by_guest_id(self, user_id):
+        query = """
+        SELECT guest_id 
+        FROM User
+        WHERE user_id = ?
+        """
+        result = self.db_controller.fetchone(query, (user_id,))
+        if result:
+            return result["guest_id"]
+        else:
+            return False
 
 if __name__ == "__main__":
     print(User_Access().get_user(1, "name"))

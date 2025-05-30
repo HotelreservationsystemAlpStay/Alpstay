@@ -4,6 +4,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from data_Access.Base_Access_Controller import Base_Access_Controller
 from data_Access.User_Access import User_Access
 from models.User import User
+from utils.Validator import Validator
 import hashlib
 
 class User_Controller:
@@ -36,6 +37,15 @@ class User_Controller:
         if not user_return or user_return.role != "Admin":
             return False
         return True
+
+    def get_guest_id(self, user_id:int) -> int:
+        user_id = int(user_id)
+        Validator.checkID(user_id)
+        guest_id = self.ua.get_user_by_guest_id(user_id)
+        guest_id = int(guest_id)
+        return guest_id
+
+
 
 
 if __name__ == "__main__":
