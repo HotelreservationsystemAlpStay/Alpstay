@@ -169,6 +169,7 @@ class Hotel_Access:
             street = data["street"]
             city = data["city"]
             hotels.append((hotel, street, city))
+        return hotels
     
     def access_add_hotel(self, name, stars, address_id):
         query_max_id = """

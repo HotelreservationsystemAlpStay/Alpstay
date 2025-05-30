@@ -4,6 +4,8 @@ from models.Booking import Booking
 from models.Hotels import Hotel
 from datetime import datetime
 from data_Access.Booking_Access import Booking_Access
+from utils.Validator import Validator
+from utils.Formatting import Format
 
 class Booking_Controller:
     def __init__(self):
@@ -14,7 +16,8 @@ class Booking_Controller:
         booking = Booking_Access().create_booking(check_in_date=startDate, check_out_date=endDate, is_cancelled=False, total_amount=delta*room.price_per_night, guest_id=user.guest_id, room_id=room.room_id)
         if booking:
             return booking
-        return None
+        else:
+            return None
     
     def get_bookings_from_user(self, guest_id:int):
         return Booking_Access().access_booking_guest(guest_id=guest_id)
@@ -38,3 +41,18 @@ class Booking_Controller:
     
     def update_booking(self, booking:Booking, phonenumber:int=None, iscancelled:bool=None, totalamount:int=None):
         self.Booking_Access.update_booking(self, booking, phonenumber, iscancelled, totalamount)
+    
+    def create_booking_new(self, guest_id, room_id, check_in_date, check_out_date, total_amount, telefon=Null)
+        guest_id = Validator.checkID(guest_id)
+        room_id = Validator.checkID(room_id)
+        check_in_date = Format.parse(check_in_date)
+        check_out_date = Format.parse(check_out_date)
+        is_cancelled = False
+        is_cancelled = Validator.checkBoolean(is_cancelled)
+        total_amount = float(total_amount)
+        total_amount = Validator.checkPositiveFloat(total_amount)
+        result = self.Booking_Access.create_booking(check_in_date, check_out_date, is_cancelled, total_amount, guest_id, room_id)
+        if result:
+            return result
+        else:
+            return False

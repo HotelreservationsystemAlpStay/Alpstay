@@ -143,8 +143,9 @@ class Hotel_Controller:
         """
         result = self.hotel_access.access_hotel_details(hotel_name)
         if not result:
-            return []
-        return result
+            return False
+        else:
+            return result
     
     def get_full_hotel(self, hotel_name:str, start_date:date = None, end_date:date = None):
         """Returns full hotel with address and rooms, for the moment only 1 Hotel but able to expand

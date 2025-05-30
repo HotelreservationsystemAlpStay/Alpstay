@@ -430,13 +430,55 @@ class UserStoryMenu(Menu):
         choice = input("Which booking would you like to alter? ")
         booking = bookings[int(choice)-1]
         phonenumber = int(input("Enter altered Phone number"))
-        self.app.hotelController.update_booking(phonenumber=phonenumber)
+        self.app.hotel_Controller.update_booking(phonenumber=phonenumber)
     
     def db_2(self):
         pass
     
     def db_2_1(self):
-        pass
+        def available_rooms(hotel_id):
+            check_in_date = input("Please enter your check-in date: ")
+            check_out_date = input("Please enter your check-out date: ")
+            rooms, nights = self.app.room_Controller.get_available_rooms_by_hotel_id(hotel_id, check_in_date, check_out_date)
+            if not rooms:
+                print("Unfortunately there are no available rooms during your dates.")
+                return UserStoryMenu(self.app)
+            else:
+                print("The following rooms are available:")
+                room_ids = []
+                for room, room_type, total_amount in rooms:
+                    print(f"Room ID: {room.room_id}, Price per night: {room.price_per_night}, Type: {room_type.description}, Max guests: {room_type.maxGuests}, total amount: {total_amount}")
+                    room_ids.append(room.room_id)
+                time.sleep(5)
+                room_id = input("Please enter the Room ID of the room you'd like to book: ")
+            if room_id in room_ids:
+                self.app.booking_Controller.create_booking_new()
+            else:
+                print("Sorry this room does not exist, please try again")
+
+        hotel_name = input("Please enter the name of the hotel you'd like to book with:")
+        hotels = self.app.hotel_Controller.get_hotel_details(hotel_name)
+        if not hotels:
+            print("Unfortunately there is no hotel with this name, please try again")
+            return UserStoryMenu(self.app)
+        elif len(hotels) > 1:
+            print("There are multiple hotels with this name")
+            hotel_ids = []
+            for hotel, street, city in hotels:
+                print(f"hotel ID: {hotel.hotel_id}, street: {street}, city: {city}")
+                hotel_ids.append(hotel.hotel_id)
+            time.sleep(3)
+            hotel_id = int(input("Please now enter the ID of the hotel in which you'd like to make your booking:"))
+            if hotel_id in hotel_ids:
+                available_rooms(hotel_id)
+            else:
+                print("Sorry this is not a hotel ID which we showed you, please try again")
+                return UserStoryMenu(self.app)
+        else:
+            hotel = hotels[0][0]
+            hotel_id = hotel.hotel_id
+            available_rooms(hotel_id)
+
     
     def db_3(self):
         pass

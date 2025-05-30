@@ -186,6 +186,35 @@ class Room_Access:
         """
         params = (city, check_in_date, check_out_date, check_in_date, check_out_date, check_in_date, check_out_date)
         return self.db.fetchall(query, params)
+
+    def access_available_rooms_hotel_id(self, hotel_id:int, check_in_date: date, check_out_date: date):
+        query = """
+        SELECT r.room_id, r.room_number, r.price_per_night, rt.description, rt.max_guests, rt.type_id
+        FROM Room r
+        JOIN Room_Type rt ON r.type_id = rt.type_id
+        JOIN Hotel h ON r.hotel_id = h.hotel_id
+        JOIN Address a ON h.address_id = a.address_id
+        WHERE h.hotel_id = ?
+        AND r.room_id NOT IN (
+            SELECT b.room_id
+            FROM Booking b
+            WHERE b.is_cancelled = 0
+            AND (
+                (b.check_in_date BETWEEN ? AND ?)
+                OR (b.check_out_date BETWEEN ? AND ?)
+                OR (b.check_in_date <= ? AND b.check_out_date >= ?)
+            )
+        );
+        """
+        params = (hotel_id, check_in_date, check_out_date, check_in_date, check_out_date, check_in_date, check_out_date)
+        result = self.db.fetchall(query, params)
+        rooms = []
+        for row in result:
+            room = Room(row["room_id"], row["room_number"], row["price_per_night"])
+            room_type = RoomType(row["type_id"], row["description"], row["max_guests"])
+            rooms.append((room, room_type))
+        return rooms
+        
     
     def updateRoom(self, room:Room):
         query = "UPDATE Room SET room_number = ?, type_id = ?, price_per_night = ? WHERE room_id = ?"

@@ -43,12 +43,6 @@ class Booking_Access:
         Returns:
             Booking: The created booking object.
         """
-        #Validator.checkDateFormat(check_in_date, "Check-in date")
-        #Validator.checkDateFormat(check_out_date, "Check-out date")
-        Validator.checkDates(check_in_date, check_out_date)
-        Validator.checkBoolean(is_cancelled, "is_cancelled")
-        Validator.checkID(guest_id, "Guest ID")
-        Validator.checkID(room_id, "Room ID")
 
         query = """
         INSERT INTO Booking (check_in_date, check_out_date, is_cancelled, total_amount, guest_id, room_id) 

@@ -4,6 +4,7 @@ from models.RoomType import RoomType
 from datetime import date
 from datetime import timedelta
 from utils.Formatting import Format
+from utils.Validator import Validator
 
 class RoomController():
     def __init__(self):
@@ -40,4 +41,19 @@ class RoomController():
             average_price_per_night = total_price/(nights_high_season+nights_offseason)
             hotels.append((room, price_per_night, name, room_type, nights_high_season, nights_offseason, total_price, average_price_per_night))
         return hotels
+    
+    def get_available_rooms_by_hotel_id(self, hotel_id, check_in_date, check_out_date):
+        check_in_date = Format.parse(check_in_date)
+        check_out_date = Format.parse(check_out_date)
+        Validator.checkDateDifference(check_in_date, check_out_date)
+        rooms = self.room_Access.access_available_rooms_hotel_id(hotel_id, check_in_date, check_out_date)
+        nights = (check_out_date - check_in_date).days
+        results = []
+        for room, room_type in rooms:
+            total_amount = room.price_per_night * nights
+            results.append((room, room_type, total_amount))
+        return results
+
+        
+        
 
