@@ -531,8 +531,20 @@ class UserStoryMenu(Menu):
             return UserStoryMenu(self.app)
         else:
             user_id = int(user_id)
-            booking_id = input("Please name your booking id, for which you'd like to leave a review: ")
             guest_id = self.app.user_Controller.get_guest_id(user_id)
+            if not guest_id:
+                print("Guest ID not found, please try again")
+                return self
+            all_bookings = self.app.booking_Controller.get_bookings_from_guest_id(guest_id)
+            if not all_bookings:
+                print("No bookings found for your account.")
+                return self
+            else:
+                print("Here are all your bookings:")
+                for booking in all_bookings:
+                    print(f"Booking ID: {booking.booking_id}")
+                print("---------------------")
+            booking_id = input("Please name your booking id, for which you'd like to leave a review: ")
             hotel_id = self.app.booking_Controller.check_user_id_matches_booking_id(booking_id, guest_id)
             if not hotel_id:
                 print("This is not your booking, please try again")

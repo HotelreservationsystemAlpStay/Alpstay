@@ -70,4 +70,13 @@ class Booking_Controller:
         else:
             hotel_id = hotel_id["hotel_id"]
             return hotel_id
+        
+    def get_bookings_from_guest_id(self, guest_id):
+        guest_id = int(guest_id)
+        Validator.checkID(guest_id, "guest ID")
+        bookings = self.Booking_Access.access_booking_guest(guest_id)
+        if bookings:
+            return bookings
+        else:
+            return None
 
