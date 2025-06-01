@@ -24,3 +24,16 @@ class RatingController:
         status = self.rating_Access.create_rating_new(booking_id, hotel_id, score, review, created_at)
         return status
     
+    def get_ratings_for_hotel(self, hotel_id_str: str) -> list[dict]:
+        """
+        Retrieves all ratings for a given hotel ID.
+        """
+        try:
+            hotel_id = int(hotel_id_str)
+            Validator.checkID(hotel_id, "Hotel ID")
+        except (ValueError, TypeError):
+            raise ValueError("Invalid hotel ID format. Please provide a valid integer.")
+        
+        ratings_data = self.rating_Access.get_ratings_by_hotel_id(hotel_id)
+        return ratings_data
+    

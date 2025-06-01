@@ -560,8 +560,39 @@ class UserStoryMenu(Menu):
                     print(f"Error: {e}")
 
     def db_4(self):
-        pass
-    
+        print("\n--- Read Hotel Reviews ---")
+        hotel_id_input = input("Enter the id of the hotel to see reviews (or leave blank to cancel): ")
+
+        if not hotel_id_input.strip():
+            print("Action canceled.")
+            return self
+
+        hotels_found = self.app.rating_Controller.get_ratings_for_hotel(hotel_id_input)
+
+        if not hotels_found:
+            print(f"No hotel found matching '{hotel_id_input}'.")
+            input("\nPress Enter to return to the menu.")
+            return self
+
+        try:
+            ratings = self.app.rating_Controller.get_ratings_for_hotel(str(hotel_id_input))
+            if not ratings:
+                print(f"\nNo reviews available for hotel '{hotel_id_input}'.")
+            else:
+                print(f"\n--- Reviews for {hotel_id_input} ---")
+                for rating in ratings:
+                    print(f"Date: {rating.get('created_at', 'N/A')}")
+                    print(f"Score: {rating.get('score')}/5")
+                    print(f"Comment: {rating.get('review', 'No Comment')}")
+                    print("--------------------")
+        except ValueError as e:
+            print(f"Error retrieving reviews: {e}")
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
+
+        input("\nPress Enter to return to the menu.")
+        return self
+
     def db_5(self):
         pass
     

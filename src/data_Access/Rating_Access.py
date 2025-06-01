@@ -49,6 +49,28 @@ class RatingAccess:
             return False
         else:
             return True
+        
+    def get_ratings_by_hotel_id(self, hotel_id: int) -> list[dict]:
+        """
+        Retrieves all ratings for a given hotel_id.
+        Returns a list of dictionaries, each containing score, review, and created_at.
+        """
+        query = """
+            SELECT score, review, created_at 
+            FROM Rating 
+            WHERE hotel_id = ?
+            ORDER BY created_at DESC
+        """
+        rows = self.db.fetchall(query, (hotel_id,))
+        ratings_list = []
+        if rows:
+            for row in rows:
+                ratings_list.append({
+                    "score": row[0],
+                    "review": row[1],
+                    "created_at": str(row[2])
+                })
+        return ratings_list
 
 if __name__ == "__main__":
     ra = RatingAccess()
