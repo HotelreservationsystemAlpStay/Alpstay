@@ -38,7 +38,17 @@ class RatingAccess:
         else:
             return False
 
-    
+    def get_rating_by_booking_id(self, booking_id: int) -> bool:
+        """
+        Checks if a rating for the given booking_id already exists.
+        Returns True if a rating exists, False otherwise.
+        """
+        query = "SELECT * FROM Rating WHERE booking_id = ?"
+        result = self.db.fetchone(query, (booking_id,))
+        if result is None:
+            return False
+        else:
+            return True
 
 if __name__ == "__main__":
     ra = RatingAccess()

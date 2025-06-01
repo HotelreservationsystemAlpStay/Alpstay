@@ -17,6 +17,10 @@ class RatingController:
         if score > 5 or score < 1:
             raise ValueError("Score must be between 1 and 5")
         created_at = date.today()
+
+        if self.rating_Access.get_rating_by_booking_id(booking_id):
+            raise ValueError(f"For this BookingID -> {booking_id} already exists a rating.")
+
         status = self.rating_Access.create_rating_new(booking_id, hotel_id, score, review, created_at)
         return status
     

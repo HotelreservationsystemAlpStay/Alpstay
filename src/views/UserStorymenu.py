@@ -531,25 +531,22 @@ class UserStoryMenu(Menu):
             return UserStoryMenu(self.app)
         else:
             user_id = int(user_id)
-            booking_id = input("Please name your booking id, for which you'd like to leave a review")
+            booking_id = input("Please name your booking id, for which you'd like to leave a review: ")
             guest_id = self.app.user_Controller.get_guest_id(user_id)
             hotel_id = self.app.booking_Controller.check_user_id_matches_booking_id(booking_id, guest_id)
             if not hotel_id:
                 print("This is not your booking, please try again")
             else:
-                score = input("Please leave your desired score, you can leave any number between 1 and 5")
-                review = input("Please leave a comment reagarding your score")
-                status = self.app.rating_Controller.create_rating(booking_id, hotel_id, score, review)
-                if status:
-                    print("Rating was created successfully")
-                else:
-                    print("Something went wrong, please try again")
+                score = input("Please leave your desired score, you can leave any number between 1 and 5: ")
+                review = input("Please leave a comment reagarding your score: ")
 
-                
+                try:
+                    status = self.app.rating_Controller.create_rating(booking_id, hotel_id, score, review)
+                    if status:
+                        print("Rating was created successfully")
+                except ValueError as e:
+                    print(f"Error: {e}")
 
-
-
-    
     def db_4(self):
         pass
     
