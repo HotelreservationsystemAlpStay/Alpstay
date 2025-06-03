@@ -33,8 +33,14 @@ The first layer is called the data access layer and has two types of classes. Th
 Using this Base_Access_Controller, for each model exists a data_access class. With said class, data can either be extracted from the db or be inserted or deleted based on the objects and their properties. 
 
 ### Business Logic
+The Business Logic Layer encapsulates the core functionality of the application. For each model, there is a corresponding logic class that interacts with the respective data_access class from the DAL.
+This layer is responsible for all validation, processing rules, and decision-making logic. By separating the business logic from the data access and user interface layers, the code remains modular, maintainable, and scalable.
 
-### View
+
+### View / GUI
+The GUI is implemented as a console-based menu system. It serves as the interface between the user and the application logic.
+User inputs are collected, processed, and forwarded to the appropriate methods in the Business Logic Layer. Output from the logic is then displayed in a user-friendly format.
+The GUI does not directly access the database; instead, it relies entirely on the Business Logic Layer to handle data operations, ensuring a clean separation of concerns.
 
 ### Utils
 
