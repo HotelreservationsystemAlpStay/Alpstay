@@ -52,23 +52,51 @@ The original user stories were written in german is it is a german-based course.
 ### 1. As a guest, I want to search for a hotel in a city, so that i can choose the one, that meets my criteria:
 Als Gast möchte ich die verfügbaren Hotels durchsuchen, damit ich dasjenige auswählen kann, welches meinen Wünschen entspricht
 
+This user story was not implemented directly, as it does not contain any specific input or interaction. We interpreted it as a general template that serves as a basis for the following, more detailed sub-stories that reflect the actual functionality.
+
 ### 1.1. Criteria 1: City
 Ich möchte alle Hotels in einer Stadt durchsuchen, damit ich das Hotel nach meinem bevorzugten Standort (Stadt) auswählen kann.
+
+First, the user is asked for the city in which they would like to search for hotels. This input is then passed to the controller/business logic, which checks whether the city is a valid string and then calls the data access layer. In the data access layer, a SQL statement selects all hotels in the specified city. For each hotel found, a hotel object is created and added to a list. This list is then returned to the controller/business logic, which again returns it to the GUI. In the GUI, all hotels from the list are printed out using a for loop that iterates through each hotel object. If no hotel is found, a matching print statement is shown.
 
 ### 1.2. Criteria 2: Stars
 Ich möchte alle Hotels in einer Stadt nach der Anzahl der Sterne (z.B. mindestens 4 Sterne) durchsuchen.
 
+First, the user is asked for the city in which they are looking for a hotel and how many stars the hotel should at least have. This input is passed to the controller/business logic, which checks whether the city is a valid string and whether the stars input is valid. It then calls the data access layer, where a SQL statement selects all hotels in that city with at least the specified number of stars. For each result, a hotel object is created and added to a list. This list is returned to the controller/business logic and then passed to the GUI, where all matching hotels are printed in a for loop. If no hotel matches the filter, a matching print statement is shown.
+
+We didn’t reuse the method from Story 1.1 because it made more sense to filter directly in the SQL query. That way, we don’t load unnecessary data and it just works more efficiently.
+
 ### 1.3. Criteria 3: Amount of guests in a room
 Ich möchte alle Hotels in einer Stadt durchsuchen, die Zimmer haben, die meiner Gästezahl entsprechen (nur 1 Zimmer pro Buchung).
+
+The user is first asked for the city, the minimum number of stars, and how many guests should at least fit into the room. This input is passed to the controller/business logic, which validates all fields and then calls the data access layer. There, a SQL query selects all hotels in the given city with at least the specified star rating and room capacity. For each result, a hotel object is created and added to a list. This list is returned to the controller/business logic and then to the GUI, where the results are printed using a for loop. If no matching hotels are found, a matching print message is shown.
+
+As mentioned in 1.2, we didn’t reuse the previous DAL or BL methods, since each method is built for a specific filter combination. Reusing them would’ve made the logic messy and less efficient, so we kept each case clean and separate.
 
 ### 1.4. Criteria 4: Availability (Room in a hotel is available between start date and end date)
 Ich möchte alle Hotels in einer Stadt durchsuchen, die während meines Aufenthaltes ("von" (check_in_date) und "bis" (check_out_date)) Zimmer zur Verfügung haben, damit ich nur relevante Ergebnisse sehe.
 
+The user is asked to enter the city, minimum number of stars, number of guests, and a check-in and check-out date. These inputs are passed to the controller/business logic, where all fields are validated. The business logic then calls the data access layer, where a SQL query checks for hotels in the specified city that meet all criteria and have available rooms in the given date range. Bookings that have been cancelled are not considered. For each result, a hotel object is created and added to a list. This list is passed back through the controller to the GUI, where all matching hotels are printed in a for loop. If no hotels match the filters, a fitting message is shown.
+
+Although the original user story only required filtering by city and dates, we also included filters for minimum stars and guests. This made the logic more consistent. If a user only wants to search by city and date, this can be done via User Story 1.5.
+
+As mentioned before, we didn’t reuse the previous methods because date availability requires a completely different SQL logic. Combining all filters in one query keeps the implementation clean and avoids unnecessary complexity.
+
 ### 1.5. Criteria 5: Combine the upper four criteria
 Ich möchte Wünsche kombinieren können, z.B. die verfügbaren Zimmer zusammen mit meiner Gästezahl und der mindest Anzahl Sterne.
 
+The user is asked to enter any combination of filters: city, minimum stars, number of guests, check-in date, and check-out date. Each input is optional, but check-in and check-out must be provided together if used. However at least one information must be provided, otherwise there would be no need for this function. The controller/business logic validates the inputs and ensures that at least one filter is given. It then calls the data access layer, where a dynamic SQL query is built based on the selected filters. Cancelled bookings are not considered. For each result, a hotel object is created and added to a list, which is then returned through the controller to the GUI and printed in a for loop. If no hotels match the filters, a matching message is shown.
+
+As with the previous stories, we chose not to reuse earlier methods, since the logic here is dynamic and would have become too messy with chained or nested calls. Keeping this functionality in a dedicated method made the implementation much clearer and easier to maintain, in this case it is even more important to do this, because there is much logic behind creating the SQLite statement, basend on the inputs.
+
 ### 1.6. Criteria 6: The following Information should be displayed: Hotel name, hotel address, amount of stars
 Ich möchte die folgenden Informationen pro Hotel sehen: Name, Adresse, Anzahl der Sterne.
+
+The user is asked to enter the name of a hotel they want to know more about. This input is passed to the controller/business logic, which calls the data access layer. There, a SQL query selects all matching hotels by name and returns the corresponding hotel object along with the street and city information. The data is then returned through the controller to the GUI, where the hotel details (name, stars, city, and street) are printed. If no matching hotel is found, a fitting message is shown.
+
+We kept this logic separate from the previous stories, as it focuses on displaying detailed information for one specific hotel rather than searching based on filters.
+
+We decided to not perform a fetchone query in this case, because there could be multiple hotels with the same name, in this case all hotels are shown and the user can see the differences in the street, which usually in combination with the city is unique. 
 
 ### 2. As a guest, I want to see the details of different room types, which are available in a hotel, including the following information for this room: maximum amount of guests, description, price and facilities
 Als Gast möchte ich Details zu verschiedenen Zimmertypen (Single, Double, Suite usw.), die in einem Hotel verfügbar sind, sehen, einschliesslich der maximalen Anzahl von Gästen für dieses Zimmer, Beschreibung, Preis und Ausstattung, um eine fundierte Entscheidung zu treffen.

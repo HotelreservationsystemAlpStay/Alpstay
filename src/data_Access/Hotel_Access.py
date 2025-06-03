@@ -66,8 +66,6 @@ class Hotel_Access:
             hotels.append(hotel)
         return hotels
 
-
-#User Story 4 müsste eigentlich stars und guests nicht enthalten, habe es trotzdem mal drin gelassen 
     def access_hotel_in_city_booking(self, city, min_stars, guests, check_in_date, check_out_date):
         query = """
         SELECT DISTINCT hotel_id, name, stars
