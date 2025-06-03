@@ -20,6 +20,7 @@ class StartMenu(Menu):
     
     def quit(self):
         print("Everything has an end but the sausage has two")
+        print("--------------------------------")
         print("Thank you for using our application")
         print("We hope you enjoyed it!")
         sys.exit()
