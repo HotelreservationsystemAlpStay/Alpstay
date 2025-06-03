@@ -144,6 +144,12 @@ Als Gast möchte ich ein Zimmer in einem bestimmten Hotel buchen, um meinen Urla
 ### 5. As a guest, I want to receive an invoice after my stay
 Als Gast möchte ich nach meinem Aufenthalt eine REchnung erhalten, damit ich einen Zahlungsnachweis habe. Hint: Fügt einen Eintrag in der Invoice Tabelle hinzu
 
+The user is asked to enter a booking ID. This ID is passed to the controller, which calls a method to fetch the booking details from the data access layer. There, a SQL query pulls all relevant info from a view that includes booking data, guest name, and hotel information. If the booking is cancelled, no invoice is created and a matching message is shown.
+
+If the booking is active / not cancelled, the current date is set as the invoice issue date, and a new invoice is inserted into the database. The controller then returns all necessary objects back to the GUI, where the full invoice is printed out – including guest name, hotel info, dates, total amount and more.
+
+We made it possible to create multiple invoices for the same booking on purpose. This way, if something changes later (e.g. a correction or customer request), a new invoice can be generated easily without overwriting anything.
+
 ### 6. As a guest, I want to be able to cancel my booking
 Als Gast möchte ich meine Buchung stornieren, damit ich nicht belastet werde, wenn ich das Zimmer nicht mehr benötige. Hint: Sorgt für die entsprechende Invoice. 
 

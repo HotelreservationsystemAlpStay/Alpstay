@@ -9,7 +9,6 @@ from controller.Booking_Controller import Booking_Controller
 from controller.Chartview_Controller import Chartview_Controller
 from controller.Facility_Controller import Facility_Controller
 from controller.Rating_controller import RatingController
-
 class Application:
     def __init__(self):
         self.hotel_Controller = Hotel_Controller()

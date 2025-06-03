@@ -2,6 +2,7 @@ import sys
 from views.Menu import Menu
 from mythic.mythic_code import Mythic
 from views.UserStorymenu import UserStoryMenu
+import random
 
 class StartMenu(Menu):
     def __init__(self, app):
@@ -19,10 +20,11 @@ class StartMenu(Menu):
         return UserStoryMenu(self.app, self)
     
     def quit(self):
-        print("Everything has an end but the sausage has two")
-        print("--------------------------------")
-        print("Thank you for using our application")
-        print("We hope you enjoyed it!")
+        nubmer = random.randint(1, 2)
+        if nubmer == 1:
+            print("Everything has an end but the sausage has two")
+        else:
+            print("Thanks for checking out – we hope your stay was less buggy than our code!")
         sys.exit()
 
 
