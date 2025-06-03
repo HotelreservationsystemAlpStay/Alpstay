@@ -1,7 +1,3 @@
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 class Menu:
     def __init__(self, title, app):
         self.title = title
@@ -13,7 +9,7 @@ class Menu:
         for number, (name, function) in enumerate(self.functions_menu, 1):
             print(f"{number} - {name}")
     def input(self):
-        choice = int(input("What would you like to do?"))
+        choice = int(input("What would you like to do? -> "))
         choice += -1
         action = self.functions_menu[choice]
         function = action[1]
