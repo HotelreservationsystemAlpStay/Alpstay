@@ -199,6 +199,26 @@ The controller validates all key fields again (IDs, dates, total amount) and the
 ### 3. As a guest, I want to create a rating about the stay at a hotel
 Als Gast möchte ich nach meinem Aufenthalt eine Bewertung für ein Hotel abgeben, damit ich meine Erfahrungen teilen kann.
 
+The user is first asked to log in as a guest. If the login is successful, we get the guest ID and then retrieve all bookings connected to that guest. These are printed out so the user can choose the correct booking ID for which they want to leave a rating.
+
+To avoid misuse, we check if the selected booking actually belongs to the logged-in guest. If that’s the case, the user is asked to enter a score between 1 and 5, and optionally a written review. Before creating the rating, we check if a rating for this booking already exists. If not, the rating is created and saved to the database.
+
+For this feature, we added a separate Rating table with the following fields:
+
+- rating_id: Primary key
+
+- booking_id: Foreign key (linked to the booking, so each rating belongs to one stay)
+
+- hotel_id: Foreign key (linked to the hotel that was rated)
+
+- score: Integer from 1 to 5
+
+- review: Free text, optional
+
+- created_at: Date the rating was submitted – so users and admins can see when it was written
+
+We decided to structure it this way to make sure ratings are tied to real bookings only and can’t be spammed. Also, limiting one rating per booking keeps things clean and traceable.
+
 ### 4. As a guest, I want to read ratings before I book
 Als Gast möchte ich vor der Buchung Hotelbewertungen lesen, damit ich das beste Hotel auswählen kann.
 
