@@ -1,6 +1,3 @@
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from data_Access.Booking_Access import Booking_Access
 from data_Access.User_Access import User_Access
 from data_Access.RoomType_Access import RoomType_Access

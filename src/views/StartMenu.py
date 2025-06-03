@@ -1,6 +1,4 @@
 import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from views.Menu import Menu
 from mythic.mythic_code import Mythic
 from views.UserStorymenu import UserStoryMenu
@@ -22,6 +20,8 @@ class StartMenu(Menu):
     
     def quit(self):
         print("Everything has an end but the sausage has two")
+        print("Thank you for using our application")
+        print("We hope you enjoyed it!")
         sys.exit()
 
 
