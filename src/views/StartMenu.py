@@ -24,7 +24,7 @@ class StartMenu(Menu):
         if nubmer == 1:
             print("Everything has an end but the sausage has two")
         else:
-            print("Thanks for checking out – we hope your stay was less buggy than our code!")
+            print("Thanks for checking out, we hope your stay was less buggy than our code!")
         sys.exit()
 
 
