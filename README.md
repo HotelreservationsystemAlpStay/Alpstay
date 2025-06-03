@@ -156,6 +156,14 @@ Als Gast möchte ich meine Buchung stornieren, damit ich nicht belastet werde, w
 ### 7. As a guest, I want to have dynamics prices to profit from dynamic pricing
 Als Gast möchte ich eine dynamische Preisgestaltung auf der Grundlage der Nachfrage sehen, damit ich ein Zimmer zum besten Preis buchen kann. Hint: Wendet in der Hochsaison höhere und in der Nebensaison niedrigere Tarife an.
 
+The user is first asked to enter the city, check-in date, and check-out date. This info is passed to the controller, where the dates are parsed and sent to the data access layer. There, we check for all rooms in the given city that aren’t already booked during that period (cancelled bookings don’t count). The query also joins the hotel and room type, so we can show more than just room IDs.
+
+In the business logic, we go through each room and create a Room object. Then we check how many nights fall into high season (May to September) and how many don’t. Based on that, we calculate the total price with a 20% increase for high season and 20% discount for off-season. We also calculate the average price per night. All of this is then returned to the GUI, where we show the user a detailed overview.
+
+We wanted to make pricing as clear as possible, so users know exactly what they’re paying for – not just the total, but how it’s made up.
+
+However, we decided not to use this pricing logic in all bookings and searches for now, because in reality each hotel would probably want to set their own surcharges - mountain hotels have high season in winter, city hotels in summer - so a fixed rule wouldn’t really make sense everywhere...
+
 ### 8. As an admin, I want to see all bookings
 Als Admin des Buchungssystems möchte ich alle Buchungen aller Hotels sehen können, um eine Übersicht zu erhalten.
 
@@ -170,11 +178,23 @@ Als Admin möchte ich in der Lage sein, Stammdaten zu verwalten, z.B. Zimmertype
 ### 1. As and admin, I want to update missing information in bookings
 Als Admin möchte ich alle Buchungen bearbeiten können, um fehlende Informationen zu ergänzen (z.B. Telefonnummer). 
 
+
+
 ### 2. As a guest, I want to see my booking history
 Als Gast möchte ich auf meine Buchungshistorie zuzugreifen ("lesen"), damit ich meine kommenden Reservierungen verwalten kann.
 
+This was not created as an own user story - as there would be no use case for this without the logic of the following story.
+
 ### 2.1. For all bookings, I should be able to use the following action "create", "update", "cancel".
 Die Anwendungsfälle für meine Buchungen sind "neu/erstellen", "ändern/aktualisieren", "stornieren/löschen".
+
+We only created the usa case for creating a booking as change / update can't really do much instead of cancelling the booking and there already is a story for cancelling a booking - so we dont know what the point of doing this again would be :D.
+
+The user first selects a hotel and is then asked to enter the desired check-in and check-out date. These dates are passed to the controller, where they are parsed and validated. The controller then calls the business logic to get all available rooms for that hotel in the selected time range. Rooms that are already booked (except cancelled ones) are filtered out via SQL. The result includes detailed information like room type, price per night, and max guests. Based on the number of nights, we also calculate the total amount directly.
+
+All rooms are printed out clearly for the user. After a short wait, the user is asked to enter the Room ID of the room they want to book. The selected room and amount are validated again. Then, the user is asked to log in as a guest. Once logged in, the system fetches the guest ID linked to the user and uses all the gathered data to create a new booking.
+
+The controller validates all key fields again (IDs, dates, total amount) and then calls the DAL, where a new row is inserted into the Booking table. The new booking ID is retrieved using lastrowid, and a Booking object is returned. The GUI then prints a confirmation message including the new booking ID.
 
 ### 3. As a guest, I want to create a rating about the stay at a hotel
 Als Gast möchte ich nach meinem Aufenthalt eine Bewertung für ein Hotel abgeben, damit ich meine Erfahrungen teilen kann.
