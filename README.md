@@ -122,12 +122,21 @@ Als Admin des Buchungssystems möchte ich die Möglichkeit haben, Hotelinformati
 ### 3.1. As an admin, I want to add new hotels to the system
 Ich möchte neue Hotels zum System hinzufügen
 
+The user is first asked to log in as admin. If successful, they enter the hotel’s name, number of stars, and address ID. These inputs are passed to the controller/business logic and then to the data access layer. There, a new hotel is added to the database. We don't set the hotel ID manually – instead, SQLite handles it automatically with Autoincrement. If everything works, a success message is shown. If not, an error message appears - however this should almost never be the case unless the db is not responding. 
+
 ### 3.2. As an admin, I want to delete hotels from the system
 Ich möchte Hotels aus dem System entfernen
+
+Again, the user has to authenticate as admin. After that, they enter the hotel ID they want to delete. The controller passes that to the data access layer, where a delete command is executed. If a hotel with that ID exists, it’s removed and a success message is shown. If no hotel with that ID is found, the user gets a message telling them so.
+
+We kept the logic simple: if no row was deleted, we just assume the hotel doens't exist.
 
 ### 3.3. As an admin, I want to update information of hotel
 Ich möchte die Information bestimmter Hotel aktualisieren, z.B. den Namen, die Sterne usw.
 
+After admin login, the user is asked to enter the hotel ID and then optionally a new name, number of stars, or address ID. They can leave fields empty if they don’t want to change them. However at least one value must be changed, otherwise there would be no logic in calling this function. These values are passed on to the controller and then to the data access layer. There, an update statement is built depending on which fields were filled in. If at least one hotel was updated, a success message is shown. If not, the hotel probably didn’t exist.
+
+We made the update flexible, so that only the changed fields are updated. That keeps it clean and avoids overwriting stuff unnecessarily.
 
 ### 4. As a guest, I want to book a room in a certain hotel
 Als Gast möchte ich ein Zimmer in einem bestimmten Hotel buchen, um meinen Urlaub zu planen

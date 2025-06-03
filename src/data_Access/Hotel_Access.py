@@ -170,18 +170,12 @@ class Hotel_Access:
         return hotels
     
     def access_add_hotel(self, name, stars, address_id):
-        query_max_id = """
-        SELECT MAX(hotel_id) FROM Hotel
-        """
-        result_max = self.db.fetchone(query_max_id)[0]
-        if result_max is None:
-            result_max = 0
 
         query_add_hotel = """
-        INSERT INTO Hotel
-        VALUES (?, ?, ?, ?)
+        INSERT INTO Hotel (name, stars, address_id)
+        VALUES (?, ?, ?)
         """
-        self.db.execute(query_add_hotel, (result_max + 1, name, stars, address_id))
+        self.db.execute(query_add_hotel, (name, stars, address_id))
         return True
 
 
