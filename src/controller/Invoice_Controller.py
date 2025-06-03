@@ -1,6 +1,3 @@
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from models.Invoice import Invoice
 from data_Access.Invoice_Access import Invoice_Access
 from models.Hotels import Hotel

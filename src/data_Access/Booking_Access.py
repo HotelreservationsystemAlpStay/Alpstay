@@ -1,6 +1,3 @@
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.Validator import Validator
 from models.Booking import Booking
 from data_Access.Base_Access_Controller import Base_Access_Controller

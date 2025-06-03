@@ -1,6 +1,3 @@
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.Validator import Validator
 from data_Access.Base_Access_Controller import Base_Access_Controller
 from data_Access.RoomType_Access import RoomType_Access

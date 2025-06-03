@@ -1,6 +1,3 @@
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from data_Access.Base_Access_Controller import Base_Access_Controller
 from data_Access.User_Access import User_Access
 from models.User import User
