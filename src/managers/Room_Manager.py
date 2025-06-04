@@ -6,12 +6,12 @@ from datetime import timedelta
 from utils.Formatting import Format
 from utils.Validator import Validator
 
-class RoomController():
+class Room_Manager():
     def __init__(self):
         self.room_Access = Room_Access()
     
     def get_rooms(self, dateStart: date = None, dateEnd: date = None, hotel_ids: list[int] = None, Room_Type:Room_Type = None)->list[Room]:
-        return self.room_Access.get_rooms(dateStart=dateStart, dateEnd=dateEnd, hotel_ids=hotel_ids, Room_Type=Room_Type)
+        return self.room_Access.get_rooms(dateStart=dateStart, dateEnd=dateEnd, hotel_ids=hotel_ids, room_Type=Room_Type)
     
     def update_room(self, room:Room):
         return self.room_Access.updateRoom(room)

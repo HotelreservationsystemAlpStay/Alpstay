@@ -10,7 +10,7 @@ class Room_Type_Menu(Menu):
         self.add_item("Back", self.back)
         
     def getroom_Types(self, fromFunction = False):
-        room_Types = self.app.room_Type_Controller.get_all_room_Types()
+        room_Types = self.app.room_Type_Manager.get_all_room_Types()
         counter = 1
         print("---------")
         for roomType in room_Types:
@@ -31,8 +31,8 @@ class Room_Type_Menu(Menu):
             maxGuests = int(maxGuests)
         if description == "":
             description = None
-        self.app.room_Type_Controller.modify_roomType(room_Types[choice], description, maxGuests)
-        print(self.app.room_Type_Controller.get_roomType_by_id(room_Types[choice].id))
+        self.app.room_Type_Manager.modify_roomType(room_Types[choice], description, maxGuests)
+        print(self.app.room_Type_Manager.get_roomType_by_id(room_Types[choice].id))
         return self
     
     def back(self):

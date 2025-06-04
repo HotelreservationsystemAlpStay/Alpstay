@@ -7,7 +7,7 @@ from data_Access.Booking_Access import Booking_Access
 from utils.Validator import Validator
 from utils.Formatting import Format
 
-class Booking_Controller:
+class Booking_Manager:
     def __init__(self):
         self.Booking_Access = Booking_Access()
     

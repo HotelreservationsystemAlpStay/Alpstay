@@ -1,7 +1,7 @@
 from data_Access.Facility_Access import Facility_Access
 from models.Facility import Facility
 
-class Facility_Controller:
+class Facility_Manager:
     def __init__(self):
         self.facilityAccess = Facility_Access()
     

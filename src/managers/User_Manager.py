@@ -4,7 +4,7 @@ from models.User import User
 from utils.Validator import Validator
 import hashlib
 
-class User_Controller:
+class User_Manager:
     def __init__(self):
         self.ua = User_Access()
 
@@ -46,5 +46,5 @@ class User_Controller:
 
 
 if __name__ == "__main__":
-    print(User_Controller().check_admin(6,"admin")) #expected True
-    print(User_Controller().check_admin(6,"admins")) #expected False
+    print(User_Manager().check_admin(6,"admin")) #expected True
+    print(User_Manager().check_admin(6,"admins")) #expected False

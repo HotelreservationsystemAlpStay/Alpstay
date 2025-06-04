@@ -2,12 +2,12 @@ from models.Facility import Facility
 from models.Room_Type import Room_Type
 
 class Room:
-    def __init__(self, room_id: int, room_no: str, price_per_night: float, facilities:list[Facility] = None, roomType:Room_Type = None, hotelid:int=None):
+    def __init__(self, room_id: int, room_no: str, price_per_night: float, facilities:list[Facility] = None, room_Type:Room_Type = None, hotelid:int=None):
         self._room_id = room_id
         self._room_no = room_no
         self._price_per_night = price_per_night
         self._facilities = facilities if facilities is not None else []
-        self._roomType = roomType
+        self._room_Type = room_Type
         self._hotelid = hotelid
 
     @property
@@ -43,12 +43,12 @@ class Room:
         self._facilities = facilities
 
     @property
-    def roomType(self) -> Room_Type:
-        return self._roomType
+    def room_Type(self) -> Room_Type:
+        return self._room_Type
 
-    @roomType.setter
-    def roomType(self, roomType: Room_Type) -> None:
-        self._roomType = roomType
+    @room_Type.setter
+    def room_Type(self, room_Type: Room_Type) -> None:
+        self._room_Type = room_Type
 
     @property
     def hotelid(self) -> int:
@@ -62,7 +62,7 @@ class Room:
         return f"Room {self._room_no} costs {self._price_per_night} per night and has room ID: {self._room_id}"
 
     def extendedStr(self):
-        rstr = f"Room {self._room_no} costs {self._price_per_night}, is of type {self.roomType.description} with max guests of {self.roomType.maxGuests} per night and has room ID: {self._room_id}"
+        rstr = f"Room {self._room_no} costs {self._price_per_night}, is of type {self.room_Type.description} with max guests of {self.room_Type.maxGuests} per night and has room ID: {self._room_id}"
         rstr += f"\nFacilities"
         for facility in self.facilities:
             rstr += f"\n{facility.name}"
@@ -75,6 +75,6 @@ class Room:
             "room_no": self._room_no,
             "price_per_night": self._price_per_night,
             "facilities": [f.to_dict() for f in self._facilities] if self._facilities else [],
-            "roomType": self._roomType.to_dict() if self._roomType else None,
+            "room_Type": self._room_Type.to_dict() if self._room_Type else None,
             "hotelid": self._hotelid
         }

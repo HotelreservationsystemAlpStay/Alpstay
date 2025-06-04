@@ -53,13 +53,13 @@ class Room_Access:
         #else return winter
         return "Winter"
 
-    def _sqlite3row_to_room(self, row: sqlite3.Row, facilities=[], roomType:Room_Type=None) -> Room:
+    def _sqlite3row_to_room(self, row: sqlite3.Row, facilities=[], room_Type:Room_Type=None) -> Room:
         return Room(
             room_id=row["room_id"],
             room_no=row["room_number"],
             price_per_night= row["price_per_night"],
             facilities=facilities,
-            roomType=roomType
+            room_Type=room_Type
         )
 
     @staticmethod
@@ -78,7 +78,7 @@ class Room_Access:
         if row is None or row == 0:
             return []
         rs = Room_Type_Access()
-        return rs.get_roomtype_by_id(row)
+        return rs.get_Room_Type_by_id(row)
 
     @staticmethod
     def _get_list_to_tuple(providedList:list):
@@ -112,13 +112,13 @@ class Room_Access:
             query += f" {self._WHERE_HOTELID} {tuple(hotel_ids)}"
         return query, param
 
-    def _add_roomType(self, query:str, param:list, roomType:Room_Type):
-        if not roomType or not isinstance(roomType, Room_Type):
+    def _add_roomType(self, query:str, param:list, room_Type:Room_Type):
+        if not room_Type or not isinstance(room_Type, Room_Type):
             return query,param
         if "WHERE" in query: query +=f" {self._AND}"
         if "AND" not in query: query +=f" {self._WHERE}"
         query += f" {self._WHERE_ROOMTYPE}"
-        param.append(roomType.id)
+        param.append(room_Type.id)
         return query, param
                    
     def get_room(self, room_id:int):
@@ -127,11 +127,11 @@ class Room_Access:
         return self._sqlite3row_to_room(
                     row=room,
                     facilities=self._strId_to_facility(room["facilities_list"]),
-                    roomType=self._intId_to_roomType(room["type_id:1"])
+                    room_Type=self._intId_to_roomType(room["type_id:1"])
                 )
 
     def get_rooms(
-        self, dateStart: date = None, dateEnd: date = None, hotel_ids: list[int] = None, roomType:Room_Type = None
+        self, dateStart: date = None, dateEnd: date = None, hotel_ids: list[int] = None, room_Type:Room_Type = None
     ) -> list[Room]:
         """returns rooms based on filter
 
@@ -148,7 +148,7 @@ class Room_Access:
         print(type(dateStart))
         query, providedList = self._add_dates(query, providedList,dateStart,dateEnd)
         query, providedList = self._add_hotel_ids(query,providedList,hotel_ids)
-        query, providedList = self._add_roomType(query,providedList, roomType)
+        query, providedList = self._add_roomType(query,providedList, room_Type)
         results = self.db.fetchall(
             query, self._get_list_to_tuple(providedList)
         )
@@ -158,7 +158,7 @@ class Room_Access:
                 self._sqlite3row_to_room(
                     row=room,
                     facilities=self._strId_to_facility(room["facilities_list"]),
-                    roomType=self._intId_to_roomType(room["type_id:1"])
+                    room_Type=self._intId_to_roomType(room["type_id:1"])
                 )
             )
         return rooms
@@ -180,6 +180,7 @@ class Room_Access:
         OR (b.check_out_date BETWEEN ? AND ?)
         OR (b.check_in_date <= ? AND b.check_out_date >= ?)))
         """
+        #TODO alle check_in und check_out dates abdecken.
         params = (city, check_in_date, check_out_date, check_in_date, check_out_date, check_in_date, check_out_date)
         return self.db.fetchall(query, params)
 
@@ -207,12 +208,12 @@ class Room_Access:
         rooms = []
         for row in result:
             room = Room(row["room_id"], row["room_number"], row["price_per_night"])
-            room_type = RoomType(row["type_id"], row["description"], row["max_guests"])
+            room_type = Room_Type(row["type_id"], row["description"], row["max_guests"])
             rooms.append((room, room_type))
         return rooms
         
     
     def updateRoom(self, room:Room):
         query = "UPDATE Room SET room_number = ?, type_id = ?, price_per_night = ? WHERE room_id = ?"
-        self.db.execute(query, (room.room_no, room.roomType.id, room.price_per_night, room.room_id))
+        self.db.execute(query, (room.room_no, room.room_Type.id, room.price_per_night, room.room_id))
         return self.get_room(room.room_id)

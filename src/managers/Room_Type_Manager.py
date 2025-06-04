@@ -1,10 +1,10 @@
 from utils.Validator import Validator
 from data_Access.Base_Access_Controller import Base_Access_Controller
 from data_Access.Room_Type_Access import Room_Type_Access
-from controller.User_Controller import User_Controller
+from managers.User_Manager import User_Manager
 from models.Room_Type import Room_Type
 
-class Room_Type_Controller():
+class Room_Type_Manager():
     def __init__(self):
         self.Room_Type_Access = Room_Type_Access() 
 
@@ -15,8 +15,8 @@ class Room_Type_Controller():
         return self.Room_Type_Access.get_roomtype_by_id(id)
 
     def add_roomType(self, user_id:int, password:str, description:str, max_guests:int):
-        user_Controller = User_Controller()
-        if not user_Controller.check_admin(user_id, password):
+        user_Manager = User_Manager()
+        if not user_Manager.check_admin(user_id, password):
             return False
         return self.Room_Type_Access.add_roomtype(description, max_guests) 
             

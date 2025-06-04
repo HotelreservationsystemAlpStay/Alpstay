@@ -2,14 +2,14 @@ from utils.Validator import Validator
 from models.Room_Type import Room_Type
 from data_Access.Base_Access_Controller import Base_Access_Controller
 from datetime import date
-from controller.User_Controller import User_Controller
+from managers.User_Manager import User_Manager
 import sqlite3
 
 class Room_Type_Access:
     def __init__(self):
         self.db = Base_Access_Controller()
         self.validator = Validator()
-        self.user_controller = User_Controller()
+        self.user_Manager = User_Manager()
         self._SELECT = "SELECT DISTINCT * FROM Room_Type"
 
     @staticmethod

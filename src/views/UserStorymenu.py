@@ -4,7 +4,7 @@ from views.Room_Type_Menu import Room_Type_Menu
 from views.Room_Menu import Room_Menu 
 from views.Facility_Menu import Facility_Menu 
 import tkinter as tk
-from controller.User_Controller import User_Controller
+from managers.User_Manager import User_Manager
 import time
 from models.User import User
 from datetime import datetime,date
@@ -63,7 +63,7 @@ class UserStoryMenu(Menu):
             return False
         password = input("Please enter your password: ")
         
-        ca = User_Controller()
+        ca = User_Manager()
         rights = ca.check_admin(user_id, password)
         
         if not rights:
@@ -85,7 +85,7 @@ class UserStoryMenu(Menu):
             return False
         password = input("Please enter your password: ")
         
-        ca = User_Controller()
+        ca = User_Manager()
         rights = ca.login_user(user_id, password)
         if rights:
             return user_id
@@ -103,10 +103,10 @@ class UserStoryMenu(Menu):
     def min_1_1(self):
         """Asks the user for a city and shows all hotels in that city.
 
-        Calls the hotel controller to get hotels and prints their names and star ratings.
+        Calls the hotel Manager to get hotels and prints their names and star ratings.
         """
         city = input("Please enter the city you want to search for: ")
-        hotels = self.app.hotel_Controller.get_hotel_in_city(city)
+        hotels = self.app.hotel_Manager.get_hotel_in_city(city)
         print("---------------------")
         if hotels:
             for hotel in hotels:
@@ -117,11 +117,11 @@ class UserStoryMenu(Menu):
     def min_1_2(self):
         """Asks the user for a city and minimum stars, then shows matching hotels.
 
-        Gets hotels from the controller and prints their names and star ratings.
+        Gets hotels from the Manager and prints their names and star ratings.
         """
         city = input("Please enter the city in which you are looking for a hotel")
         stars = int(input("How many stars should your hotel at least have?"))
-        hotels = self.app.hotel_Controller.get_hotel_in_city_stars(city, stars)
+        hotels = self.app.hotel_Manager.get_hotel_in_city_stars(city, stars)
         print("---------------------")
         if hotels:
             for hotel in hotels:
@@ -133,12 +133,12 @@ class UserStoryMenu(Menu):
     def min_1_3(self):
         """Asks the user for city, stars, and guests, then shows matching hotels.
 
-        Gets hotels from the controller that match the filters and prints their names and star ratings.
+        Gets hotels from the Manager that match the filters and prints their names and star ratings.
         """
         city = input("Please enter the city in which you are looking for a hotel")
         stars = int(input("How many stars should your hotel at least have?"))
         guests = int(input("How many guests should at least fit into your room"))
-        hotels = self.app.hotel_Controller.get_hotel_in_city_stars_guests(city, stars, guests)
+        hotels = self.app.hotel_Manager.get_hotel_in_city_stars_guests(city, stars, guests)
         print("---------------------")
         if hotels:
             for hotel in hotels:
@@ -150,7 +150,7 @@ class UserStoryMenu(Menu):
     def min_1_4(self):
         """Asks the user for city, stars, guests, and dates, then shows available hotels.
 
-        Gets hotels from the controller that match all filters and are available in the given date range.
+        Gets hotels from the Manager that match all filters and are available in the given date range.
         Prints hotel names and star ratings.
 
         We added some additional filters like stars and guests, so its more precise to the needs of the customer
@@ -160,7 +160,7 @@ class UserStoryMenu(Menu):
         guests = int(input("How many guests should at least fit into your room: "))
         check_in_date = input("When is you check in date: ")
         check_out_date = input("When is you check out date: ")
-        hotels = self.app.hotel_Controller.get_hotel_in_city_booking(city, stars, guests, check_in_date, check_out_date)
+        hotels = self.app.hotel_Manager.get_hotel_in_city_booking(city, stars, guests, check_in_date, check_out_date)
         print("---------------------")
         if hotels:
             for hotel in hotels:
@@ -173,7 +173,7 @@ class UserStoryMenu(Menu):
         """Asks the user for optional filters (city, stars, guests, dates) and shows matching hotels.
 
         The user can leave any input empty to skip that filter.
-        Gets matching hotels from the controller and prints their names and star ratings.
+        Gets matching hotels from the Manager and prints their names and star ratings.
         """
         try:
             city = input("Plesae enter the city in which you are looking for a hotel - if you dant want to filter by city, hit enter:")
@@ -181,7 +181,7 @@ class UserStoryMenu(Menu):
             guests = input("How many guests should at least fit into your room - if you dont want to filter by stars, hit enter: ")
             check_in_date = input("When is you check in date - if you dont want to filter by check-in date, hit enter: ")
             check_out_date = input("When is you check out date - if you dont want to filter by check-in-date, hit enter: ")
-            hotels = self.app.hotel_Controller.get_selected_filters(city, stars, guests, check_in_date, check_out_date)
+            hotels = self.app.hotel_Manager.get_selected_filters(city, stars, guests, check_in_date, check_out_date)
         except ValueError as e:
             print(e)
             self.min_1_5()
@@ -197,10 +197,10 @@ class UserStoryMenu(Menu):
     def min_1_6(self):
         """Asks the user for a hotel name and shows detailed information.
 
-        Gets hotel details from the controller and prints name, stars, city, and street.
+        Gets hotel details from the Manager and prints name, stars, city, and street.
         """
         hotel_name = input("Please enter the name of the hotel of which you would like to know the details")
-        details = self.app.hotel_Controller.get_hotel_details(hotel_name)
+        details = self.app.hotel_Manager.get_hotel_details(hotel_name)
         print("---------------------")
         if not details:
             print("Unfortunately no hotel name matches your description")
@@ -215,7 +215,7 @@ class UserStoryMenu(Menu):
         return self.min_2_2()
     
     def min_2_1(self):
-        rooms = self.app.room_Controller.get_rooms()
+        rooms = self.app.room_Manager.get_rooms()
         counter = 1
         for room in rooms:
             print(f"## {counter} ##")
@@ -235,7 +235,7 @@ class UserStoryMenu(Menu):
             check_in_date = input("When is your check in date - if you dont want to filter by dates, hit enter: ")
             check_out_date = input("When is your check out date - if you dont want to filter by dates, hit enter: ")
         #Check date format
-        hotels = self.app.hotel_Controller.get_full_hotel(name, Format().parse(check_in_date), Format().parse(check_out_date))
+        hotels = self.app.hotel_Manager.get_full_hotel(name, Format().parse(check_in_date), Format().parse(check_out_date))
         rooms = []
         if len(hotels) != 0:
             print("---------------------")
@@ -268,7 +268,7 @@ class UserStoryMenu(Menu):
         name = input("Please name the name of the new hotel: ")
         stars = input("Please type how many stars the hotel has: ")
         address_id = input("Please name the Address-ID of the hotel: ")
-        status = self.app.hotel_Controller.add_hotel(name, stars, address_id)
+        status = self.app.hotel_Manager.add_hotel(name, stars, address_id)
         if status:
             print("Hotel was added successfuly")
         else:
@@ -285,7 +285,7 @@ class UserStoryMenu(Menu):
             return self
         
         hotel_id = int(input("Please name the Hotel ID of the hotel you would like to delete"))
-        status = self.app.hotel_Controller.delete_hotel(hotel_id)
+        status = self.app.hotel_Manager.delete_hotel(hotel_id)
         if status:
             print("Hotel was delted successfully")
         elif not status:
@@ -306,7 +306,7 @@ class UserStoryMenu(Menu):
         name = input("If you'd like to change the name of the hotel please type it in, if you dont want to change the name, hit enter: ")
         stars = input("Please name the new amount of updated stars, if you dont want to change them, press enter: ")
         address_id = input("Please type the new Address ID, if you dont want to change the address, press enter: ")
-        status = self.app.hotel_Controller.update_hotel(hotel_id, name, stars, address_id)
+        status = self.app.hotel_Manager.update_hotel(hotel_id, name, stars, address_id)
         if status:
             print("Hotel information was updated successfully")
         if not status:
@@ -318,7 +318,7 @@ class UserStoryMenu(Menu):
             inputnumber = input("Please enter the choice number")
             # print(rooms[int(inputnumber)-1])
             user = self.login_user()
-            booking = self.app.booking_Controller.create_booking(user, rooms[int(inputnumber)-1], check_in, check_out)
+            booking = self.app.booking_Manager.create_booking(user, rooms[int(inputnumber)-1], check_in, check_out)
             if booking:
                 print(f"Success: Booking was created with id {booking.booking_id}")
             else:
@@ -335,7 +335,7 @@ class UserStoryMenu(Menu):
         """
         booking_id = int(input("Please name the booking ID of which you'd like to create an invoice"))
         e_mail = input("If you would like to receive an invoice by mail, you can enter the according e-mail here")
-        result = self.app.invoice_Controller.create_invoice(booking_id, e_mail)
+        result = self.app.invoice_Manager.create_invoice(booking_id, e_mail)
         if result == "cancelled":
             print("This booking was cancelled, so there is not going to be an invoice")
         elif result:
@@ -364,13 +364,13 @@ class UserStoryMenu(Menu):
             ms = Mythic()
             ms.wtf()
             return UserStoryMenu(self.app)
-        bookings = self.app.booking_Controller.get_bookings_from_user(user.guest_id)
+        bookings = self.app.booking_Manager.get_bookings_from_user(user.guest_id)
         counter = 1
         for booking in bookings:
             print(f"{counter}. : {booking}")
             counter += 1
         choice = input("Which booking would you like to cancel? ")
-        state = self.app.booking_Controller.update_booking(bookings[int(choice)-1], "cancel")
+        state = self.app.booking_Manager.update_booking(bookings[int(choice)-1], "cancel")
         if state:
             print("Booking has been canceled")
             return UserStoryMenu(self.app)
@@ -383,7 +383,7 @@ class UserStoryMenu(Menu):
         check_out_date = input("Please name you desired check-out date")
         print("Thank you, we will now show you all avaiable rooms in this city with their price per night")
         time.sleep(3)
-        rooms = self.app.room_Controller.get_available_rooms_city(city, check_in_date, check_out_date)
+        rooms = self.app.room_Manager.get_available_rooms_city(city, check_in_date, check_out_date)
 
         for room, price_per_night, name, room_type, nights_high_season, nights_off_season, total_price, average_price_per_night in rooms:
             print(f"{name} | Room ID: {room.room_id} | Type: {room_type}")
@@ -396,7 +396,7 @@ class UserStoryMenu(Menu):
         if self._authenticate_admin():
             print("Shorty all bookings will be displayed")
             time.sleep(2)
-            bookings = self.app.booking_Controller.get_all_bookings()
+            bookings = self.app.booking_Manager.get_all_bookings()
             print("---------------------")
             for hotel, booking in bookings:
                 if booking.is_cancelled:
@@ -415,7 +415,7 @@ class UserStoryMenu(Menu):
     
     def min_9(self):
         if self._authenticate_admin():
-            rooms = self.app.roomController.get_rooms()
+            rooms = self.app.room_Manager.get_rooms()
             print("---------------------")
             for room in rooms:
                 print(room.extendedStr())
@@ -452,7 +452,7 @@ class UserStoryMenu(Menu):
         choice = input("Which booking would you like to alter? ")
         booking = bookings[int(choice)-1]
         phonenumber = int(input("Enter altered Phone number"))
-        self.app.hotel_Controller.update_booking(phonenumber=phonenumber)
+        self.app.hotel_Manager.update_booking(phonenumber=phonenumber)
     
     def db_2(self):
         pass
@@ -461,7 +461,7 @@ class UserStoryMenu(Menu):
         def available_rooms(hotel_id):
             check_in_date = input("Please enter your check-in date: ")
             check_out_date = input("Please enter your check-out date: ")
-            rooms = self.app.room_Controller.get_available_rooms_by_hotel_id(hotel_id, check_in_date, check_out_date)
+            rooms = self.app.room_Manager.get_available_rooms_by_hotel_id(hotel_id, check_in_date, check_out_date)
             if not rooms:
                 print("Unfortunately there are no available rooms during your dates.")
                 return UserStoryMenu(self.app)
@@ -484,10 +484,10 @@ class UserStoryMenu(Menu):
             if room_id in room_ids:
                 user_id = self._authentice_guest()
                 if user_id:
-                    guest_id = self.app.user_Controller.get_guest_id(user_id)
+                    guest_id = self.app.user_Manager.get_guest_id(user_id)
                     total_amount = amount
                     phone_number = input("If you would like to add a phone number, then plese enter this right here, else hit enter")
-                    booking_id = self.app.booking_Controller.create_booking_new(guest_id, room_id, check_in_date, check_out_date, total_amount, phone_number)
+                    booking_id = self.app.booking_Manager.create_booking_new(guest_id, room_id, check_in_date, check_out_date, total_amount, phone_number)
                     if booking_id:
                         print(f"Your booking with the ID {booking_id.booking_id} is confirmed")
                     else:
@@ -504,7 +504,7 @@ class UserStoryMenu(Menu):
 
 
         hotel_name = input("Please enter the name of the hotel you'd like to book with:")
-        hotels = self.app.hotel_Controller.get_hotel_details(hotel_name)
+        hotels = self.app.hotel_Manager.get_hotel_details(hotel_name)
         if not hotels:
             print("Unfortunately there is no hotel with this name, please try again")
             return UserStoryMenu(self.app)
@@ -528,18 +528,18 @@ class UserStoryMenu(Menu):
 
     
     def db_3(self):
-        uc = User_Controller()
+        uc = User_Manager()
         user_id = self._authentice_guest()
         if not user_id:
             print("Your login details were wrong, please try again")
             return UserStoryMenu(self.app)
         else:
             user_id = int(user_id)
-            guest_id = self.app.user_Controller.get_guest_id(user_id)
+            guest_id = self.app.user_Manager.get_guest_id(user_id)
             if not guest_id:
                 print("Guest ID not found, please try again")
                 return self
-            all_bookings = self.app.booking_Controller.get_bookings_from_guest_id(guest_id)
+            all_bookings = self.app.booking_Manager.get_bookings_from_guest_id(guest_id)
             if not all_bookings:
                 print("No bookings found for your account.")
                 return self
@@ -549,7 +549,7 @@ class UserStoryMenu(Menu):
                     print(f"Booking ID: {booking.booking_id}")
                 print("---------------------")
             booking_id = input("Please name your booking id, for which you'd like to leave a review: ")
-            hotel_id = self.app.booking_Controller.check_user_id_matches_booking_id(booking_id, guest_id)
+            hotel_id = self.app.booking_Manager.check_user_id_matches_booking_id(booking_id, guest_id)
             if not hotel_id:
                 print("This is not your booking, please try again")
             else:
@@ -557,7 +557,7 @@ class UserStoryMenu(Menu):
                 review = input("Please leave a comment reagarding your score: ")
 
                 try:
-                    status = self.app.rating_Controller.create_rating(booking_id, hotel_id, score, review)
+                    status = self.app.rating_Manager.create_rating(booking_id, hotel_id, score, review)
                     if status:
                         print("Rating was created successfully")
                 except ValueError as e:
@@ -571,7 +571,7 @@ class UserStoryMenu(Menu):
             print("Action canceled.")
             return self
 
-        hotels_found = self.app.rating_Controller.get_ratings_for_hotel(hotel_id_input)
+        hotels_found = self.app.rating_Manager.get_ratings_for_hotel(hotel_id_input)
 
         if not hotels_found:
             print(f"No hotel found matching '{hotel_id_input}'.")
@@ -579,7 +579,7 @@ class UserStoryMenu(Menu):
             return self
 
         try:
-            ratings = self.app.rating_Controller.get_ratings_for_hotel(str(hotel_id_input))
+            ratings = self.app.rating_Manager.get_ratings_for_hotel(str(hotel_id_input))
             if not ratings:
                 print(f"\nNo reviews available for hotel '{hotel_id_input}'.")
             else:
@@ -616,7 +616,7 @@ class UserStoryMenu(Menu):
         print("Fetching room occupancy data...")
         main_tk_root = tk.Tk()
         main_tk_root.withdraw()
-        occupancy_data = self.app.roomType_Controller.get_room_occupancy_data()
+        occupancy_data = self.app.roomType_Manager.get_room_occupancy_data()
         if occupancy_data and occupancy_data.get('room_type') and occupancy_data.get('count'):
             print("Displaying occupancy chart in a new window")
             chart = ChartView(self.app, occupancy_data, "occupancy")
@@ -644,19 +644,19 @@ class UserStoryMenu(Menu):
 
         if choice == '1':
             print("Fetching guest age distribution data...")
-            data = self.app.guest_Controller.get_guest_age_distribution_data()
+            data = self.app.guest_Manager.get_guest_age_distribution_data()
             chart_type = "guest_age_histogram"
             if data and isinstance(data.get('ages'), list) and data['ages']:
                 data_valid = True
         elif choice == '2':
             print("Fetching guest country distribution data...")
-            data = self.app.guest_Controller.get_guest_country_distribution_data()
+            data = self.app.guest_Manager.get_guest_country_distribution_data()
             chart_type = "guest_country"
             if data and isinstance(data.get('countries'), list) and data['countries']:
                 data_valid = True
         elif choice == '3':
             print("Fetching guest booking frequency data...")
-            data = self.app.guest_Controller.get_guest_booking_frequency_data()
+            data = self.app.guest_Manager.get_guest_booking_frequency_data()
             chart_type = "guest_booking_frequency"
             if data and isinstance(data.get('labels'), list) and data['labels'] and \
                isinstance(data.get('sizes'), list) and sum(data['sizes']) > 0:
@@ -683,7 +683,7 @@ class UserStoryMenu(Menu):
             return self
 
         print("Fetching total revenue per hotel data...")
-        data = self.app.hotel_Controller.get_amount_per_hotel()
+        data = self.app.hotel_Manager.get_amount_per_hotel()
         chart_type = "total_revenue_per_hotel"
         data_valid = False
 
@@ -731,4 +731,4 @@ class UserStoryMenu(Menu):
     def login_user(self) -> User:
         id = int(input("Please provide user id: "))
         password = input("Please provide password: ")
-        return self.app.user_Controller.login_user(id, password)
+        return self.app.user_Manager.login_user(id, password)

@@ -1,24 +1,24 @@
 from views.StartMenu import StartMenu
-from controller.Hotel_Controller import Hotel_Controller
-from controller.Room_Controller import RoomController
-from controller.Room_Type_Controller import Room_Type_Controller
-from controller.Guest_Controller import Guest_Controller
-from controller.Invoice_Controller import Invoice_Controller
-from controller.User_Controller import User_Controller
-from controller.Booking_Controller import Booking_Controller
-from controller.Facility_Controller import Facility_Controller
-from controller.Rating_controller import RatingController
+from managers.Hotel_Manager import Hotel_Manager
+from managers.Room_Manager import Room_Manager
+from managers.Room_Type_Manager import Room_Type_Manager
+from managers.Guest_Manager import Guest_Manager
+from managers.Invoice_Manager import Invoice_Manager
+from managers.User_Manager import User_Manager
+from managers.Booking_Manager import Booking_Manager
+from managers.Facility_Manager import Facility_Manager
+from managers.Rating_Manager import RatingManager
 class Application:
     def __init__(self):
-        self.hotel_Controller = Hotel_Controller()
-        self.room_Controller = RoomController()
-        self.roomType_Controller = Room_Type_Controller()
-        self.guest_Controller = Guest_Controller()
-        self.invoice_Controller = Invoice_Controller()
-        self.user_Controller = User_Controller()
-        self.booking_Controller = Booking_Controller()
-        self.facility_Controller = Facility_Controller()
-        self.rating_Controller = RatingController()
+        self.hotel_Manager = Hotel_Manager()
+        self.room_Manager = Room_Manager()
+        self.roomType_Manager = Room_Type_Manager()
+        self.guest_Manager = Guest_Manager()
+        self.invoice_Manager = Invoice_Manager()
+        self.user_Manager = User_Manager()
+        self.booking_Manager = Booking_Manager()
+        self.facility_Manager = Facility_Manager()
+        self.rating_Manager = RatingManager()
         self.__is_running = True
 
     def stop(self):

@@ -20,7 +20,7 @@ class HotelMenu(Menu):
 
     def search_city(self):
         city = input("Please name the city, in which you are looking for a hotel: ")
-        hotels = self.app.hotel_Controller.get_hotel_in_city(city)
+        hotels = self.app.hotel_Manager.get_hotel_in_city(city)
         if not hotels:
             print("Unfortunately no hotels match your criteria")
         else:

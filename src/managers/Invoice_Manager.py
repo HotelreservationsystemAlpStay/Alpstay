@@ -7,7 +7,7 @@ from utils.Formatting import Format
 import requests
 
 
-class Invoice_Controller:
+class Invoice_Manager:
     def __init__(self):
         self.invoice_access = Invoice_Access()
 

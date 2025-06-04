@@ -10,7 +10,7 @@ class Facility_Menu(Menu):
         self.add_item("Back", self.back)
         
     def getFacilities(self, fromFunction=False):
-        facilities = self.app.facility_Controller.get_facilities()
+        facilities = self.app.facility_Manager.get_facilities()
         print("-----------")
         counter = 1
         for facility in facilities:
@@ -30,7 +30,7 @@ class Facility_Menu(Menu):
             return self
         facility = facilities[choice]
         facility.name = name
-        print(self.app.facility_Controller.update_facility(facility))
+        print(self.app.facility_Manager.update_facility(facility))
         return self
         
     def back(self)->Menu:
