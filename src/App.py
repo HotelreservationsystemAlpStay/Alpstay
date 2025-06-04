@@ -6,7 +6,6 @@ from controller.Guest_Controller import Guest_Controller
 from controller.Invoice_Controller import Invoice_Controller
 from controller.User_Controller import User_Controller
 from controller.Booking_Controller import Booking_Controller
-from controller.Chartview_Controller import Chartview_Controller
 from controller.Facility_Controller import Facility_Controller
 from controller.Rating_controller import RatingController
 class Application:
@@ -18,7 +17,6 @@ class Application:
         self.invoice_Controller = Invoice_Controller()
         self.user_Controller = User_Controller()
         self.booking_Controller = Booking_Controller()
-        self.chartview_Controller = Chartview_Controller()
         self.facility_Controller = Facility_Controller()
         self.rating_Controller = RatingController()
         self.__is_running = True

@@ -668,8 +668,32 @@ class UserStoryMenu(Menu):
             return self
         
     def dv_3(self):
-        results = self.app.chartview_Controller.get_amount_per_hotel()
-        ChartView.total_revenue_per_hotel(results)
+        if not self._authenticate_admin():
+            input("Press Enter to return to the menu.") # Added input to pause before returning
+            return self
+
+        print("Fetching total revenue per hotel data...")
+        data = self.app.hotel_Controller.get_amount_per_hotel()
+        chart_type = "total_revenue_per_hotel"
+        data_valid = False
+
+        if data and isinstance(data, list) and len(data) > 0:
+            # Check if all elements are tuples of length 2 (name, amount)
+            if all(isinstance(item, tuple) and len(item) == 2 for item in data):
+                data_valid = True
+        
+        if data_valid:
+            print(f"Displaying {chart_type.replace('_', ' ')} chart in a new window.")
+            main_tk_root = tk.Tk()
+            main_tk_root.withdraw()
+            chart_view = ChartView(self.app, data, chart_type) 
+            return chart_view.show_and_wait()
+        else:
+            print(f"No valid data available to display for {chart_type.replace('_', ' ')}.")
+            if data is not None: # Check if data is not None before printing
+                print(f"Data received but deemed invalid or empty: {data}")
+            input("Press Enter to return to the menu.") # Added input to pause
+            return self
 
     def opt_1(self):
         pass

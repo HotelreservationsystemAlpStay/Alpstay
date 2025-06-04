@@ -214,4 +214,11 @@ class Hotel_Controller:
         return self.hotel_access.access_update_hotel(hotel_id, name, stars, address_id)
     
 
-
+    def get_amount_per_hotel(self):
+        result = self.hotel_access.amount_per_hotel()
+        hotels = []
+        for row in result:
+            hotel_name = row["name"]
+            amount = row["SUM(total_amount)"]
+            hotels.append((hotel_name, amount))
+        return hotels
