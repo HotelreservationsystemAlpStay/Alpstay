@@ -5,7 +5,7 @@ from datetime import date
 from controller.User_Controller import User_Controller
 import sqlite3
 
-class RoomType_Access:
+class Room_Type_Access:
     def __init__(self):
         self.db = Base_Access_Controller()
         self.validator = Validator()
