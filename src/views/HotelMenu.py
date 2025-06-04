@@ -1,5 +1,4 @@
 from views.Menu import Menu
-from controller.Access_Controller import Access_Controller
 from datetime import date
 from utils.Formatting import Format
 from views.Room_Menu import Room_Menu
@@ -21,7 +20,7 @@ class HotelMenu(Menu):
 
     def search_city(self):
         city = input("Please name the city, in which you are looking for a hotel: ")
-        hotels = self.app.hotel_Controller.get_hotel_in_city(city)
+        hotels = self.app.hotel_Manager.get_hotel_in_city(city)
         if not hotels:
             print("Unfortunately no hotels match your criteria")
         else:

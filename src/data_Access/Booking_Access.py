@@ -2,7 +2,7 @@ from utils.Validator import Validator
 from models.Booking import Booking
 from data_Access.Base_Access_Controller import Base_Access_Controller
 from datetime import date, datetime
-from controller.User_Controller import User_Controller
+from managers.User_Manager import User_Manager
 from mythic.mythic_code import Mythic
 from sqlite3 import Cursor, Row
 
@@ -102,7 +102,7 @@ class Booking_Access:
 
     def view_booking(self, user_id, password):
         db = Base_Access_Controller()
-        vw = User_Controller()
+        vw = User_Manager()
         if vw.check_admin(user_id, password):
             mythic = Mythic()
             mythic.wtf()

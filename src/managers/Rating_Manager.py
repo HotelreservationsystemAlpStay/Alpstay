@@ -4,7 +4,7 @@ from datetime import date
 from utils.Validator import Validator
 
 
-class RatingController:
+class RatingManager:
     def __init__(self):
         self.rating_Access = RatingAccess()
     

@@ -2,12 +2,12 @@ from utils.Validator import Validator
 from data_Access.Hotel_Access import Hotel_Access
 from data_Access.Address_Access import Address_access
 from models.Hotels import Hotel
-from controller.User_Controller import User_Controller
-from controller.Room_Controller import RoomController
+from managers.User_Manager import User_Manager
+from managers.Room_Manager import Room_Manager
 from utils.Formatting import Format
 from datetime import date, datetime
 
-class Hotel_Controller:
+class Hotel_Manager:
     def __init__(self):
         self.hotel_access = Hotel_Access()
     
@@ -161,7 +161,7 @@ class Hotel_Controller:
             hotels.append(self._sqlite3row_to_hotel(row=res,address=Address_access().sqlite3row_to_address(res)))
         print(len(hotels))
         for hotel in hotels:
-            hotel.rooms = RoomController().get_rooms(dateStart=start_date, dateEnd=end_date, hotel_ids=[hotel.hotel_id])
+            hotel.rooms = Room_Manager().get_rooms(dateStart=start_date, dateEnd=end_date, hotel_ids=[hotel.hotel_id])
         return hotels
 
     def add_hotel(self, name, stars, address_id):
@@ -214,4 +214,11 @@ class Hotel_Controller:
         return self.hotel_access.access_update_hotel(hotel_id, name, stars, address_id)
     
 
-
+    def get_amount_per_hotel(self):
+        result = self.hotel_access.amount_per_hotel()
+        hotels = []
+        for row in result:
+            hotel_name = row["name"]
+            amount = row["SUM(total_amount)"]
+            hotels.append((hotel_name, amount))
+        return hotels

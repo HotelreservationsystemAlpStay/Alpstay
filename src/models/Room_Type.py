@@ -1,4 +1,4 @@
-class RoomType:
+class Room_Type:
     def __init__(self, id: int, description: str, maxGuests: int) -> None:
         self._id = id
         self._description = description

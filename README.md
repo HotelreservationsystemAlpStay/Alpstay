@@ -150,6 +150,8 @@ If the booking is active / not cancelled, the current date is set as the invoice
 
 We made it possible to create multiple invoices for the same booking on purpose. This way, if something changes later (e.g. a correction or customer request), a new invoice can be generated easily without overwriting anything.
 
+We also extended this story a bit, you can now add your e-mail, where you'd like to receive the confirmation. This was realised with an api, we transfer some variables to the webhook on make.com where a html mail is sent to the e-mail
+
 ### 6. As a guest, I want to be able to cancel my booking
 Als Gast möchte ich meine Buchung stornieren, damit ich nicht belastet werde, wenn ich das Zimmer nicht mehr benötige. Hint: Sorgt für die entsprechende Invoice. 
 

@@ -213,6 +213,18 @@ class Hotel_Access:
         else:
             return True
 
+    def amount_per_hotel(self):
+        query = """
+        SELECT name, SUM(total_amount) 
+        FROM booking_view 
+        GROUP BY name
+        HAVING SUM(total_amount) > 0
+        """
+        return self.db.fetchall(query)
+    
+
+
+    
     #????  - Wer macht das und wo wird es gebraucht und wieso ist das in Hotel_access
     #def get_available_rooms(self, dateStart:date=None, dateEnd:date=None, hotel:Hotel=None, roomType:RoomType=None) -> list | list[Room]:
     #roomAccess = Room_Access()

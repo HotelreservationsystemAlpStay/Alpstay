@@ -12,8 +12,8 @@ The `Base_Access_Controller` class is used to manage our SQLite database for the
 
   **Example:**
   ```python
-  from controller.Base_Access_Controller import Base_Access_Controller
-  db_controller = Base_Access_Controller()
+  from managers.Base_Access_Controller import Base_Access_Controller
+  db_Manager = Base_Access_Controller()
   ```
 
 ## Methods
@@ -31,7 +31,7 @@ The `Base_Access_Controller` class is used to manage our SQLite database for the
   ```python
   query = "INSERT INTO user (id, username, password, role) VALUES (?, ?, ?, ?)"
   params = (1, "AdminUser", "secretPassword", "admin")
-  cursor = db_controller.execute(query, params)
+  cursor = db_Manager.execute(query, params)
   ```
 
 ### fetchall
@@ -47,7 +47,7 @@ The `Base_Access_Controller` class is used to manage our SQLite database for the
   ```python
   query = "SELECT id, username, password, role FROM user WHERE role = ? AND id > ?"
   params = ("admin", 5)
-  rows = db_controller.fetchall(query, params)
+  rows = db_Manager.fetchall(query, params)
   for row in rows:
       print(row["id"], row["username"], row["role"])
   ```
@@ -65,7 +65,7 @@ The `Base_Access_Controller` class is used to manage our SQLite database for the
   ```python
   query = "SELECT id, username, password, role FROM user WHERE id = ?"
   params = (1,)
-  row = db_controller.fetchone(query, params)
+  row = db_Manager.fetchone(query, params)
   if row:
       print(row["id"], row["username"], row["role"])
   ```
@@ -77,5 +77,5 @@ The `Base_Access_Controller` class is used to manage our SQLite database for the
 
   **Example:**
   ```python
-  db_controller.close()
+  db_Manager.close()
   ```

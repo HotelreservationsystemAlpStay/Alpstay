@@ -5,7 +5,7 @@ import sqlite3
 
 class User_Access:
     def __init__(self):
-        self.db_controller = Base_Access_Controller()
+        self.db_Manager = Base_Access_Controller()
 
     @staticmethod
     def _sqlite3row_to_user(row: sqlite3.Row) -> User:
@@ -17,7 +17,7 @@ class User_Access:
         )
 
     def get_all_users(self) -> list[User]:
-        user_data = self.db_controller.fetchall("SELECT * FROM User")
+        user_data = self.db_Manager.fetchall("SELECT * FROM User")
         users = []
         for row in user_data:
             users.append(self._sqlite3row_to_user(row))
@@ -39,7 +39,7 @@ class User_Access:
         WHERE user_id = ? 
         AND user_password = ?
         """
-        result = self.db_controller.fetchone(query,(user_id,password))
+        result = self.db_Manager.fetchone(query,(user_id,password))
         if not result:
             return None
         return self._sqlite3row_to_user(result)
@@ -50,7 +50,7 @@ class User_Access:
         FROM User
         WHERE user_id = ?
         """
-        result = self.db_controller.fetchone(query, (user_id,))
+        result = self.db_Manager.fetchone(query, (user_id,))
         if result:
             return result["guest_id"]
         else:

@@ -1,6 +1,6 @@
 from data_Access.Guest_Access import Guest_Access
 
-class Guest_Controller:
+class Guest_Manager:
     def __init__(self):
         self.guest_access = Guest_Access()
 

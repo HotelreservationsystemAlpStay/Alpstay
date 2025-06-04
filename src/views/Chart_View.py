@@ -28,6 +28,8 @@ class ChartView:
             self.draw_guest_age_histogram(chart_axes)
         elif chart_type == "guest_booking_frequency":
             self.draw_guest_booking_frequency_pie_chart(chart_axes)
+        elif chart_type == "total_revenue_per_hotel":
+            self.draw_total_revenue_per_hotel_chart(chart_axes)
             
         canvas = FigureCanvasTkAgg(self.figure, master=self.root)
         canvas.draw()
@@ -112,6 +114,27 @@ class ChartView:
             chart_axes.text(0.5, 0.5, "No booking frequency data available", ha='center', va='center')
         self.figure.tight_layout()
     
+    def draw_total_revenue_per_hotel_chart(self, chart_axes):
+        """
+        Draws a bar chart for total revenue per hotel.
+
+        Args:
+            chart_axes (matplotlib.axes.Axes): The axes object to draw the chart on.
+        """
+        if self.data and isinstance(self.data, list) and len(self.data) > 0:
+            hotel_names = [item[0] for item in self.data]
+            amounts = [item[1] for item in self.data]
+            
+            chart_axes.bar(hotel_names, amounts)
+            chart_axes.set_xlabel("Hotel")
+            chart_axes.set_ylabel("Total Revenue (CHF)")
+            chart_axes.set_title("Total Revenue per Hotel")
+            chart_axes.tick_params(axis='x', rotation=45)
+        else:
+            chart_axes.text(0.5, 0.5, "No revenue data available", ha='center', va='center')
+        self.figure.tight_layout()
+
+    """ 
     @staticmethod
     def total_revenue_per_hotel(data):
         window = tk.Toplevel()
@@ -130,3 +153,4 @@ class ChartView:
         canvas = FigureCanvasTkAgg(fig, master=window)
         canvas.draw()
         canvas.get_tk_widget().pack()
+        """

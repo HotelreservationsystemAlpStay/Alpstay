@@ -1,17 +1,17 @@
 from data_Access.Room_Access import Room_Access
 from models.Room import Room
-from models.RoomType import RoomType
+from models.Room_Type import Room_Type
 from datetime import date
 from datetime import timedelta
 from utils.Formatting import Format
 from utils.Validator import Validator
 
-class RoomController():
+class Room_Manager():
     def __init__(self):
         self.room_Access = Room_Access()
     
-    def get_rooms(self, dateStart: date = None, dateEnd: date = None, hotel_ids: list[int] = None, roomType:RoomType = None)->list[Room]:
-        return self.room_Access.get_rooms(dateStart=dateStart, dateEnd=dateEnd, hotel_ids=hotel_ids, roomType=roomType)
+    def get_rooms(self, dateStart: date = None, dateEnd: date = None, hotel_ids: list[int] = None, Room_Type:Room_Type = None)->list[Room]:
+        return self.room_Access.get_rooms(dateStart=dateStart, dateEnd=dateEnd, hotel_ids=hotel_ids, room_Type=Room_Type)
     
     def update_room(self, room:Room):
         return self.room_Access.updateRoom(room)

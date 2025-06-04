@@ -7,7 +7,7 @@ from data_Access.Booking_Access import Booking_Access
 from utils.Validator import Validator
 from utils.Formatting import Format
 
-class Booking_Controller:
+class Booking_Manager:
     def __init__(self):
         self.Booking_Access = Booking_Access()
     
@@ -56,6 +56,8 @@ class Booking_Controller:
         result = self.Booking_Access.create_booking(check_in_date, check_out_date, is_cancelled, total_amount, guest_id, room_id)
         if result:
             return result
+
+
         else:
             return False
     

@@ -11,7 +11,7 @@ class Room_Menu(Menu):
         self.add_item("Back", self.back)
 
     def get_rooms(self,fromFunction=False):
-        rooms = self.app.room_Controller.get_rooms()
+        rooms = self.app.room_Manager.get_rooms()
         print("------")
         counter = 1
         for room in rooms:
@@ -31,7 +31,7 @@ class Room_Menu(Menu):
         price = float(price)
         room = rooms[choice]
         room.price_per_night = price
-        room = self.app.room_Controller.update_room(room)
+        room = self.app.room_Manager.update_room(room)
         print(room)
         return self
     
