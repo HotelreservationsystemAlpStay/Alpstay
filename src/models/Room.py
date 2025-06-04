@@ -1,8 +1,8 @@
 from models.Facility import Facility
-from models.Room_Type import RoomType
+from models.Room_Type import Room_Type
 
 class Room:
-    def __init__(self, room_id: int, room_no: str, price_per_night: float, facilities:list[Facility] = None, roomType:RoomType = None, hotelid:int=None):
+    def __init__(self, room_id: int, room_no: str, price_per_night: float, facilities:list[Facility] = None, roomType:Room_Type = None, hotelid:int=None):
         self._room_id = room_id
         self._room_no = room_no
         self._price_per_night = price_per_night
@@ -43,11 +43,11 @@ class Room:
         self._facilities = facilities
 
     @property
-    def roomType(self) -> RoomType:
+    def roomType(self) -> Room_Type:
         return self._roomType
 
     @roomType.setter
-    def roomType(self, roomType: RoomType) -> None:
+    def roomType(self, roomType: Room_Type) -> None:
         self._roomType = roomType
 
     @property

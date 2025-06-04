@@ -2,7 +2,7 @@ from utils.Validator import Validator
 from data_Access.Base_Access_Controller import Base_Access_Controller
 from data_Access.Room_Type_Access import Room_Type_Access
 from controller.User_Controller import User_Controller
-from models.Room_Type import RoomType
+from models.Room_Type import Room_Type
 
 class Room_Type_Controller():
     def __init__(self):
@@ -21,7 +21,7 @@ class Room_Type_Controller():
         return self.Room_Type_Access.add_roomtype(description, max_guests) 
             
 
-    def modify_roomType(self, roomType:RoomType, description:str=None, max_guests:int=None):
+    def modify_roomType(self, roomType:Room_Type, description:str=None, max_guests:int=None):
         return self.Room_Type_Access.modify_roomtype(roomType.id, description, max_guests)
 
     def get_room_occupancy_data(self):

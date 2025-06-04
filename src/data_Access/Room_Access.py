@@ -1,7 +1,7 @@
 from utils.Validator import Validator
 from utils.Formatting import Format
 from models.Room import Room
-from models.Room_Type import RoomType
+from models.Room_Type import Room_Type
 from models.Facility import Facility
 from data_Access.Base_Access_Controller import Base_Access_Controller
 from data_Access.Facility_Access import Facility_Access
@@ -53,7 +53,7 @@ class Room_Access:
         #else return winter
         return "Winter"
 
-    def _sqlite3row_to_room(self, row: sqlite3.Row, facilities=[], roomType:RoomType=None) -> Room:
+    def _sqlite3row_to_room(self, row: sqlite3.Row, facilities=[], roomType:Room_Type=None) -> Room:
         return Room(
             room_id=row["room_id"],
             room_no=row["room_number"],
@@ -74,7 +74,7 @@ class Room_Access:
         return listOfActualFacilities
 
     @staticmethod
-    def _intId_to_roomType(row: int) -> RoomType:
+    def _intId_to_roomType(row: int) -> Room_Type:
         if row is None or row == 0:
             return []
         rs = Room_Type_Access()
@@ -112,8 +112,8 @@ class Room_Access:
             query += f" {self._WHERE_HOTELID} {tuple(hotel_ids)}"
         return query, param
 
-    def _add_roomType(self, query:str, param:list, roomType:RoomType):
-        if not roomType or not isinstance(roomType, RoomType):
+    def _add_roomType(self, query:str, param:list, roomType:Room_Type):
+        if not roomType or not isinstance(roomType, Room_Type):
             return query,param
         if "WHERE" in query: query +=f" {self._AND}"
         if "AND" not in query: query +=f" {self._WHERE}"
@@ -131,7 +131,7 @@ class Room_Access:
                 )
 
     def get_rooms(
-        self, dateStart: date = None, dateEnd: date = None, hotel_ids: list[int] = None, roomType:RoomType = None
+        self, dateStart: date = None, dateEnd: date = None, hotel_ids: list[int] = None, roomType:Room_Type = None
     ) -> list[Room]:
         """returns rooms based on filter
 
