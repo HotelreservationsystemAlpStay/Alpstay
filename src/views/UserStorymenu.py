@@ -334,7 +334,8 @@ class UserStoryMenu(Menu):
         If successful, prints all invoice details. Otherwise, shows an error message.
         """
         booking_id = int(input("Please name the booking ID of which you'd like to create an invoice"))
-        result = self.app.invoice_Controller.create_invoice(booking_id)
+        e_mail = input("If you would like to receive an invoice by mail, you can enter the according e-mail here")
+        result = self.app.invoice_Controller.create_invoice(booking_id, e_mail)
         if result == "cancelled":
             print("This booking was cancelled, so there is not going to be an invoice")
         elif result:

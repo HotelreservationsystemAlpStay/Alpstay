@@ -56,6 +56,8 @@ class Booking_Controller:
         result = self.Booking_Access.create_booking(check_in_date, check_out_date, is_cancelled, total_amount, guest_id, room_id)
         if result:
             return result
+
+
         else:
             return False
     
