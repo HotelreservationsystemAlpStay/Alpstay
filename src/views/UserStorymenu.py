@@ -14,38 +14,38 @@ from mythic.mythic_code import Mythic
 class UserStoryMenu(Menu):
     def __init__(self, app, prev):
         super().__init__("UserStories", app)
-        self.add_item("As a guest, I want to search for a hotel in a city, so that i can choose the one, that meets my criteria",self.min_1)
-        self.add_item("Criteria 1: City",self.min_1_1)
-        self.add_item("Criteria 2: Stars",self.min_1_2)
-        self.add_item("Criteria 3: Amount of guests in a room",self.min_1_3)
-        self.add_item("Criteria 4: Availability (Room in a hotel is available between start date and end date)",self.min_1_4)
-        self.add_item("Criteria 5: Combine the upper four criteria",self.min_1_5)
-        self.add_item("Criteria 6: The following Information should be displayed: Hotel name, hotel address, amount of stars",self.min_1_6)
-        self.add_item("As a guest, I want to see the details of different room types, which are available in a hotel, including the following information for this room: maximum amount of guests, description, price and facilities",self.min_2)
-        self.add_item("As a guest, I want to see the following information for each room: room type, maximum amount of guest, description, facilities, price per night and total price",self.min_2_1)
-        self.add_item("As a guest, I only want to see available rooms if I have specified the dates of my stay",self.min_2_2)
-        self.add_item("As an admin, I want to have the possibility to update information about hotels",self.min_3)
-        self.add_item("As an admin, I want to add new hotels to the system",self.min_3_1)
-        self.add_item("As an admin, I want to delete hotels from the system",self.min_3_2)
-        self.add_item("As an admin, I want to update information of hotel",self.min_3_3)
-        self.add_item("As a guest, I want to book a room in a certain hotel",self.min_4)
-        self.add_item("As a guest, I want to receive an invoice after my stay",self.min_5)
-        self.add_item("As a guest, I want to be able to cancel my booking",self.min_6)
-        self.add_item("As a guest, I want to have dynamics prices to profit from dynamic pricing",self.min_7)
-        self.add_item("As an admin, I want to see all bookings",self.min_8)
-        self.add_item("As an admin, I want to see all rooms with their facilities",self.min_9)
-        self.add_item("As an admin, I want to be capable to update master data (RoomTypes, Facilities, Prices)",self.min_10)
-        self.add_item("As an admin, I want to update missing information in bookings",self.db_1)
-        self.add_item("As a guest, I want to see my booking history",self.db_2)
-        self.add_item("I want to create a new booking",self.db_2_1_1)
-        self.add_item("As a guest, I want to create a rating about the stay at a hotel",self.db_3)
-        self.add_item("As a guest, I want to read ratings before I book",self.db_4)
-        self.add_item("",self.db_5)
-        self.add_item("",self.db_6)
-        self.add_item("As an admin, I want to see the occupancy rate for each room type",self.dv_1)
-        self.add_item("As an admin, I want to analyze my guests",self.dv_2)
-        self.add_item("As an admin, I would like to see the revenue per hotel", self.dv_3)
-        self.add_item("",self.opt_1)
+        self.add_item("(Min 1) As a guest, I want to search for a hotel in a city, so that i can choose the one, that meets my criteria",self.min_1)
+        self.add_item("(Min 1.1) Criteria 1: City",self.min_1_1)
+        self.add_item("(Min 1.2) Criteria 2: Stars",self.min_1_2)
+        self.add_item("(Min 1.3) Criteria 3: Amount of guests in a room",self.min_1_3)
+        self.add_item("(Min 1.4) Criteria 4: Availability (Room in a hotel is available between start date and end date)",self.min_1_4)
+        self.add_item("(Min 1.5) Criteria 5: Combine the upper four criteria",self.min_1_5)
+        self.add_item("(Min 1.6) Criteria 6: The following Information should be displayed: Hotel name, hotel address, amount of stars",self.min_1_6)
+        self.add_item("(Min 2) As a guest, I want to see the details of different room types, which are available in a hotel, including the following information for this room: maximum amount of guests, description, price and facilities",self.min_2)
+        self.add_item("(Min 2.1) As a guest, I want to see the following information for each room: room type, maximum amount of guest, description, facilities, price per night and total price",self.min_2_1)
+        self.add_item("(Min 2.2) As a guest, I only want to see available rooms if I have specified the dates of my stay",self.min_2_2)
+        self.add_item("(Min 3) As an admin, I want to have the possibility to update information about hotels",self.min_3)
+        self.add_item("(Min 3.1) As an admin, I want to add new hotels to the system",self.min_3_1)
+        self.add_item("(Min 3.2) As an admin, I want to delete hotels from the system",self.min_3_2)
+        self.add_item("(Min 3.3) As an admin, I want to update information of hotel",self.min_3_3)
+        self.add_item("(Min 4) As a guest, I want to book a room in a certain hotel",self.min_4)
+        self.add_item("(Min 5) As a guest, I want to receive an invoice after my stay",self.min_5)
+        self.add_item("(Min 6) As a guest, I want to be able to cancel my booking",self.min_6)
+        self.add_item("(Min 7) As a guest, I want to have dynamics prices to profit from dynamic pricing",self.min_7)
+        self.add_item("(Min 8) As an admin, I want to see all bookings",self.min_8)
+        self.add_item("(Min 9) As an admin, I want to see all rooms with their facilities",self.min_9)
+        self.add_item("(Min 10)As an admin, I want to be capable to update master data (RoomTypes, Facilities, Prices)",self.min_10)
+        self.add_item("(DB 1) As an admin, I want to update missing information in bookings",self.db_1)
+        self.add_item("(DB 2) As a guest, I want to see my booking history",self.db_2)
+        self.add_item("(DB 2.1) I want to create a new booking",self.db_2_1_1)
+        self.add_item("(DB 3) As a guest, I want to create a rating about the stay at a hotel",self.db_3)
+        self.add_item("(DB 4) As a guest, I want to read ratings before I book",self.db_4)
+        self.add_item("(DB 5)",self.db_5)
+        self.add_item("(DB 6)",self.db_6)
+        self.add_item("(DV 1) As an admin, I want to see the occupancy rate for each room type",self.dv_1)
+        self.add_item("(DV 2) As an admin, I want to analyze my guests",self.dv_2)
+        self.add_item("(DV 3) As an admin, I would like to see the revenue per hotel", self.dv_3)
+        self.add_item("(Opt 1)",self.opt_1)
         self.add_item("",self.opt_1_1)
         self.add_item("",self.opt_1_2)
         self.add_item("",self.opt_2)
@@ -669,7 +669,7 @@ class UserStoryMenu(Menu):
         
     def dv_3(self):
         if not self._authenticate_admin():
-            input("Press Enter to return to the menu.") # Added input to pause before returning
+            input("Press Enter to return to the menu.")
             return self
 
         print("Fetching total revenue per hotel data...")
@@ -678,7 +678,6 @@ class UserStoryMenu(Menu):
         data_valid = False
 
         if data and isinstance(data, list) and len(data) > 0:
-            # Check if all elements are tuples of length 2 (name, amount)
             if all(isinstance(item, tuple) and len(item) == 2 for item in data):
                 data_valid = True
         
@@ -690,13 +689,13 @@ class UserStoryMenu(Menu):
             return chart_view.show_and_wait()
         else:
             print(f"No valid data available to display for {chart_type.replace('_', ' ')}.")
-            if data is not None: # Check if data is not None before printing
+            if data is not None: 
                 print(f"Data received but deemed invalid or empty: {data}")
-            input("Press Enter to return to the menu.") # Added input to pause
+            input("Press Enter to return to the menu.")
             return self
 
     def opt_1(self):
-        pass
+        self.dv_3()
     
     def opt_1_1(self):
         pass
