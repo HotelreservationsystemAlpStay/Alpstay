@@ -4,7 +4,7 @@ from data_Access.RoomType_Access import RoomType_Access
 from controller.User_Controller import User_Controller
 from models.RoomType import RoomType
 
-class RoomType_Controller():
+class Room_Type_Controller():
     def __init__(self):
         self.roomType_Access = RoomType_Access() 
 
