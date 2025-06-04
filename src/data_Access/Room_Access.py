@@ -1,11 +1,11 @@
 from utils.Validator import Validator
 from utils.Formatting import Format
 from models.Room import Room
-from models.RoomType import RoomType
+from models.Room_Type import RoomType
 from models.Facility import Facility
 from data_Access.Base_Access_Controller import Base_Access_Controller
 from data_Access.Facility_Access import Facility_Access
-from data_Access.RoomType_Access import RoomType_Access
+from data_Access.Room_Type_Access import Room_Type_Access
 from datetime import date
 import sqlite3
 
@@ -77,7 +77,7 @@ class Room_Access:
     def _intId_to_roomType(row: int) -> RoomType:
         if row is None or row == 0:
             return []
-        rs = RoomType_Access()
+        rs = Room_Type_Access()
         return rs.get_roomtype_by_id(row)
 
     @staticmethod

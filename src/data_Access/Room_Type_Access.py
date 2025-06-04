@@ -1,5 +1,5 @@
 from utils.Validator import Validator
-from models.RoomType import RoomType
+from models.Room_Type import RoomType
 from data_Access.Base_Access_Controller import Base_Access_Controller
 from datetime import date
 from controller.User_Controller import User_Controller

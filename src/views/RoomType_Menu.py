@@ -1,5 +1,5 @@
 from views.Menu import Menu
-from models.RoomType import RoomType
+from models.Room_Type import RoomType
 
 class RoomType_Menu(Menu):
     def __init__(self, app, prev: Menu):

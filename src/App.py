@@ -1,7 +1,7 @@
 from views.StartMenu import StartMenu
 from controller.Hotel_Controller import Hotel_Controller
 from controller.Room_Controller import RoomController
-from controller.RoomType_Controller import RoomType_Controller
+from controller.Room_Type_Controller import Room_Type_Controller
 from controller.Guest_Controller import Guest_Controller
 from controller.Invoice_Controller import Invoice_Controller
 from controller.User_Controller import User_Controller
@@ -12,7 +12,7 @@ class Application:
     def __init__(self):
         self.hotel_Controller = Hotel_Controller()
         self.room_Controller = RoomController()
-        self.roomType_Controller = RoomType_Controller()
+        self.roomType_Controller = Room_Type_Controller()
         self.guest_Controller = Guest_Controller()
         self.invoice_Controller = Invoice_Controller()
         self.user_Controller = User_Controller()

@@ -1,5 +1,5 @@
 from models.Facility import Facility
-from models.RoomType import RoomType
+from models.Room_Type import RoomType
 
 class Room:
     def __init__(self, room_id: int, room_no: str, price_per_night: float, facilities:list[Facility] = None, roomType:RoomType = None, hotelid:int=None):
