@@ -1,6 +1,6 @@
 from views.Menu import Menu
 from views.Chart_View import ChartView
-from views.RoomType_Menu import RoomType_Menu 
+from views.Room_Type_Menu import Room_Type_Menu 
 from views.Room_Menu import Room_Menu 
 from views.Facility_Menu import Facility_Menu 
 import tkinter as tk
@@ -45,15 +45,13 @@ class UserStoryMenu(Menu):
         self.add_item("(DV 1) As an admin, I want to see the occupancy rate for each room type",self.dv_1)
         self.add_item("(DV 2) As an admin, I want to analyze my guests",self.dv_2)
         self.add_item("(DV 3) As an admin, I would like to see the revenue per hotel", self.dv_3)
-        self.add_item("(Opt 1)",self.opt_1)
-        self.add_item("",self.opt_1_1)
-        self.add_item("",self.opt_1_2)
-        self.add_item("",self.opt_2)
-        self.add_item("",self.opt_3)
-        self.add_item("",self.opt_4)
+        self.add_item("(Opt 1) with 1.1 and 1.2",self.opt_1)
+        self.add_item("(Opt 2)",self.opt_2)
+        self.add_item("(Opt 3)",self.opt_3)
+        self.add_item("(Opt 4)",self.opt_4)
         self.add_item("back", self.back)
         self._prev_menu = prev
-        
+
     def _authenticate_admin(self):
         """Handles admin authentication."""
         try:
@@ -93,6 +91,11 @@ class UserStoryMenu(Menu):
             return user_id
         else:
             return False
+        
+    def _not_implemented_yet(self):
+        """Prints a message indicating that the feature is not implemented and waits for user input."""
+        print("The logic for this user story has not been implemented yet.")
+        input("Press Enter to return to the menu.")
 
     def min_1(self):
         pass
@@ -594,10 +597,16 @@ class UserStoryMenu(Menu):
         return self
 
     def db_5(self):
-        pass
+        print("Why don't scientists trust atoms?")
+        print("Because they make up everything!")
+        self._not_implemented_yet()
+        return self
     
     def db_6(self):
-        pass
+        print("Why did the scarecrow win an award?")
+        print("Because he was outstanding in his field!")
+        self._not_implemented_yet()
+        return self
     
     def dv_1(self):
         if not self._authenticate_admin():
@@ -697,20 +706,23 @@ class UserStoryMenu(Menu):
     def opt_1(self):
         self.dv_3()
     
-    def opt_1_1(self):
-        pass
-    
-    def opt_1_2(self):
-        pass
-    
     def opt_2(self):
-        pass
+        print("What do you call fake spaghetti?")
+        print("An impasta!")
+        self._not_implemented_yet()
+        return self
     
     def opt_3(self):
-        pass
+        print("Why did the bicycle fall over?")
+        print("Because it was two tired!")
+        self._not_implemented_yet()
+        return self
     
     def opt_4(self):
-        pass
+        print("What do you call a fish with no eyes?")
+        print("Fsh!")
+        self._not_implemented_yet()
+        return self
 
     def back(self):
         return self._prev_menu
