@@ -1,9 +1,9 @@
 from datetime import datetime
 
 class Rating:
-    def __init__(self, rating_id: int, invoice, hotel, score: int, review: str = None, created_at: datetime = None):
+    def __init__(self, rating_id: int, booking_id: int, hotel_id: int, score: int, review: str = None, created_at: datetime = None):
         self._rating_id = rating_id
-        self._invoice = invoice
+        self._booking_id = booking_id
         self._hotel = hotel
         self._score = score
         self._review = review
@@ -18,20 +18,20 @@ class Rating:
         self._rating_id = rating_id
 
     @property
-    def invoice(self):
-        return self._invoice
+    def booking_id(self) -> int:
+        return self._booking_id
 
-    @invoice.setter
-    def invoice(self, invoice) -> None:
-        self._invoice = invoice
+    @booking_id.setter
+    def booking_id(self, booking_id: int) -> None:
+        self._booking_id = booking_id
 
     @property
-    def hotel(self):
-        return self._hotel
+    def hotel_id(self) -> int:
+        return self._hotel_id
 
-    @hotel.setter
-    def hotel(self, hotel) -> None:
-        self._hotel = hotel
+    @hotel_id.setter
+    def hotel_id(self, hotel_id: int) -> None:
+        self._hotel_id = hotel_id
 
     @property
     def score(self) -> int:
@@ -56,28 +56,6 @@ class Rating:
     @created_at.setter
     def created_at(self, created_at: datetime) -> None:
         self._created_at = created_at
-    
-    def is_valid_score(self) -> bool:
-        """
-        Checks if the score is between 1 and 5.
-        """
-        return 1 <= self._score <= 5
-    
-    def update_score(self, new_score: int):
-        """
-        Updates the score.
-        
-        :param new_score: New score.
-        """
-        self.score = new_score
-    
-    def add_review(self, review_text: str):
-        """
-        Adds or updates a review comment.
-        
-        :param review_text: The text of the review.
-        """
-        self.review = review_text 
         
     def to_dict(self) -> dict:
         """
@@ -85,12 +63,13 @@ class Rating:
         """
         return {
             'rating_id': self._rating_id,
-            'invoice': self._invoice.to_dict() if hasattr(self._invoice, "to_dict") else str(self._invoice),
-            'hotel': self._hotel.to_dict() if hasattr(self._hotel, "to_dict") else str(self._hotel),
+            'booking_id': self._booking_id,
+            'hotel_id': self._hotel_id,
             'score': self._score,
             'review': self._review,
             'created_at': self._created_at.isoformat() if self._created_at else None
         }
+
     
     def __str__(self):
-        return f"Rating(id={self._rating_id}, score={self._score}, review={self._review})"
+        return f"Rating(id={self._rating_id}, booking_id={self._booking_id}, hotel_id={self._hotel_id}, score={self._score}, review={self._review})"

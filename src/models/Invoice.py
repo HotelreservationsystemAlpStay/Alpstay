@@ -6,7 +6,6 @@ class Invoice:
         self._booking_id = booking_id
         self._issue_date = issue_date if issue_date is not None else date.today()
         self._total_amount = total_amount
-        self._paid = False  
 
     @property
     def invoice_id(self) -> int:
