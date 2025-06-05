@@ -44,6 +44,27 @@ The GUI does not directly access the database; instead, it relies entirely on th
 
 ### Utils
 
+## Class Diagram
+!!Bild muss hier noch eingefügt werden!!
+Each table in our Class Diagram represents a table from the sqlite file. For each table there is a model file in our models folder where an object of a class can be created. All classed contains their attributes, each one starts with _ because we also used them to create "private" attributes in python. We know that they are not private with _, to be clear they are not even being name mangled but, its a convention, which should be enough for our use cases. Each attribute is marked with - because we consider them to be "private". 
+
+### Connections between classes:
+- Booking – Invoice: We use a basic association because an invoice contains a booking_id. We modelled it as a 1:n relation, since – as mentioned later in the corresponding user story – a booking can have multiple invoices (for example if something changes or is corrected later). An invoice, however, always belongs to exactly one booking.
+- Booking – Rating: We use a basic association because a rating contains a booking_id. We modelled it as a 1-to-(0..1) relationship: each rating belongs to exactly one booking, but not every booking has to be rated — so it can have zero or one rating. As defined later, a rating can only be created for an existing booking, which prevents fake ratings. Also, it's not possible to submit more than one rating per booking, making the system fair and controlled.
+- Booking - Room: This is a basic association since a booking stores the room_id. We modelled it as an n:1 relationship — each booking must be linked to exactly one room, which was also defined in the project description. On the other hand, a room can of course be booked multiple times, so it can have many bookings or not even one booking.
+- Booking – Guest: This is a basic association, since a booking contains the guest_id. We use an n:1 relationship — every booking belongs to exactly one guest, while a guest can have zero or multiple bookings. We intentionally decided against allowing multiple guests per booking, as this would make it unclear who the main booker is. If a guest brings others, they can be recorded at check-in instead.
+- Address - Guest: We used an aggregation because the address is conceptually a part of the guest, but both can exist independently — for example, an address can exist in the database without being linked to a guest yet, and a guest can be created before assigning them an address. The association is implemented via address_id in the Guest class. We modeled it as a 1:n relationship: one address can belong to multiple guests (e.g. people living in the same household), while each guest has exactly one address.
+- Address - Hotel: As with the Guest relationship, we used aggregation here as well. An address is conceptually a part of the hotel, but both entities can exist independently — for example, an address can already exist before a hotel is assigned to it, and a hotel object can be created before linking it to an address. The connection is made via address_id in the Hotel class. We modeled this as a 1:n relationship: one address can be shared by multiple hotels (e.g. multiple hotels in one building), but each hotel has exactly one address.
+- Guest - User: We used a basic association since the User class contains a guest_id. The relationship is 1:1 because each guest must have exactly one user login, and each user login must be linked to exactly one guest account. This applies even for admin users — they also need a guest account in our logic to keep the structure consistent and simplify access control. 
+- Rating - Hotel: We used a basic association since the Rating contains a hotel_id. It's a n:1 relationship, because each rating must be linked to exactly one hotel, while a hotel can have zero, one or many ratings — depending on how many guests decide to leave feedback.
+- Hotel - Room: We modelled this as a composition, since a room cannot exist without a hotel — it only makes sense in the context of one. The Room class also contains the hotel_id. It's a 1:n relationship, because a hotel can have none, one or many rooms, but each room always belongs to exactly one hotel.
+- Facility - Room: This is a standard association, since the Room class holds a list of facilities. We used a many-to-many (n:n) relationship because a room can offer multiple facilities (like TV, minibar etc.), and the same facility (e.g. WiFi) can be available in many rooms.
+- Room - Room Type: This is an association, since each room references a room type. We modelled it as an n:1 relationship because each room must have exactly one room type (e.g., Single, Double, Suite), while a room type can be assigned to none, one, or many rooms.
+
+
+
+
+
 ## Userstories
 The original user stories were written in german is it is a german-based course. Due to the majority of code being developed in english, the documentation is in english. The description of the user stories are in english aswell as in german. Additionally, for the spirit of the documentation, the user stories are seperated or combined.
 
