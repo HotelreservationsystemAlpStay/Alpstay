@@ -196,6 +196,16 @@ Als ADmin möchte ich eine Liste der Zimmer mit ihrer Ausstattuns sehen, damit i
 ### 10. As an admin, I want to be capable to update master data (RoomTypes, Facilities, Prices)
 Als Admin möchte ich in der Lage sein, Stammdaten zu verwalten, z.B. Zimmertypen, Einrichtungen, und Preise in Echtzeit zu aktualisieren, damit das Backend-System aktuelle Informationen hat. Hint: Stammdaten sind alle Daten, die nicht von anderen Daten abhängen.
 
+To update master data, I want to see, what I am going to change. Additionally, the user story explicitly says, that only admins should be able to change the master data. As another requirement from a user expirience stand-point, the user may decides to not update something due to seeing, that the information is already correct. Therefore instances of menus were created.
+
+To access the main application, the user has to be authenticated and asked, which type of master data wants to be updated. Based on this choice, the specified menu is called. The parameters for these instances are the application and the menu at the moment. With the menu as parameter, the user is able to choose the option back and return to this menu.
+
+For all menus, the options are pretty similar:
+
+1. Get information
+2. Update information
+3. back
+
 ### User Stories mit DB-Schemaänderung
 
 ### 1. As and admin, I want to update missing information in bookings

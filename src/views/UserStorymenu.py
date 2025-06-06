@@ -435,7 +435,7 @@ class UserStoryMenu(Menu):
         choice = int(input("pleasy enter your choice"))
         match choice:
             case 1:
-                return RoomType_Menu(self.app, self)
+                return Room_Type_Menu(self.app, self)
             case 2:
                 return Facility_Menu(self.app, self)
             case 3:
