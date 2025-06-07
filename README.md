@@ -11,7 +11,7 @@ This project could have been realized as a jupiter notebook. A jupiter notebook 
 When working with a team, versioning is an essential part of working together. The best-known tool for this is any kind of git. Due to prior knowledge, the benefit of Github Pro as a student and recommendation of the coaches, we decided to use Github as our versioning tool. 
 
 ### Kanban Board
-To track progress and tasks as a team, a kanban boaA very easy to use choice would be the Microsoft Planner. However, with Github Projects, the kanban board with tasks, bugs and issues is directly integrated in the project. The wide variety of standard, built-in features as types, milestones and great filtering, Github Projects is perfect to use in a small team as ours. 
+To track progress and tasks as a team, a kanban board is a very easy choice would be the Microsoft Planner. However, with Github Projects, the kanban board with tasks, bugs and issues is directly integrated in the project. The wide variety of standard, built-in features as types, milestones and great filtering, Github Projects is perfect to use in a small team as ours. 
 
 ### Time Planning
 Additionally, the time planning is easy to use with Github projects. Creating a tasks provides the ability to add it on a timeline.
@@ -160,11 +160,17 @@ This user story 2 directly covers user sotry 2.1 and 2.2.
 ### 2.1. As a guest, I want to see the following information for each room: room type, maximum amount of guest, description, facilities, price per night and total price
 Ich möchte die folgenden Informationen pro Zimmer sehen: Zimmertyp, max. Anzahl der Gäste, Beschreibung, Ausstattung, Preis pro Nacht und Gesamtpreis.
 
+This user story is covered by the description and implementation of User Story 2.
+
 ### 2.2 As a guest, I only want to see available rooms if I have specified the dates of my stay
 Ich möchte nur die verfügbaren Zimmer sehen, sofern ich meinen Aufenthalt (von – bis) spezifiziert habe.
 
+This user story is covered by the description and implementation of User Story 2.
+
 ### 3. As an admin, I want to have the possibility to update information about hotels
 Als Admin des Buchungssystems möchte ich die Möglichkeit haben, Hotelinformationen zu pflegen, um aktuelle Informationen im System zu haben.
+
+This user story serves as a general requirement for managing hotel information by an admin. The specific functionalities like adding, deleting, and updating hotels are detailed in sub-stories 3.1, 3.2, and 3.3, which describe the console interactions and backend processes for each operation.
 
 ### 3.1. As an admin, I want to add new hotels to the system
 Ich möchte neue Hotels zum System hinzufügen
@@ -204,6 +210,8 @@ We also extended this story a bit, you can now add your e-mail, where you'd like
 ### 6. As a guest, I want to be able to cancel my booking
 Als Gast möchte ich meine Buchung stornieren, damit ich nicht belastet werde, wenn ich das Zimmer nicht mehr benötige. Hint: Sorgt für die entsprechende Invoice. 
 
+To cancel a booking, the guest first needs to log in. They are then prompted to enter the ID of the booking they wish to cancel. The `Booking_Manager` validates the ID and checks if the booking can be cancelled (e.g., it's not in the past or already cancelled). If valid, the `Booking_Access` layer updates the booking's status to 'cancelled' in the database. The system also considers implications for invoices, potentially marking an existing invoice as void or generating a cancellation confirmation, as hinted in the user story. A success or failure message is then displayed to the guest via the console GUI.
+
 ### 7. As a guest, I want to have dynamics prices to profit from dynamic pricing
 Als Gast möchte ich eine dynamische Preisgestaltung auf der Grundlage der Nachfrage sehen, damit ich ein Zimmer zum besten Preis buchen kann. Hint: Wendet in der Hochsaison höhere und in der Nebensaison niedrigere Tarife an.
 
@@ -218,10 +226,12 @@ However, we decided not to use this pricing logic in all bookings and searches f
 ### 8. As an admin, I want to see all bookings
 Als Admin des Buchungssystems möchte ich alle Buchungen aller Hotels sehen können, um eine Übersicht zu erhalten.
 
-### 9. As an admin, I want to see all rooms with their facilities
-Als ADmin möchte ich eine Liste der Zimmer mit ihrer Ausstattuns sehen, damit ich sie besser bewerben kann.
+Admins, after successful authentication, can access a menu option to view all bookings. This triggers the `Booking_Manager` to fetch all booking records via the `Booking_Access` layer from the database. The console GUI then displays a list of these bookings, showing key details for each (e.g., Booking ID, Guest Name, Hotel Name, Check-in/Check-out Dates, Status). This comprehensive overview is essential for administrative tasks and monitoring, and as mentioned in "User Stories mit DB-Schemaänderung 1", it can be a prerequisite for other operations like updating booking details.
 
-This userstory consists of an admin check and a list of all rooms with their facilities.
+### 9. As an admin, I want to see all rooms with their facilities
+Als Admin möchte ich eine Liste der Zimmer mit ihrer Ausstattung sehen, damit ich sie besser bewerben kann.
+
+For an admin to view all rooms and their facilities, they first log in and select the relevant option from the admin menu in the console application. The `Room_Manager`, potentially in conjunction with `Facility_Manager` (or through queries in `Room_Access` that join facility data), retrieves all room details and their associated facilities. The console GUI then presents this information, typically listing each room with its properties (e.g., room ID, hotel, type, capacity) and a sub-list of its facilities. This allows admins to have a clear inventory for management and promotional purposes.
 
 ### 10. As an admin, I want to be capable to update master data (RoomTypes, Facilities, Prices)
 Als Admin möchte ich in der Lage sein, Stammdaten zu verwalten, z.B. Zimmertypen, Einrichtungen, und Preise in Echtzeit zu aktualisieren, damit das Backend-System aktuelle Informationen hat. Hint: Stammdaten sind alle Daten, die nicht von anderen Daten abhängen.
@@ -285,14 +295,23 @@ We decided to structure it this way to make sure ratings are tied to real bookin
 ### 4. As a guest, I want to read ratings before I book
 Als Gast möchte ich vor der Buchung Hotelbewertungen lesen, damit ich das beste Hotel auswählen kann.
 
+When a guest is browsing hotels (e.g., after a search in User Story 1.x), they can choose to view ratings for a specific hotel through the `Rating_Manager`, which fetches all ratings associated with that hotel ID from the `Rating_Access` layer. These ratings, including scores and review texts, are then displayed in the console GUI. This allows guests to make more informed decisions based on the experiences of previous guests. This feature utilizes the `Rating` table schema from DB User Story 3.
+
 ### User Stories with data visualization
 
 ### As an admin, I want to see the occupancy rate for each room type
 Als Admin möchte ich die Belegungsraten für jeden Zimmertyp in meinem Hotel sehen, damit ich weiss, welche Zimmer am beliebtesten sind und ich meine Buchungsstrategien optimieren kann. Hint: Wählt ein geeignetes Diagramm, um die Auslastung nach Zimmertyp darzustellen (z. B. wie oft jeder Zimmertyp gebucht wird).
 
+After an admin logs in, they can access a feature to visualize room type occupancy. The `Booking_Manager` (using `Booking_Access`) typically retrieves booking data, which is then aggregated by room type with the help of `Room_Type_Manager` (using `Room_Type_Access`) or by joining room data in `Room_Access`. The `src/views/Chart_View.py` module, specifically its `draw_occupancy_chart` method, then generates a bar chart. Each bar in this chart represents a room type (e.g., "Single", "Double", "Suite"), and the height of the bar corresponds to the total number of times that room type has been booked. This visualization provides a clear overview of which room types are most popular, enabling admins to make informed decisions about pricing, inventory management, and marketing strategies.
+
 ### As an admin, I want to analyze my guests based on demografic attributes
-Als Admin möchte ich eine Aufschlüsselung der demografischen Merkmale meiner Gäste sehen, damit ich gezieltes Marketing
-planen kann. Hint: Wählt ein geeignetes Diagramm, um die Verteilung der Gäste nach verschiedenen Merkmalen darzustellen (z. B. Altersspanne, Nationalität, wiederkehrende Gäste). Möglicherweise müssen Sie der Tabelle „Gäste“ einige Spalten hinzufügen.
+Als Admin möchte ich eine Aufschlüsselung der demografischen Merkmale meiner Gäste sehen, damit ich gezieltes Marketing planen kann. Hint: Wählt ein geeignetes Diagramm, um die Verteilung der Gäste nach verschiedenen Merkmalen darzustellen (z. B. Altersspanne, Nationalität, wiederkehrende Gäste). Möglicherweise müssen Sie der Tabelle „Gäste“ einige Spalten hinzufügen.
+
+This feature provides admins with insights into their guest demographics through several visualizations, all generated by `src/views/Chart_View.py` after admin authentication. The `Guest_Manager` is responsible for fetching and preparing the necessary data from his respective access layers `Guest_Access`. The system offers the following demographic charts:
+1.  **Guest Distribution by Country (`draw_guest_country_chart`):** This bar chart displays the number of guests originating from different countries. The country data is derived from the `Guest_Access`. This helps in identifying key geographic markets and tailoring marketing efforts accordingly.
+2.  **Guest Age Distribution (`draw_guest_age_histogram`):** A histogram is used to show the distribution of guest ages. This requires age data to be available for guests. Understanding the age demographics allows the hotel to customize amenities and services.
+3.  **Guest Booking Frequency (`draw_guest_booking_frequency_pie_chart`):** This pie chart visualizes the proportion of new guests versus returning guests. The `Guest_Access` module's `access_guest_booking_frequency` method directly analyzes the `Booking` table to categorize guests: those with a single booking are counted as 'New Guests', and those with more than one booking are counted as 'Returning Guests'. This data is then prepared by `Guest_Manager` for visualization. This chart is crucial for evaluating guest loyalty and the effectiveness of customer retention strategies.
+These visualizations empower admins to better understand their customer base, enabling more effective targeted marketing, personalized service offerings, and strategic business planning.
 
 ### Optional user stories
 
