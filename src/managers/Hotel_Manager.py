@@ -155,12 +155,7 @@ class Hotel_Manager:
         Returns:
             list[Hotels]: List of hotels
         """
-        #result = self.hotel_access.access_hotel_details(hotel_name)
         hotels = self.hotel_access.access_hotel_detailed_address(hotel_name=hotel_name)
-        #for res in result:
-         #   print(res)
-          #  hotels.append(self._sqlite3row_to_hotel(row=res,address=Address_Access().sqlite3row_to_address(res)))
-        #print(len(hotels))
         for hotel in hotels:
             hotel.rooms = Room_Manager().get_rooms(dateStart=start_date, dateEnd=end_date, hotel_ids=[hotel.hotel_id])
         return hotels

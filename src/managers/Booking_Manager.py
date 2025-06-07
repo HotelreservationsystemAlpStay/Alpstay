@@ -11,6 +11,12 @@ class Booking_Manager:
     def __init__(self):
         self.Booking_Access = Booking_Access()
     
+    @staticmethod
+    def _convert_none_to_int(value):
+        if not value:
+            return 0
+        return value
+    
     def create_booking(self, user:User, room:Room, startDate:datetime, endDate:datetime):
         delta = (endDate-startDate).days
         booking = Booking_Access().create_booking(check_in_date=startDate, check_out_date=endDate, is_cancelled=False, total_amount=delta*room.price_per_night, guest_id=user.guest_id, room_id=room.room_id)
@@ -35,12 +41,12 @@ class Booking_Manager:
         bookings = []
         for row in result:
             hotel = Hotel(row["hotel_id"], row["name"], row["stars"])
-            booking = Booking(row["booking_id"], row["check_in_date"], row["check_out_date"], row["is_cancelled"], row["total_amount"], row["guest_id"], row["room_id"])
+            booking = Booking(row["booking_id"], row["check_in_date"], row["check_out_date"], row["is_cancelled"], self._convert_none_to_int(row["total_amount"]), row["guest_id"], row["room_id"])
             bookings.append((hotel, booking))
         return bookings
     
     def update_booking(self, booking:Booking, phonenumber:int=None, iscancelled:bool=None, totalamount:int=None):
-        self.Booking_Access.update_booking(self, booking, phonenumber, iscancelled, totalamount)
+        self.Booking_Access.update_booking(booking, phonenumber, iscancelled, totalamount)
     
     def create_booking_new(self, guest_id, room_id, check_in_date, check_out_date, total_amount, telefon=None):
         guest_id = int(guest_id)

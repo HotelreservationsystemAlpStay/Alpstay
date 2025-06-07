@@ -133,6 +133,28 @@ The connection from room type to facilities is over the room itself. Therefore a
 
 My function to get the user input has the possiblity to come from antoher function with the requirement of check-in and check-out dates being mandatory. With a simple if-while check, this additional requirement has been added. The rest of the code is a simple getter of hotel and its rooms and a custom print method.
 
+The Room Access, which directly corresponds with the data access creates the filter dynamically based on the arguments. The biggest, most important and trickiest part of creating such a filter is the query to get rooms, which do not have a booking in the provided time slot. The query in its form after editing the values out looks like this.
+```
+SELECT DISTINCT extended_room.* 
+from extended_room 
+JOIN Booking ON Booking.room_id = extended_room.room_id
+WHERE
+Booking.room_id not IN (
+    SELECT extended_room.room_id from extended_room 
+        JOIN Booking ON Booking.room_id = extended_room.room_id 
+        WHERE ( 
+            (Booking.check_in_date BETWEEN ? AND ?) OR 
+            (Booking.check_out_date BETWEEN ? AND ?) OR 
+            (Booking.check_in_date <= ? AND Booking.check_out_date >= ?) 
+        ) 
+    )
+AND
+extended_room.hotel_id in (,)
+AND
+extended_room.type_id = ?
+```
+The `NOT IN` before the second select statement provides the possibility to only show rooms, that are not in the timerange. Additionally with `DISTINCT`, the record shows only once. Before the `DISTINCT` was in the query, we had the problem that certain rooms were twice in the results or even worse a reserved room did appear in the list.
+
 This user story 2 directly covers user sotry 2.1 and 2.2. 
 
 ### 2.1. As a guest, I want to see the following information for each room: room type, maximum amount of guest, description, facilities, price per night and total price
@@ -165,6 +187,8 @@ We made the update flexible, so that only the changed fields are updated. That k
 
 ### 4. As a guest, I want to book a room in a certain hotel
 Als Gast möchte ich ein Zimmer in einem bestimmten Hotel buchen, um meinen Urlaub zu planen
+
+This userstory uses user story 2.2 to get the needed information about the hotel and rooms on the provided dates. After a logn, the booking manager creates a new entry vie the data access and returns a ned booking object, which gives confirmation, that everython worked.
 
 ### 5. As a guest, I want to receive an invoice after my stay
 Als Gast möchte ich nach meinem Aufenthalt eine REchnung erhalten, damit ich einen Zahlungsnachweis habe. Hint: Fügt einen Eintrag in der Invoice Tabelle hinzu
@@ -217,7 +241,7 @@ For all menus, the options are pretty similar:
 ### 1. As and admin, I want to update missing information in bookings
 Als Admin möchte ich alle Buchungen bearbeiten können, um fehlende Informationen zu ergänzen (z.B. Telefonnummer). 
 
-
+Through using user story 8, all bookings were gathered and used to display. the admin can choose a booking and alter the telefon number of the booking.
 
 ### 2. As a guest, I want to see my booking history
 Als Gast möchte ich auf meine Buchungshistorie zuzugreifen ("lesen"), damit ich meine kommenden Reservierungen verwalten kann.

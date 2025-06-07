@@ -329,7 +329,7 @@ class UserStoryMenu(Menu):
                 print("unfortunatelly, this did not work, please try again")
         else:
             print("unfortunatelly, this did not work, please try again")    
-        return UserStoryMenu(self.app)
+        return self._prev_menu
     
     def min_5(self):
         """Creates and shows an invoice for a booking.
@@ -429,7 +429,7 @@ class UserStoryMenu(Menu):
         if not self._authenticate_admin():
             ms = Mythic()
             ms.wtf()
-            return UserStoryMenu(self.app)
+            return UserStoryMenu(self.app,self._prev_menu)
         possibleValues = ["RoomType", "Facilities", "Rooms"]
         counter = 1
         for value in possibleValues:
@@ -445,18 +445,18 @@ class UserStoryMenu(Menu):
             case 3:
                 return Room_Menu(self.app, self)
             case 4:
-                return UserStoryMenu(self.app)
+                return UserStoryMenu(self.app, self._prev_menu)
             
     def db_1(self):
         bookings = self.min_8(fromFunction=True)
         counter = 1
-        for booking in bookings:
-            print(f"{counter}. {booking}")
+        for hotel, booking in bookings:
+            print(f"{counter}. {str(booking)}")
             counter += 1
         choice = input("Which booking would you like to alter? ")
-        booking = bookings[int(choice)-1]
+        hotel,booking = bookings[int(choice)-1]
         phonenumber = int(input("Enter altered Phone number"))
-        self.app.hotel_Manager.update_booking(phonenumber=phonenumber)
+        self.app.booking_Manager.update_booking(booking=booking,phonenumber=phonenumber)
     
     def db_2(self):
         pass

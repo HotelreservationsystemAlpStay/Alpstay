@@ -131,7 +131,7 @@ class Booking_Access:
         query = "update Booking set "
         param = []
         if phonenumber:
-            query += "phonenumber = ?"
+            query += "telefon = ?"
             param.append(phonenumber)
         query += " WHERE booking_id = ?"
         param.append(booking.booking_id)
