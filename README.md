@@ -197,6 +197,8 @@ Als Admin des Buchungssystems möchte ich alle Buchungen aller Hotels sehen kön
 ### 9. As an admin, I want to see all rooms with their facilities
 Als ADmin möchte ich eine Liste der Zimmer mit ihrer Ausstattuns sehen, damit ich sie besser bewerben kann.
 
+This userstory consists of an admin check and a list of all rooms with their facilities.
+
 ### 10. As an admin, I want to be capable to update master data (RoomTypes, Facilities, Prices)
 Als Admin möchte ich in der Lage sein, Stammdaten zu verwalten, z.B. Zimmertypen, Einrichtungen, und Preise in Echtzeit zu aktualisieren, damit das Backend-System aktuelle Informationen hat. Hint: Stammdaten sind alle Daten, die nicht von anderen Daten abhängen.
 
