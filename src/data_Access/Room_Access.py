@@ -145,7 +145,6 @@ class Room_Access:
         """
         providedList = []
         query = self._SELECT
-        print(type(dateStart))
         query, providedList = self._add_dates(query, providedList,dateStart,dateEnd)
         query, providedList = self._add_hotel_ids(query,providedList,hotel_ids)
         query, providedList = self._add_roomType(query,providedList, room_Type)

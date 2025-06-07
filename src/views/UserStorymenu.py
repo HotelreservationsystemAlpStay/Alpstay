@@ -235,7 +235,10 @@ class UserStoryMenu(Menu):
             check_in_date = input("When is your check in date - if you dont want to filter by dates, hit enter: ")
             check_out_date = input("When is your check out date - if you dont want to filter by dates, hit enter: ")
         #Check date format
-        hotels = self.app.hotel_Manager.get_full_hotel(name, Format().parse(check_in_date), Format().parse(check_out_date))
+        if check_in_date == "" : 
+            hotels = self.app.hotel_Manager.get_full_hotel(name)
+        else:
+            hotels = self.app.hotel_Manager.get_full_hotel(name, Format().parse(check_in_date), Format().parse(check_out_date))
         rooms = []
         if len(hotels) != 0:
             print("---------------------")
@@ -251,6 +254,7 @@ class UserStoryMenu(Menu):
             print("---------------------")
         if fromFunction and len(hotels) != 0:
             return rooms, Format().parse(check_in_date), Format().parse(check_out_date)
+        
 
 
     def min_3(self):

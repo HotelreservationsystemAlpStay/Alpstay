@@ -129,7 +129,11 @@ A room type has the following attributes:
 room_type_id: INT(10)
 description: VARCHAR(255)
 max_guests: INT(10)
-The connection from room type to facilities is over the room itself.
+The connection from room type to facilities is over the room itself. Therefore are not available RoomTypes displayed, rather are the rooms itself displayed. 
+
+My function to get the user input has the possiblity to come from antoher function with the requirement of check-in and check-out dates being mandatory. With a simple if-while check, this additional requirement has been added. The rest of the code is a simple getter of hotel and its rooms and a custom print method.
+
+This user story 2 directly covers user sotry 2.1 and 2.2. 
 
 ### 2.1. As a guest, I want to see the following information for each room: room type, maximum amount of guest, description, facilities, price per night and total price
 Ich möchte die folgenden Informationen pro Zimmer sehen: Zimmertyp, max. Anzahl der Gäste, Beschreibung, Ausstattung, Preis pro Nacht und Gesamtpreis.

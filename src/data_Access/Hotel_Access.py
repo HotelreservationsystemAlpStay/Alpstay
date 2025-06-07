@@ -1,10 +1,19 @@
 from data_Access.Base_Access_Controller import Base_Access_Controller
+from data_Access.Address_Access import Address_Access
 from datetime import date
 from models.Hotels import Hotel
+import sqlite3
 
 class Hotel_Access:
     def __init__(self): 
         self.db = Base_Access_Controller()
+
+    def _sqlite3row_to_hotel(self, row:sqlite3.Row):
+        return Hotel(
+            hotel_id=int(row['hotel_id']),
+            name=row['name'],
+            stars=row['stars']
+        )
 
     def access_hotel_in_city(self, city):
         query = """
@@ -164,6 +173,20 @@ class Hotel_Access:
             street = data["street"]
             city = data["city"]
             hotels.append((hotel, street, city))
+        return hotels
+    
+    def access_hotel_detailed_address(self, hotel_name):
+        query = """
+        SELECT DISTINCT hotel_id, name, stars, address_id, street, city, zip_code
+        FROM extended_hotel_room
+        WHERE name = ?
+        """
+        result = self.db.fetchall(query, (hotel_name,))
+        hotels = []
+        for row in result: 
+            hotel = self._sqlite3row_to_hotel(row)
+            hotel.address = Address_Access().sqlite3row_to_address(row)
+            hotels.append(hotel)
         return hotels
     
     def access_add_hotel(self, name, stars, address_id):
