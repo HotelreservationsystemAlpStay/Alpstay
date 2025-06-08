@@ -22,6 +22,26 @@ Communicating with each other can be quite hard, especially, when the team membe
 ### Code Documentation
 Documentation of the code happens in the code itself using docstrings as well as in the ReadMe. The ReadMe contains all user stories, in which concepts, structures and interesting decisions and findings are held. The docstrings contain information about how to use certain classes and methods.
 
+### GitHub Projects
+Project planning and task management for Alpstay were handled via GitHub Projects. This allowed for transparent progress tracking and clear assignment of responsibilities within the team.
+
+The project board was divided into various status categories to map the workflow:
+*   **OnHold:** Tasks that were temporarily paused (currently 6 tasks).
+*   **Backlog:** Planned tasks that have not yet been started (currently 2 out of 5 tasks in the visible scope).
+*   **Ready (DOR - Definition of Ready):** Tasks ready for processing.
+*   **In Progress:** Tasks actively being worked on (currently 1 out of 3 tasks in the visible scope).
+*   **In Review:** Tasks awaiting review.
+*   **Done:** Successfully completed tasks (currently 65 tasks).
+
+Some of the central tasks processed included:
+*   **Database User Stories:** Implementation of specific requirements for database interaction.
+*   **Manager Setup:** Establishment of the manager layer to separate business logic from the presentation layer.
+*   **App Implementation:** Development of the main application logic.
+*   **Optional User Stories:** Implementation of additional functionalities such as email dispatch.
+*   **Error Handling:** Implementation of robust error handling mechanisms.
+
+This structured approach helped to design the development efficiently and to systematically process the various user stories.
+
 ## Structure
 The Software is built up on 5 Layers. 
 
