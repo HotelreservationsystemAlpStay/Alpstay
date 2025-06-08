@@ -106,7 +106,8 @@ class UserStoryMenu(Menu):
         input("Press Enter to return to the menu.")
 
     def min_1(self):
-        pass
+        print("Welcome to the hotel search system! Please choose from min_1.1 to min_1.6 to search for hotels based on your criteria.")
+        print("----------------------")
         
     def min_1_1(self):
         """Asks the user for a city and shows all hotels in that city.
@@ -131,9 +132,9 @@ class UserStoryMenu(Menu):
 
         Gets hotels from the Manager and prints their names and star ratings.
         """
-        city = input("Please enter the city in which you are looking for a hotel")
+        city = input("Please enter the city in which you are looking for a hotel: ")
         try:
-            stars = int(input("How many stars should your hotel at least have?"))
+            stars = int(input("How many stars should your hotel at least have? "))
             hotels = self.app.hotel_Manager.get_hotel_in_city_stars(city, stars)
         except ValueError as e:
             print(e)
@@ -151,10 +152,10 @@ class UserStoryMenu(Menu):
 
         Gets hotels from the Manager that match the filters and prints their names and star ratings.
         """
-        city = input("Please enter the city in which you are looking for a hotel")
+        city = input("Please enter the city in which you are looking for a hotel: ")
         try:
-            stars = int(input("How many stars should your hotel at least have?"))
-            guests = int(input("How many guests should at least fit into your room"))
+            stars = int(input("How many stars should your hotel at least have? "))
+            guests = int(input("How many guests should at least fit into your room "))
             hotels = self.app.hotel_Manager.get_hotel_in_city_stars_guests(city, stars, guests)
         except ValueError as e:
             print(e)
@@ -223,7 +224,7 @@ class UserStoryMenu(Menu):
 
         Gets hotel details from the Manager and prints name, stars, city, and street.
         """
-        hotel_name = input("Please enter the name of the hotel of which you would like to know the details")
+        hotel_name = input("Please enter the name of the hotel of which you would like to know the details: ")
         try:
             details = self.app.hotel_Manager.get_hotel_details(hotel_name)
         except ValueError as e:
@@ -401,6 +402,8 @@ class UserStoryMenu(Menu):
             result = None
         if result == "cancelled":
             print("This booking was cancelled, so there is not going to be an invoice")
+        elif result == "no_booking":
+            print("This booking does not exist")
         elif result:
             hotel, invoice, booking, first_name, last_name, nights = result
             print(f"The invoice was created successfuly, below you can view the invoice:")

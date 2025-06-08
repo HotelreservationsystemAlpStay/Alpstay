@@ -19,7 +19,7 @@ class Room_Manager():
     def get_available_rooms_city(self, city:str, check_in_date:str, check_out_date:str):
         check_in_date = Format.parse(check_in_date)
         check_out_date = Format.parse(check_out_date)
-        list = self.Room_Access.get_available_rooms_city(city, check_in_date, check_out_date)
+        list = self.room_Access.get_available_rooms_city(city, check_in_date, check_out_date)
         hotels = []
         for result in list:
             data = dict(result)
@@ -53,7 +53,3 @@ class Room_Manager():
             total_amount = room.price_per_night * nights
             results.append((room, room_type, total_amount))
         return results
-
-        
-        
-

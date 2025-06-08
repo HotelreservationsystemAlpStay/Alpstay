@@ -17,10 +17,10 @@ class Invoice_Manager:
         if booking.is_cancelled:
             return "cancelled"
         issue_date = Format.date_to_string(date.today())
-        invoice_id = self.invoice_access.create_invoice(booking_id, issue_date, booking.total_amount)
-        if invoice_id:
-            invoice = Invoice(invoice_id, booking_id, issue_date, booking.total_amount)
-            
+        try:
+            invoice_id = self.invoice_access.create_invoice(booking_id, issue_date, booking.total_amount)
+            if invoice_id:
+                invoice = Invoice(invoice_id, booking_id, issue_date, booking.total_amount)
             if e_mail:
                 variables = {
                     "e_mail": e_mail,
@@ -36,6 +36,8 @@ class Invoice_Manager:
                 }
                 requests.post("https://hook.eu2.make.com/s61v18jmdy7n2pewspfdops7p26jgl6r", json=variables)
             return hotel, invoice, booking, first_name, last_name, nights
+        except:
+            return "no_booking"
         return False
 
             
