@@ -76,25 +76,6 @@ class Booking:
     @telefon.setter
     def telefon(self, telefon:int):
         self._telefon = telefon
-
-    def calculate_total_days(self) -> int:
-        """
-        Calculate the total number of days for the booking.
-        
-        Returns:
-            int: The number of days between check-in and check-out.
-        """
-        if self._check_out_date and self._check_in_date:
-            return (self._check_out_date - self._check_in_date).days
-        return 0
-
-    def cancel_booking(self):
-        """
-        Mark the booking as cancelled.
-        
-        This sets the `is_cancelled` attribute to True.
-        """
-        self._is_cancelled = True 
     
     def __str__(self):
         """

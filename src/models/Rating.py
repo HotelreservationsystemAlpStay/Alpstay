@@ -4,7 +4,7 @@ class Rating:
     def __init__(self, rating_id: int, booking_id: int, hotel_id: int, score: int, review: str = None, created_at: datetime = None):
         self._rating_id = rating_id
         self._booking_id = booking_id
-        self._hotel = hotel
+        self._hotel_id = hotel_id
         self._score = score
         self._review = review
         self._created_at = created_at if created_at is not None else datetime.now()

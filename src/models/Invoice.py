@@ -39,22 +39,6 @@ class Invoice:
     def total_amount(self, new_total_amount: float) -> None:
         self._total_amount = new_total_amount
 
-    @property
-    def paid(self) -> bool:
-        return self._paid
-
-    @paid.setter  # Added setter for paid status if modification is needed
-    def paid(self, new_paid_status: bool) -> None:
-        self._paid = new_paid_status
-
-    def mark_as_paid(self):
-        """Markiert die Rechnung als bezahlt."""
-        self._paid = True
-
-    def generate_pdf(self):
-        """Simuliert die PDF-Generierung."""
-        return f"Invoice_{self._invoice_id}.pdf"
-
     def __str__(self):
         return (f"Invoice(ID={self._invoice_id}, Booking={self._booking_id}, "
                 f"Date={self._issue_date}, Amount={self._total_amount}, "

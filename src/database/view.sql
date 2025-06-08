@@ -62,6 +62,15 @@ GROUP BY
 ORDER BY
     Room.room_id;
 
+/*booking_view"*/
+CREATE VIEW booking_view AS
+SELECT *
+FROM Booking b
+LEFT JOIN Guest g ON b.guest_id = g.guest_id
+LEFT JOIN Address a ON g.address_id = a.address_id
+LEFT JOIN Room r ON b.room_id = r.room_id
+LEFT JOIN Hotel h ON r.hotel_id = h.hotel_id
+
 /*Example Query for getting Rooms in Date Range*/
 SELECT
     Room.*
