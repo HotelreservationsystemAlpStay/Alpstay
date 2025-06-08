@@ -401,6 +401,8 @@ class UserStoryMenu(Menu):
             result = None
         if result == "cancelled":
             print("This booking was cancelled, so there is not going to be an invoice")
+        elif result == "no_booking":
+            print("This booking does not exist")
         elif result:
             hotel, invoice, booking, first_name, last_name, nights = result
             print(f"The invoice was created successfuly, below you can view the invoice:")
