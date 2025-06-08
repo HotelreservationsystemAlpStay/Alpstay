@@ -66,7 +66,7 @@ Each table in our Class Diagram represents a table from the sqlite file. For eac
 To run the Alpstay hotel reservation system, follow these steps:
 
 1.  **Prerequisites:**
-    *   Ensure you have Python installed on your system (preferably Python 3.8 or newer).
+    *   Ensure you have Python installed on your system (preferably Python 3.12 or newer).
     *   Make sure you have `pip` (Python package installer) available.
 
 2.  **Install Dependencies:**
