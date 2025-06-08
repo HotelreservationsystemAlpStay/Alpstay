@@ -428,7 +428,7 @@ class UserStoryMenu(Menu):
             ms.wtf()
             return UserStoryMenu(self.app)
         try:
-            bookings = self.app.booking_Manager.get_bookings_from_user(user) # Assuming user object has guest_id or is the guest_id
+            bookings = self.app.booking_Manager.get_bookings_from_user(user) 
         except ValueError as e:
             print(e)
             bookings = []

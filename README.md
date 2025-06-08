@@ -62,8 +62,57 @@ Each table in our Class Diagram represents a table from the sqlite file. For eac
 - Room - Room Type: This is an association, since each room references a room type. We modelled it as an n:1 relationship because each room must have exactly one room type (e.g., Single, Double, Suite), while a room type can be assigned to none, one, or many rooms.
 
 
+## How to run the application
+To run the Alpstay hotel reservation system, follow these steps:
 
+1.  **Prerequisites:**
+    *   Ensure you have Python installed on your system (preferably Python 3.8 or newer).
+    *   Make sure you have `pip` (Python package installer) available.
 
+2.  **Install Dependencies:**
+    Navigate to the `src` directory and install the required Python packages using the `requirements.txt` file:
+    ```bash
+    cd src
+    pip install -r requirements.txt
+    ```
+
+3.  **Database Setup:**
+    The application uses an SQLite database. The `sqlite.db` file is located in the `src/database/` directory.
+    *   The initial database schema and some sample data can be found in `db.sql` or `sqlite_.sql`.
+    *   When the application runs for the first time, it should connect to the existing `sqlite.db`. No special setup is usually required if the file is present.
+
+4.  **Run the Application:**
+    From the `src` directory, execute the `App.py` script:
+    ```bash
+    python App.py
+    ```
+    This will start the console-based menu system.
+
+5.  **Using the Application:**
+    *   The application will present you with a main menu and subsequent sub-menus for different user stories and functionalities.
+    *   Navigate through the menus by entering the number corresponding to your choice and pressing Enter.
+    *   Follow the on-screen prompts to input required information (e.g., city names, dates, hotel IDs).
+    *   **Input Validation:** The system performs input validation. If you enter invalid data (e.g., text where a number is expected, or an invalid date format), you will usually receive an error message and be prompted to try again. Pay attention to the expected input formats.
+    *   **Admin Functions:** Some functionalities require admin privileges. You will be prompted to log in as an admin.
+    *   **Guest Functions:** Other functionalities may require you to log in as a guest or will ask for guest-specific information.
+
+6.  **Test Users:**
+    You can use the following credentials for testing (every password is hashed in the DB):
+    *   **Admin User:**
+        *   User ID: `6`
+        *   Password: `admin`
+    *   **Guest User:**
+        *   User ID: `1`
+        *   Password: `fciwke-peOlme-8rutjj`
+    
+
+7.  **Exiting the Application:**
+    Most menus will have a "back" or "exit" option to navigate to the previous menu or close the application.
+
+**Important Notes:**
+*   The application is console-based, so all interactions happen in your terminal or command prompt.
+*   If you encounter errors that are not handled by a `try-except` block (which should be rare for user input validation), the application might terminate. In such cases, you can restart it by running `python App.py` again.
+*   For data visualization features (User Stories DV1, DV2, DV3), new windows will pop up to display the charts. Ensure your environment allows GUI windows to be created by Python (this usually works with standard Python installations that include Tkinter).
 
 ## Userstories
 The original user stories were written in german is it is a german-based course. Due to the majority of code being developed in english, the documentation is in english. The description of the user stories are in english aswell as in german. Additionally, for the spirit of the documentation, the user stories are seperated or combined.
