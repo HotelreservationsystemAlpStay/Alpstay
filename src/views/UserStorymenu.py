@@ -256,7 +256,9 @@ class UserStoryMenu(Menu):
             counter += 1
     
     def min_2_2(self, fromFunction:bool=False):
-        name = input("Please enter the hotel name in which you are looking for a room: ")
+        name = ""
+        while name == "":
+            name = input("Please enter the hotel name in which you are looking for a room: ")
         hotels = [] 
         try:
             if fromFunction:
