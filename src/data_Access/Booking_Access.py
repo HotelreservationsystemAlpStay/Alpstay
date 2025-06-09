@@ -133,9 +133,15 @@ class Booking_Access:
         if phonenumber:
             query += "telefon = ?"
             param.append(phonenumber)
+        if iscancelled:
+            query += "is_cancelled = ?"
+            if iscancelled:
+                param.append(1)
+            else:
+                param.append(0)
         query += " WHERE booking_id = ?"
         param.append(booking.booking_id)
-        self.db.execute(query, params=self._get_list_to_tuple(param))
+        return self.db.execute(query, params=self._get_list_to_tuple(param))
     
     def check_user_id_matches_booking_id(self, booking_id, guest_id):
         query = """
@@ -149,8 +155,7 @@ class Booking_Access:
         return result
         
 
-#us3 = Booking_Access()
-#us3.view_booking(6, "admin")
+
 
 
 

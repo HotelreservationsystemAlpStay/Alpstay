@@ -330,7 +330,7 @@ class UserStoryMenu(Menu):
             return self
         
         try:
-            hotel_id = int(input("Please name the Hotel ID of the hotel you would like to delete"))
+            hotel_id = int(input("Please name the Hotel ID of the hotel you would like to delete -> "))
             status = self.app.hotel_Manager.delete_hotel(hotel_id)
         except ValueError as e:
             print(e)
@@ -352,7 +352,7 @@ class UserStoryMenu(Menu):
             return self
         
         try:
-            hotel_id = int(input("Plesae name the Hotel ID of the hotel, of which you\'d like to change the information to"))
+            hotel_id = int(input("Please name the Hotel ID of the hotel, of which you\'d like to change the information to -> "))
             name = input("If you\'d like to change the name of the hotel please type it in, if you dont want to change the name, hit enter: ")
             stars = input("Please name the new amount of updated stars, if you dont want to change them, press enter: ")
             address_id = input("Please type the new Address ID, if you dont want to change the address, press enter: ")
@@ -423,32 +423,29 @@ class UserStoryMenu(Menu):
         else:
             print("There was an error genearting the invoice, please try again later")
     
-    # Schönere Lösung mit Coach zu besprechen, gefällt mir nicht weil BL in GUI
     def min_6(self):
         user = self.login_user()
         if not user:
             ms = Mythic()
             ms.wtf()
-            return UserStoryMenu(self.app)
+            return UserStoryMenu(self.app, self)
         try:
-            bookings = self.app.booking_Manager.get_bookings_from_user(user) 
+            bookings = self.app.booking_Manager.get_bookings_from_user(user.guest_id) 
         except ValueError as e:
             print(e)
             bookings = []
-        
         counter = 1
         for booking in bookings:
             print(f"{counter}. : {booking}")
             counter += 1
-
         try:
             choice = input("Which booking would you like to cancel? ")
-            state = self.app.booking_Manager.update_booking(bookings[int(choice)-1], "cancel")
+            state = self.app.booking_Manager.update_booking(bookings[int(choice)-1], iscancelled=True)
             if state:
                 print("Booking has been canceled")
-                return UserStoryMenu(self.app)
+                return UserStoryMenu(self.app, self)
             print("Something went wrong, please open support ticket on localhost:8080/support")
-            UserStoryMenu(self.app)
+            UserStoryMenu(self.app, self)
         except ValueError as e: 
             print(f"Error processing cancellation: {e}")
         except IndexError:
@@ -521,7 +518,7 @@ class UserStoryMenu(Menu):
             print(f"{counter}. {value}")
             counter += 1
         print(f"{counter}. back")
-        choice = int(input("pleasy enter your choice"))
+        choice = int(input("please enter your choice -> "))
         match choice:
             case 1:
                 return Room_Type_Menu(self.app, self)

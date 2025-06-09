@@ -46,7 +46,7 @@ class Booking_Manager:
         return bookings
     
     def update_booking(self, booking:Booking, phonenumber:int=None, iscancelled:bool=None, totalamount:int=None):
-        self.Booking_Access.update_booking(booking, phonenumber, iscancelled, totalamount)
+        return self.Booking_Access.update_booking(booking, phonenumber, iscancelled, totalamount)
     
     def create_booking_new(self, guest_id, room_id, check_in_date, check_out_date, total_amount, telefon=None):
         guest_id = int(guest_id)
