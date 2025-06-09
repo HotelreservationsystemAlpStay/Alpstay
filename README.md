@@ -81,7 +81,6 @@ Each table in our Class Diagram represents a table from the sqlite file. For eac
 - Facility - Room: This is a standard association, since the Room class holds a list of facilities. We used a many-to-many (n:n) relationship because a room can offer multiple facilities (like TV, minibar etc.), and the same facility (e.g. WiFi) can be available in many rooms.
 - Room - Room Type: This is an association, since each room references a room type. We modelled it as an n:1 relationship because each room must have exactly one room type (e.g., Single, Double, Suite), while a room type can be assigned to none, one, or many rooms.
 
-
 ## How to run the application
 To run the Alpstay hotel reservation system, follow these steps:
 
@@ -402,6 +401,13 @@ Hint: Verwende die Python-Bibliothek «smtplib» oder eine
 
 This functionality has already been implemented and documented as part of User Story 5 of the 'Minimal User Stories' ("As a guest, I want to receive an invoice after my stay"): *"We also extended this story a bit, you can now add your e-mail, where you'd like to receive the confirmation. This was realised with an api, we transfer some variables to the webhook on make.com where a html mail is sent to the e-mail"*.
 When a guest completes a booking or an invoice is generated, the system can send a confirmation via email. This is done by capturing the guest's email address and using an external API (webhook on make.com) to send an HTML email with the relevant booking or invoice details.
+
+## OOP / concepts from OOP
+The whole application runs on generating and writing model objects from and to the database. Withing the layers of the application, objects are used to carry and alter information. To effectivly use objects, the main instance of the class `application` holds all managers and therefore handles all managers in one place. This one instance of an application and the one instances of the managers provide to ability to not have too much usage of power and handling everything in one place.
+
+On start of the application, a starting menu will be instanced. All menus inheret from the class `menu`. This class has basic functions as run, input, display and add item. With `run()`, the menu will be displayed and uses the function `display()` to display all available options in the menu. These options have to be defined in the __init__-function with the method `add_item(name, function)`. In this case, name is the displayed name and the function is the corresponding function name, which will be called. The method `input()` handles the input and calls the function. To create a menu instance, the title and the running instance of the application is expected.
+
+In some cases, another parameter is added to the __init__-function of a child class, which is a menu. This menu is used as the previous menu so that the user can chose a menu and has the possibility to return back to his origin menu.
 
 ## Usage of generative tools as ChatGPT, Gemini or Claude
 Generative Tools as ChatGPT, Gemini, Claude or others were used in project. When a tool was used in a user story, it will be declared in the story itself. For the whole project were tools used to verify, whether all required tasks were fullfilled. Additionally, generative tools helped correcting wording mistakes and propose better worded sentences.
