@@ -538,12 +538,14 @@ class UserStoryMenu(Menu):
         try:
             choice = input("Which booking would you like to alter? ")
             hotel,booking = bookings[int(choice)-1]
-            phonenumber = int(input("Enter altered Phone number"))
+            phonenumber = int(input("Enter altered Phone number -> "))
             self.app.booking_Manager.update_booking(booking=booking,phonenumber=phonenumber)
         except ValueError as e:
             print(f"Error: {e}")
         except IndexError:
             print("Choice out of range.")
+        return UserStoryMenu(self.app, self)
+        
     def db_2(self):
         pass
     

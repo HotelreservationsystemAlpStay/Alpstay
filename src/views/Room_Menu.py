@@ -25,7 +25,7 @@ class Room_Menu(Menu):
     def update_room(self):
         rooms = self.get_rooms(fromFunction=True)
         choice = int(input("Please enter choice of Room to update: "))-1
-        price = input("Enter new price, hit enter to skip: ")
+        price = input("Enter new price: ")
         if price == "":
             print("No price provided")
         price = float(price)
