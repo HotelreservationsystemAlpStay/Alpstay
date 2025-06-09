@@ -608,7 +608,6 @@ class UserStoryMenu(Menu):
                 print("Sorry this room does not exist, please try again")
         def db_2_1_2(self):
             pass 
-        #I have no clue how we should do update and cancel booking, they were already done above, so no need for that to be done again, also what should we update??
 
 
         hotel_name = input("Please enter the name of the hotel you'd like to book with:")
