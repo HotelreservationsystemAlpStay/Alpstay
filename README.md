@@ -13,6 +13,8 @@ When working with a team, versioning is an essential part of working together. T
 ### Kanban Board
 To track progress and tasks as a team, a kanban board is a very easy choice would be the Microsoft Planner. However, with Github Projects, the kanban board with tasks, bugs and issues is directly integrated in the project. The wide variety of standard, built-in features as types, milestones and great filtering, Github Projects is perfect to use in a small team as ours. 
 
+Our Kanban Board: [GitHub Project Board](https://github.com/orgs/HotelreservationsystemAlpStay/projects/1/views/2)
+
 ### Time Planning
 Additionally, the time planning is easy to use with Github projects. Creating a tasks provides the ability to add it on a timeline.
 
