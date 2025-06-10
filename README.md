@@ -118,6 +118,7 @@ To run the Alpstay hotel reservation system, follow these steps:
     *   **Guest Functions:** Other functionalities may require you to log in as a guest or will ask for guest-specific information.
 
 6.  **Test Users:**
+
     You can use the following credentials for testing (every password is hashed in the DB):
     *   **Admin User:**
         *   User ID: `6`
@@ -127,6 +128,7 @@ To run the Alpstay hotel reservation system, follow these steps:
         *   Password: `fciwke-peOlme-8rutjj`
 
 7. **Things you can write as input**
+
     Here are practical examples of inputs you can use when testing different user stories:
     *   **Cities:** `Zürich`, `Luzern`, `Bern`, `Basel`
     *   **Hotel names:** `Hotel Baur au Lac`, `Four Seasons Hôtel des Bergues`, `Grand Hotel National`, `Bellevue Palace`, `Les Trois Rois`
