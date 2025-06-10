@@ -125,9 +125,25 @@ To run the Alpstay hotel reservation system, follow these steps:
     *   **Guest User:**
         *   User ID: `1`
         *   Password: `fciwke-peOlme-8rutjj`
-    
 
-7.  **Exiting the Application:**
+7. **Things you can write as input**
+    Here are practical examples of inputs you can use when testing different user stories:
+    *   **Cities:** `Zürich`, `Luzern`, `Bern`, `Basel`
+    *   **Hotel names:** `Hotel Baur au Lac`, `Four Seasons Hôtel des Bergues`, `Grand Hotel National`, `Bellevue Palace`, `Les Trois Rois`
+    *   **Star ratings:** `3`to`5`
+    *   **Number of guests:** `1` to `6` (depending on room type: Single=1, Double=2, Suite=4, Family Room=5, Penthouse=6)
+    *   **Dates:** Use any format e.g., `01.08.2025` to `13.08.2025` for future bookings
+    *   **Room IDs:** `1` to `5` (for booking specific rooms)
+    *   **Booking IDs:** `1` to `5` (for invoice generation, cancellation, or rating)
+    *   **Hotel IDs:** `1` to `5` 
+    *   **Address IDs:** `1` to `5` (for admin hotel management)
+    *   **Rating scores:** `1` to `5` (for hotel ratings)
+    *   **Phone numbers:** Numbers only (no formatting characters) like `41123456789` or `123456789`
+    *   **Room Type descriptions:** `Single`, `Double`, `Suite`, `Family Room`, `Penthouse`
+    *   **Facility names:** `WiFi`, `TV`, `Air Conditioning`, `Mini Bar`, `Balcony`
+    *   **Email addresses:** Any valid format like `test@example.com` for booking confirmations
+
+8.  **Exiting the Application:**
     Most menus will have a "back" or "exit" option to navigate to the previous menu or close the application.
 
 **Important Notes:**
