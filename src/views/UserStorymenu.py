@@ -354,8 +354,8 @@ class UserStoryMenu(Menu):
             return self
         
         try:
-            hotel_id = int(input("Please name the Hotel ID of the hotel, of which you\\'d like to change the information to -> "))
-            name = input("If you\\'d like to change the name of the hotel please type it in, if you dont want to change the name, hit enter: ")
+            hotel_id = int(input("Please name the Hotel ID of the hotel, of which you'd like to change the information to -> "))
+            name = input("If you'd like to change the name of the hotel please type it in, if you dont want to change the name, hit enter: ")
             stars = input("Please name the new amount of updated stars, if you dont want to change them, press enter: ")
             address_id = input("Please type the new Address ID, if you dont want to change the address, press enter: ")
             status = self.app.hotel_Manager.update_hotel(hotel_id, name, stars, address_id)

@@ -29,8 +29,8 @@ class HotelMenu(Menu):
         return None
 
     def search_city_stars(self):
-        city = input("Please name the city in which you are looking for a hotel")
-        stars = int(input("Please name how many stars your hotel should have"))
+        city = input("Please name the city in which you are looking for a hotel: ")
+        stars = int(input("Please name how many stars your hotel should have: "))
         hotels = self.ac.hotel_Access.get_hotel_in_city_stars(city, stars)
         if not hotels:
             print("Unfortunately no hotels match your criteria")
@@ -40,9 +40,9 @@ class HotelMenu(Menu):
         return None
     
     def search_city_stars_guests(self):
-        city = input("Please name the city in which you are looking for a hotel")
-        stars = int(input("Please name how many stars your hotel should have"))
-        guests = int(input("Please name how many guests are staying in your room"))
+        city = input("Please name the city in which you are looking for a hotel: ")
+        stars = int(input("Please name how many stars your hotel should have: "))
+        guests = int(input("Please name how many guests are staying in your room: "))
         hotels = self.ac.hotel_Access.get_hotel_in_city_stars_guests(city, stars, guests)
         if not hotels:
             print("Unfortunately no hotels match your criteria")
@@ -52,11 +52,11 @@ class HotelMenu(Menu):
         return None
     
     def search_city_stars_guests_dates(self):
-        city = input("Please name the city in which you are looking for a hotel")
-        stars = int(input("Please name how many stars your hotel should have"))
-        guests = int(input("Please name how many guests are staying in your room"))
-        check_in_date = input("Please name your check-in date")
-        check_out_date = input("Please name your check-out date")
+        city = input("Please name the city in which you are looking for a hotel: ")
+        stars = int(input("Please name how many stars your hotel should have: "))
+        guests = int(input("Please name how many guests are staying in your room: "))
+        check_in_date = input("Please name your check-in date: ")
+        check_out_date = input("Please name your check-out date: ")
         check_in_date_formatted = Format.parse(check_in_date)
         check_out_date_formatted = Format.parse(check_out_date)
         
@@ -69,7 +69,7 @@ class HotelMenu(Menu):
         return None
     
     def get_optional_filters(self):
-        notusable = input("All the following filters are optional, if you dont want to you use, just hit enter, confirm this by hitting enter right now")
+        notusable = input("All the following filters are optional, if you dont want to you use, just hit enter, confirm this by hitting enter right now: ")
         city = input("Please name the city in which you are looking for a hotel: ")
         if not city:
             city = "all"
@@ -101,7 +101,7 @@ class HotelMenu(Menu):
         return None
     
     def hotel_details(self):
-        name = input("Please write the name of your hotel").strip() #Unnötigte Leerzeichen entfernen
+        name = input("Please write the name of your hotel: ").strip() #Unnötigte Leerzeichen entfernen
         hotels = self.ac.hotel_Access.get_hotel_details(name)
         if not hotels:
             print("Unfortunately no hotels match your criteria")
@@ -109,19 +109,19 @@ class HotelMenu(Menu):
             for hotel in hotels:
                 print(hotel)
     def add_hotel(self):
-        user_id = int(input("Please name your user ID"))
-        password = input("Please name your password")
-        name = input("Please type in the name of the hotel")
-        stars = int(input("Please type in how many stars the hotel has"))
-        address_id = int(input("Please type in the address_id of the hotel"))
+        user_id = int(input("Please name your user ID: "))
+        password = input("Please name your password: ")
+        name = input("Please type in the name of the hotel: ")
+        stars = int(input("Please type in how many stars the hotel has: "))
+        address_id = int(input("Please type in the address_id of the hotel: "))
         status = self.ac.hotel_Access.add_hotel(user_id, password, name, stars, address_id)
         if status:
             print(f"Hotel {name} has been successfully created")
 
     def delete_hotel(self):
-        user_id = int(input("Please name your user ID"))
-        password = input("Please name your password")
-        hotel_id = int(input("Please name the hotel ID of the hotel you'd like to delete"))
+        user_id = int(input("Please name your user ID: "))
+        password = input("Please name your password: ")
+        hotel_id = int(input("Please name the hotel ID of the hotel you\\'d like to delete: "))
         status = self.ac.hotel_Access.delete_hotel(user_id, password, hotel_id)
         if status:
             print(f"The hotel with the hotel_id {hotel_id} was successfully deleted")
@@ -129,22 +129,22 @@ class HotelMenu(Menu):
             print("There is no hotel with this hotel ID")
     
     def update_hotel(self):
-        user_id = int(input("Please name your user ID"))
-        password = input("Please name your password")
-        hotel_id = input("Please name the hotel ID of the hotel you'd like to change the information to")
+        user_id = int(input("Please name your user ID: "))
+        password = input("Please name your password: ")
+        hotel_id = input("Please name the hotel ID of the hotel you\\'d like to change the information to: ")
         if not hotel_id:
             hotel_id = None
         else:
             hotel_id = int(hotel_id)
-        name = input("Please type in the new name of the hotel, if you'd like to change the name, else just press enter")
+        name = input("Please type in the new name of the hotel, if you'd like to change the name, else just press enter: ")
         if not name:
             name = None
-        stars = input("Please type in the new amount of stars of the hotel, if you'd like to change the hotel, else just press enter")
+        stars = input("Please type in the new amount of stars of the hotel, if you'd like to change the hotel, else just press enter: ")
         if not stars:
             stars = None
         else:
             stars = int(stars)
-        address_id = input("Please type in the new address ID of the hotel, if you'd like to change it, else just press enter")
+        address_id = input("Please type in the new address ID of the hotel, if you'd like to change it, else just press enter: ")
         if not address_id:
             address_id = None
         else:
@@ -161,4 +161,4 @@ class HotelMenu(Menu):
 
     def back(self):
         return None
-    
+
