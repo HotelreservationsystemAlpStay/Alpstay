@@ -155,7 +155,7 @@ class UserStoryMenu(Menu):
         city = input("Please enter the city in which you are looking for a hotel: ")
         try:
             stars = int(input("How many stars should your hotel at least have? "))
-            guests = int(input("How many guests should at least fit into your room "))
+            guests = int(input("How many guests should at least fit into your room? "))
             hotels = self.app.hotel_Manager.get_hotel_in_city_stars_guests(city, stars, guests)
         except ValueError as e:
             print(e)
@@ -201,7 +201,7 @@ class UserStoryMenu(Menu):
         Gets matching hotels from the Manager and prints their names and star ratings.
         """
         try:
-            city = input("Plesae enter the city in which you are looking for a hotel - if you dant want to filter by city, hit enter:")
+            city = input("Plesae enter the city in which you are looking for a hotel - if you dant want to filter by city, hit enter: ")
             stars = input("How many stars should your hotel at least have - if you dont want to filter by stars, hit enter: ")
             guests = input("How many guests should at least fit into your room - if you dont want to filter by stars, hit enter: ")
             check_in_date = input("When is you check in date - if you dont want to filter by check-in date, hit enter: ")
@@ -354,8 +354,8 @@ class UserStoryMenu(Menu):
             return self
         
         try:
-            hotel_id = int(input("Please name the Hotel ID of the hotel, of which you\'d like to change the information to -> "))
-            name = input("If you\'d like to change the name of the hotel please type it in, if you dont want to change the name, hit enter: ")
+            hotel_id = int(input("Please name the Hotel ID of the hotel, of which you\\'d like to change the information to -> "))
+            name = input("If you\\'d like to change the name of the hotel please type it in, if you dont want to change the name, hit enter: ")
             stars = input("Please name the new amount of updated stars, if you dont want to change them, press enter: ")
             address_id = input("Please type the new Address ID, if you dont want to change the address, press enter: ")
             status = self.app.hotel_Manager.update_hotel(hotel_id, name, stars, address_id)
@@ -370,7 +370,7 @@ class UserStoryMenu(Menu):
     def min_4(self):
         rooms, check_in, check_out = self.min_2_2(fromFunction=True)
         if rooms:
-            inputnumber = input("Please enter the choice number")
+            inputnumber = input("Please enter the choice number: ")
             # print(rooms[int(inputnumber)-1])
             user = self.login_user()
             if user:
@@ -396,8 +396,8 @@ class UserStoryMenu(Menu):
         If successful, prints all invoice details. Otherwise, shows an error message.
         """
         try:
-            booking_id = int(input("Please name the booking ID of which you\'d like to create an invoice"))
-            e_mail = input("If you would like to receive an invoice by mail, you can enter the according e-mail here")
+            booking_id = int(input("Please name the booking ID of which you\\'d like to create an invoice: "))
+            e_mail = input("If you would like to receive an invoice by mail, you can enter the according e-mail here: ")
             result = self.app.invoice_Manager.create_invoice(booking_id, e_mail)
         except ValueError as e:
             print(e)
@@ -454,9 +454,9 @@ class UserStoryMenu(Menu):
             print("Invalid choice number.")
     
     def min_7(self):
-        city = input("Please name the city in which you would like to stay")
-        check_in_date = input("Please name you desired check-in date")
-        check_out_date = input("Please name you desired check-out date")
+        city = input("Please name the city in which you would like to stay: ")
+        check_in_date = input("Please name you desired check-in date: ")
+        check_out_date = input("Please name you desired check-out date: ")
         print("Thank you, we will now show you all avaiable rooms in this city with their price per night")
         time.sleep(3)
         try:
@@ -589,7 +589,7 @@ class UserStoryMenu(Menu):
                 if user_id:
                     guest_id = self.app.user_Manager.get_guest_id(user_id)
                     total_amount = amount
-                    phone_number = input("If you would like to add a phone number, then plese enter this right here, else hit enter ")
+                    phone_number = input("If you would like to add a phone number, then plese enter this right here, else hit enter: ")
                     try:
                         booking_id = self.app.booking_Manager.create_booking_new(guest_id, room_id, check_in_date, check_out_date, total_amount, phone_number)
                     except ValueError as e:
@@ -610,7 +610,7 @@ class UserStoryMenu(Menu):
             pass 
 
 
-        hotel_name = input("Please enter the name of the hotel you'd like to book with:")
+        hotel_name = input("Please enter the name of the hotel you\\'d like to book with: ")
         hotels = self.app.hotel_Manager.get_hotel_details(hotel_name)
         if not hotels:
             print("Unfortunately there is no hotel with this name, please try again")
