@@ -138,6 +138,7 @@ class Hotel_Manager:
         Returns:
             list[tuple[Hotel, str, str]]: List of tuples containing Hotel object, street, and city
         """
+        Validator.checkStr(hotel_name, "hotel name")
         result = self.hotel_access.access_hotel_details(hotel_name)
         if not result:
             return False
@@ -155,12 +156,22 @@ class Hotel_Manager:
         Returns:
             list[Hotels]: List of hotels
         """
+        Validator.checkStr(hotel_name, "hotel name")
+        if start_date:
+            Validator.checkDate(start_date, "check-in date")
+        elif end_date:
+            Validator.checkDate(end_date, "check-out date")
+        if start_date or end_date:
+            Validator.checkDateDifference(start_date, end_date)
         hotels = self.hotel_access.access_hotel_detailed_address(hotel_name=hotel_name)
         for hotel in hotels:
             hotel.rooms = Room_Manager().get_rooms(dateStart=start_date, dateEnd=end_date, hotel_ids=[hotel.hotel_id])
         return hotels
 
     def add_hotel(self, name, stars, address_id):
+        Validator.checkStr(name, "hotel name")
+        Validator.checkStars(stars)
+        Validator.checkID(address_id, "address-id")
         """Adds a new hotel to the database
 
         Args:
@@ -175,6 +186,7 @@ class Hotel_Manager:
         return status
 
     def delete_hotel(self, hotel_id):
+        Validator.checkID(hotel_id)
         """Deletes a hotel from the database by its ID
 
         Args:
@@ -187,6 +199,13 @@ class Hotel_Manager:
         return status
     
     def update_hotel(self, hotel_id, name, stars, address_id):
+        Validator.checkID(hotel_id, "hotel-ID")
+        if name:
+            Validator.checkStr(name, "hotel name")
+        if stars:
+            Validator.checkStars(stars)
+        if address_id:
+            Validator.checkID(address_id, "address-ID")
         """Updates hotel information, at least one field must be changed
 
         Args:

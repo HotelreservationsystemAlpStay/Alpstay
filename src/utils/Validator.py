@@ -54,8 +54,8 @@ class Validator:
 
     @staticmethod
     def checkDateDifference(valueFirstDate: date, valueSecondDate: date):
-        if valueFirstDate > valueSecondDate:
-            raise ValueError("Last Date is before first Date")
+        if valueFirstDate >= valueSecondDate:
+            raise ValueError("Your check-out date must be after your check-in date")
 
     @staticmethod
     def checkDateFormat(value: date, name: str):

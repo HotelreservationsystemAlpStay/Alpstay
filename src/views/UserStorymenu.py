@@ -120,6 +120,8 @@ class UserStoryMenu(Menu):
         except ValueError as e:
             print(e)
             hotels = []
+            -input("Press enter to return to the User story menu")
+            return self
         print("---------------------")
         if hotels:
             for hotel in hotels:
@@ -139,6 +141,8 @@ class UserStoryMenu(Menu):
         except ValueError as e:
             print(e)
             hotels = []
+            input("Press enter to return to the User story menu")
+            return self
         print("---------------------")
         if hotels:
             for hotel in hotels:
@@ -160,6 +164,8 @@ class UserStoryMenu(Menu):
         except ValueError as e:
             print(e)
             hotels = []
+            input("Press enter to return to the User story menu")
+            return self
         print("---------------------")
         if hotels:
             for hotel in hotels:
@@ -176,22 +182,26 @@ class UserStoryMenu(Menu):
 
         We added some additional filters like stars and guests, so its more precise to the needs of the customer
         """
-        city = input("Please enter the city in which you are looking for a hotel: ")
+        city = input("Please enter the city to search for a hotel in: ")
         try:
-            stars = int(input("How many stars should your hotel at least have: "))
-            guests = int(input("How many guests should at least fit into your room: "))
-            check_in_date = input("When is you check in date: ")
-            check_out_date = input("When is you check out date: ")
+            stars = int(input("Please enter the minimum number of stars required: "))
+            guests = int(input("Please enter the minimum number of guests to accommodate: "))
+            check_in_date = input("Please enter your check-in date: ")
+            check_out_date = input("Please enter your check-out date: ")
             hotels = self.app.hotel_Manager.get_hotel_in_city_booking(city, stars, guests, check_in_date, check_out_date)
         except ValueError as e:
             print(e)
             hotels = []
+            input("Please press enter to return to the User story menu")
+            return self
+        
         print("---------------------")
         if hotels:
             for hotel in hotels:
                 print(f"Hotel {hotel.name} has {hotel.stars} stars")
+            time.sleep(5)
         else:
-            print("No hotels match you filters.")
+            print("No hotels match your filters.")
         print("---------------------")
         
     def min_1_5(self):
@@ -201,21 +211,27 @@ class UserStoryMenu(Menu):
         Gets matching hotels from the Manager and prints their names and star ratings.
         """
         try:
-            city = input("Plesae enter the city in which you are looking for a hotel - if you dant want to filter by city, hit enter: ")
-            stars = input("How many stars should your hotel at least have - if you dont want to filter by stars, hit enter: ")
-            guests = input("How many guests should at least fit into your room - if you dont want to filter by stars, hit enter: ")
-            check_in_date = input("When is you check in date - if you dont want to filter by check-in date, hit enter: ")
-            check_out_date = input("When is you check out date - if you dont want to filter by check-in-date, hit enter: ")
+            city = input("Please enter the city to search for a hotel in (press Enter to skip): ")
+            stars = input("Please enter the minimum number of stars required (press Enter to skip): ")
+            if stars:
+                stars = int(stars)
+            guests = input("Please enter the minimum number of guests to accommodate (press Enter to skip): ")
+            if guests:
+                guests = int(guests)
+            check_in_date = input("Please enter your check-in date (press Enter to skip): ")
+            check_out_date = input("Please enter your check-out date (press Enter to skip): ")
             hotels = self.app.hotel_Manager.get_selected_filters(city, stars, guests, check_in_date, check_out_date)
         except ValueError as e:
             print(e)
             hotels = []
+            input("Press enter to return to the menu")
+            return self
         print("---------------------")
         if hotels:
             for hotel in hotels:
                 print(f"Hotel {hotel.name} has {hotel.stars} stars")
         else:
-            print("No hotels match you filters.")
+            print("No hotels match your filters.")
         print("---------------------")
         
 
@@ -238,7 +254,6 @@ class UserStoryMenu(Menu):
                 print(f"Hotel {hotel.name} has {hotel.stars} stars and is located in {city} at {street}")
         print("---------------------")
 
-
     
     def min_2(self):
         return self.min_2_2()
@@ -249,6 +264,9 @@ class UserStoryMenu(Menu):
         except ValueError as e:
             print(e)
             rooms = []
+            input("Press enter to return to the User story menu")
+            return self
+        
         counter = 1
         for room in rooms:
             print(f"## {counter} ##")
@@ -308,16 +326,18 @@ class UserStoryMenu(Menu):
         if not self._authenticate_admin():
             return self
         
-        name = input("Please name the name of the new hotel: ")
-        stars = input("Please type how many stars the hotel has: ")
-        address_id = input("Please name the Address-ID of the hotel: ")
         try:
+            name = input("Please enter the name of the new hotel: ")
+            stars = int(input("Please enter the number of stars for the hotel: "))
+            address_id = int(input("Please enter the address-ID of the hotel: "))
             status = self.app.hotel_Manager.add_hotel(name, stars, address_id)
         except ValueError as e:
             print(e)
-            status = False
+            input("Press Enter to return to the menu.")
+            return self
+            
         if status:
-            print("Hotel was added successfuly")
+            print("Hotel was added successfully")
         else:
             print("Something went wrong, please try again later")
 
@@ -356,8 +376,12 @@ class UserStoryMenu(Menu):
         try:
             hotel_id = int(input("Please name the Hotel ID of the hotel, of which you'd like to change the information to -> "))
             name = input("If you'd like to change the name of the hotel please type it in, if you dont want to change the name, hit enter: ")
-            stars = input("Please name the new amount of updated stars, if you dont want to change them, press enter: ")
-            address_id = input("Please type the new Address ID, if you dont want to change the address, press enter: ")
+            stars = input("Enter new star rating (press Enter to skip): ")
+            if stars: 
+                stars = int(stars)
+            address_id = input("Enter new Address ID (press Enter to skip): ")
+            if address_id:
+                address_id = int(address_id)
             status = self.app.hotel_Manager.update_hotel(hotel_id, name, stars, address_id)
         except ValueError as e:
             print(e)
@@ -445,6 +469,7 @@ class UserStoryMenu(Menu):
             state = self.app.booking_Manager.update_booking(bookings[int(choice)-1], iscancelled=True)
             if state:
                 print("Booking has been canceled")
+                time.sleep(3)
                 return UserStoryMenu(self.app, self)
             print("Something went wrong, please open support ticket on localhost:8080/support")
             UserStoryMenu(self.app, self)
@@ -541,11 +566,18 @@ class UserStoryMenu(Menu):
             choice = input("Which booking would you like to alter? ")
             hotel,booking = bookings[int(choice)-1]
             phonenumber = int(input("Enter altered Phone number -> "))
-            self.app.booking_Manager.update_booking(booking=booking,phonenumber=phonenumber)
+            if self.app.booking_Manager.update_booking(booking=booking,phonenumber=phonenumber):
+                print("Number changed successfully")
+                time.sleep(3)
         except ValueError as e:
             print(f"Error: {e}")
+            input("Press enter to return to the User story menu")
+            return self
+        
         except IndexError:
             print("Choice out of range.")
+            input("Press enter to return to the User story menu")
+            return self
         return UserStoryMenu(self.app, self)
         
     def db_2(self):
@@ -560,10 +592,13 @@ class UserStoryMenu(Menu):
             except ValueError as e:
                 print(e)
                 rooms_data = []
+                input("Press enter to return to the User story menu")
+                return self
 
             if not rooms_data:
                 print("Unfortunately there are no available rooms during your dates.")
-                return UserStoryMenu(self.app)
+                input("Press enter to return to the User story menu")
+                return self
             else:
                 print("The following rooms are available:")
                 room_selection = []
@@ -578,11 +613,14 @@ class UserStoryMenu(Menu):
                     room_id = int(input("Please enter the Room ID of the room you'd like to book: "))
                 except ValueError as e:
                     print(f"Invalid input for Room ID: {e}")
+                    input("Press enter to return to the User story menu")
+                    return self
 
                 amount = next((amt for rid, amt in room_selection if rid == room_id), None)
                 if amount is None:
                     print("Invalid Room ID.")
-                    return UserStoryMenu(self.app)
+                    input("Press enter to return to the User story menu")
+                    return self
                 
             if room_id in room_ids:
                 user_id = self._authentice_guest()
@@ -594,27 +632,33 @@ class UserStoryMenu(Menu):
                         booking_id = self.app.booking_Manager.create_booking_new(guest_id, room_id, check_in_date, check_out_date, total_amount, phone_number)
                     except ValueError as e:
                         print(f"Error during booking creation: {e}")
-                        return UserStoryMenu(self.app)
+                        input("Press enter to return to the User story menu")
+                        return self
                     
                     if booking_id:
                         print(f"Your booking with the ID {booking_id.booking_id} is confirmed")
                     else:
                         print("Something went wrong, please try again")
-                        return UserStoryMenu(self.app)
+                        input("Press enter to return to the User story menu")
+                        return self
                 else:
                     print("Your login credentials were wrong, please try again")
-                    return UserStoryMenu(self.app)
+                    input("Press enter to return to the User story menu")
+                    return self
             else:
                 print("Sorry this room does not exist, please try again")
+                input("Press enter to return to the User story menu")
+                return self
         def db_2_1_2(self):
             pass 
 
 
-        hotel_name = input("Please enter the name of the hotel you\\'d like to book with: ")
+        hotel_name = input("Please enter the name of the hotel you'd like to book with: ")
         hotels = self.app.hotel_Manager.get_hotel_details(hotel_name)
         if not hotels:
             print("Unfortunately there is no hotel with this name, please try again")
-            return UserStoryMenu(self.app)
+            input("Press enter to return to the User story menu")
+            return self
         elif len(hotels) > 1:
             print("There are multiple hotels with this name")
             hotel_ids = []
@@ -627,7 +671,8 @@ class UserStoryMenu(Menu):
                 available_rooms(hotel_id)
             else:
                 print("Sorry this is not a hotel ID which we showed you, please try again")
-                return UserStoryMenu(self.app)
+                input("Press enter to return to the User story menu")
+                return self
         else:
             hotel = hotels[0][0]
             hotel_id = hotel.hotel_id
