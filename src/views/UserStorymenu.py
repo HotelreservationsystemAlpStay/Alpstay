@@ -114,7 +114,7 @@ class UserStoryMenu(Menu):
 
         Calls the hotel Manager to get hotels and prints their names and star ratings.
         """
-        city = input("Please enter the city you want to search for: ")
+        city = input("Please enter the city to search for: ")
         try:
             hotels = self.app.hotel_Manager.get_hotel_in_city(city)
         except ValueError as e:
@@ -132,9 +132,9 @@ class UserStoryMenu(Menu):
 
         Gets hotels from the Manager and prints their names and star ratings.
         """
-        city = input("Please enter the city in which you are looking for a hotel: ")
+        city = input("Please enter the city to search for a hotel in: ")
         try:
-            stars = int(input("How many stars should your hotel at least have? "))
+            stars = int(input("Please enter the minimum number of stars required: "))
             hotels = self.app.hotel_Manager.get_hotel_in_city_stars(city, stars)
         except ValueError as e:
             print(e)
@@ -152,10 +152,10 @@ class UserStoryMenu(Menu):
 
         Gets hotels from the Manager that match the filters and prints their names and star ratings.
         """
-        city = input("Please enter the city in which you are looking for a hotel: ")
+        city = input("Please enter the city to search for a hotel in: ")
         try:
-            stars = int(input("How many stars should your hotel at least have? "))
-            guests = int(input("How many guests should at least fit into your room? "))
+            stars = int(input("Please enter the minimum number of stars required: "))
+            guests = int(input("Please enter the minimum number of guests to accommodate: "))
             hotels = self.app.hotel_Manager.get_hotel_in_city_stars_guests(city, stars, guests)
         except ValueError as e:
             print(e)
