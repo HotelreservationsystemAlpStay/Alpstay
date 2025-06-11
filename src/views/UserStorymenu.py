@@ -684,7 +684,7 @@ class UserStoryMenu(Menu):
         user_id = self._authentice_guest()
         if not user_id:
             print("Your login details were wrong, please try again")
-            return UserStoryMenu(self.app)
+            return UserStoryMenu(self.app, self)
         else:
             try:
                 user_id = int(user_id)
