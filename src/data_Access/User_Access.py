@@ -5,10 +5,12 @@ import sqlite3
 
 class User_Access:
     def __init__(self):
+        """Initialize User Access with database controller."""
         self.db_Manager = Base_Access_Controller()
 
     @staticmethod
     def _sqlite3row_to_user(row: sqlite3.Row) -> User:
+        """Convert SQLite row to User object."""
         return User(
             id=row["user_id"],
             guest_id=row["guest_id"],
@@ -17,6 +19,11 @@ class User_Access:
         )
 
     def get_all_users(self) -> list[User]:
+        """Get all users from the database.
+
+        Returns:
+            list[User]: List of all users
+        """
         user_data = self.db_Manager.fetchall("SELECT * FROM User")
         users = []
         for row in user_data:
@@ -24,14 +31,14 @@ class User_Access:
         return users
     
     def get_user(self, user_id:int, password:str) -> None | User:
-        """expects user_id and HASHED password as is in db, returns None if no result has been found, returns a user otherwise
+        """Get user by ID and hashed password.
         
         Args:
             user_id (int): user id as is in db
             password (str): hash as is in db
             
         Returns:
-            None|User: as in description
+            None|User: User object if found, None otherwise
         """
         query = """
         SELECT *
@@ -45,6 +52,14 @@ class User_Access:
         return self._sqlite3row_to_user(result)
     
     def get_user_by_guest_id(self, user_id):
+        """Get guest ID by user ID.
+
+        Args:
+            user_id: The user ID to look up
+
+        Returns:
+            Guest ID if found, False otherwise
+        """
         query = """
         SELECT guest_id 
         FROM User

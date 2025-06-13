@@ -6,9 +6,11 @@ import sqlite3
 
 class Hotel_Access:
     def __init__(self): 
+        """Initialize Hotel Access with database controller."""
         self.db = Base_Access_Controller()
 
     def _sqlite3row_to_hotel(self, row:sqlite3.Row):
+        """Convert SQLite row to Hotel object."""
         return Hotel(
             hotel_id=int(row['hotel_id']),
             name=row['name'],
@@ -16,6 +18,14 @@ class Hotel_Access:
         )
 
     def access_hotel_in_city(self, city):
+        """Get all hotels in a specific city.
+        
+        Args:
+            city (str): Name of the city
+            
+        Returns:
+            list[Hotel]: List of hotels in the city
+        """
         query = """
         SELECT hotel_id, name, stars
         FROM extended_hotel
@@ -34,6 +44,15 @@ class Hotel_Access:
         return hotels
     
     def access_hotel_in_city_stars(self, city, min_stars):
+        """Get hotels in a city with minimum star rating.
+        
+        Args:
+            city (str): Name of the city
+            min_stars (int): Minimum star rating
+            
+        Returns:
+            list[Hotel]: List of hotels meeting the criteria
+        """
         query = """
         SELECT hotel_id, name, stars
         FROM extended_hotel
@@ -53,6 +72,16 @@ class Hotel_Access:
         return hotels
 
     def access_hotel_in_city_stars_guests(self, city, min_stars, guests):
+        """Get hotels in a city with minimum star rating and guest capacity.
+        
+        Args:
+            city (str): Name of the city
+            min_stars (int): Minimum star rating
+            guests (int): Minimum number of guests
+            
+        Returns:
+            list[Hotel]: List of hotels meeting the criteria
+        """
         query = """
         SELECT hotel_id, name, stars
         FROM extended_hotel_room
@@ -73,6 +102,18 @@ class Hotel_Access:
         return hotels
 
     def access_hotel_in_city_booking(self, city, min_stars, guests, check_in_date, check_out_date):
+        """Get available hotels in a city for booking based on criteria.
+        
+        Args:
+            city (str): Name of the city
+            min_stars (int): Minimum star rating
+            guests (int): Number of guests
+            check_in_date (date): Check-in date
+            check_out_date (date): Check-out date
+            
+        Returns:
+            list[Hotel]: List of available hotels for the given dates
+        """
         query = """
         SELECT DISTINCT hotel_id, name, stars
         FROM extended_hotel_room_booking
@@ -109,6 +150,18 @@ class Hotel_Access:
         return hotels
 
     def access_selected_filters(self, city, min_stars, guests, check_in_date, check_out_date):
+        """Get hotels based on selected filters.
+        
+        Args:
+            city (str): Name of the city
+            min_stars (int): Minimum star rating
+            guests (int): Number of guests
+            check_in_date (date): Check-in date
+            check_out_date (date): Check-out date
+            
+        Returns:
+            list[Hotel]: List of hotels meeting the filter criteria
+        """
         query = """
         SELECT DISTINCT hotel_id, name, stars, city, street, address_id, zip_code
         FROM extended_hotel_room_booking
@@ -156,6 +209,14 @@ class Hotel_Access:
 
 
     def access_hotel_details(self, hotel_name):
+        """Get detailed information about a specific hotel.
+        
+        Args:
+            hotel_name (str): Name of the hotel
+            
+        Returns:
+            list[tuple]: List of tuples containing hotel and address details
+        """
         query = """
         SELECT DISTINCT hotel_id, name, stars, address_id, street, city, zip_code
         FROM extended_hotel_room
@@ -176,6 +237,14 @@ class Hotel_Access:
         return hotels
     
     def access_hotel_detailed_address(self, hotel_name):
+        """Get hotel details along with the full address.
+        
+        Args:
+            hotel_name (str): Name of the hotel
+            
+        Returns:
+            list[Hotel]: List of hotel objects with detailed address
+        """
         query = """
         SELECT DISTINCT hotel_id, name, stars, address_id, street, city, zip_code
         FROM extended_hotel_room
@@ -190,6 +259,16 @@ class Hotel_Access:
         return hotels
     
     def access_add_hotel(self, name, stars, address_id):
+        """Add a new hotel to the database.
+        
+        Args:
+            name (str): Name of the hotel
+            stars (int): Star rating of the hotel
+            address_id (int): Address ID for the hotel
+            
+        Returns:
+            bool: True if hotel was added, False otherwise
+        """
 
         query_add_hotel = """
         INSERT INTO Hotel (name, stars, address_id)
@@ -200,6 +279,14 @@ class Hotel_Access:
 
 
     def access_delete_hotel(self, hotel_id):
+        """Delete a hotel from the database.
+        
+        Args:
+            hotel_id (int): ID of the hotel to be deleted
+            
+        Returns:
+            bool: True if hotel was deleted, False otherwise
+        """
         query = """
         DELETE
         FROM Hotel 
@@ -212,6 +299,17 @@ class Hotel_Access:
             return True
 
     def access_update_hotel(self, hotel_id, name, stars, address_id):
+        """Update hotel information in the database.
+        
+        Args:
+            hotel_id (int): ID of the hotel to be updated
+            name (str): New name for the hotel
+            stars (int): New star rating for the hotel
+            address_id (int): New address ID for the hotel
+            
+        Returns:
+            bool: True if hotel was updated, False otherwise
+        """
         query = "UPDATE Hotel SET "
         fields = []
         parameters = []
@@ -237,6 +335,11 @@ class Hotel_Access:
             return True
 
     def amount_per_hotel(self):
+        """Get the total amount per hotel from bookings.
+        
+        Returns:
+            list: List of hotels with the total amount from bookings
+        """
         query = """
         SELECT name, SUM(total_amount) 
         FROM booking_view 

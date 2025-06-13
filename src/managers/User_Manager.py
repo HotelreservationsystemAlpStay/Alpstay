@@ -6,6 +6,7 @@ import hashlib
 
 class User_Manager:
     def __init__(self):
+        """Initialize the User Manager with User Access layer."""
         self.ua = User_Access()
 
     def login_user(self, user_id:int, password:str) -> None | User:
@@ -33,9 +34,17 @@ class User_Manager:
         user_return = self.ua.get_user(user_id=user_id, password=hashlib.sha256(password.encode()).hexdigest())
         if not user_return or user_return.role != "Admin":
             return False
-        return True
-
+        return True    
+    
     def get_guest_id(self, user_id:int) -> int:
+        """Get the guest ID associated with a user ID.
+
+        Args:
+            user_id (int): The user ID to look up
+
+        Returns:
+            int: The associated guest ID
+        """
         user_id = int(user_id)
         Validator.checkID(user_id)
         guest_id = self.ua.get_user_by_guest_id(user_id)

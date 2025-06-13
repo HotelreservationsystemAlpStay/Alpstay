@@ -10,6 +10,7 @@ from managers.Facility_Manager import Facility_Manager
 from managers.Rating_Manager import RatingManager
 class Application:
     def __init__(self):
+        """Initialize the application with all necessary managers."""
         self.hotel_Manager = Hotel_Manager()
         self.room_Manager = Room_Manager()
         self.roomType_Manager = Room_Type_Manager()
@@ -22,9 +23,11 @@ class Application:
         self.__is_running = True
 
     def stop(self):
+        """Stop the application by setting the running flag to False."""
         self.__is_running = False
 
     def run(self):
+        """Run the main application loop."""
         next = StartMenu(self)
         while self.__is_running:
             if next:

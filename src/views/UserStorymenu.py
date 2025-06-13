@@ -13,6 +13,7 @@ from mythic.mythic_code import Mythic
 
 class UserStoryMenu(Menu):
     def __init__(self, app, prev):
+        """Initialize User Story Menu with all available user stories."""
         super().__init__("UserStories", app)
         self.add_item("(Min 1) As a guest, I want to search for a hotel in a city, so that i can choose the one, that meets my criteria",self.min_1)
         self.add_item("(Min 1.1) Criteria 1: City",self.min_1_1)
@@ -79,6 +80,11 @@ class UserStoryMenu(Menu):
         return True
     
     def _authentice_guest(self):
+        """Authenticate a guest user and return their user ID.
+        
+        Returns:
+            int or False: User ID if authentication successful, False otherwise
+        """
         #try user id 1 with this password fciwke-peOlme-8rutjj
         try:
             user_id_input = input("This action requires you to be logged in, please enter your ID: ")
@@ -106,6 +112,7 @@ class UserStoryMenu(Menu):
         input("Press Enter to return to the menu.")
 
     def min_1(self):
+        """Display welcome message for hotel search functionality."""
         print("Welcome to the hotel search system! Please choose from min_1.1 to min_1.6 to search for hotels based on your criteria.")
         print("----------------------")
         
@@ -254,11 +261,12 @@ class UserStoryMenu(Menu):
                 print(f"Hotel {hotel.name} has {hotel.stars} stars and is located in {city} at {street}")
         print("---------------------")
 
-    
     def min_2(self):
+        """Display room information by calling min_2_2."""
         return self.min_2_2()
     
     def min_2_1(self):
+        """Display all rooms with extended information including room details, type, and facilities."""
         try:
             rooms = self.app.room_Manager.get_rooms()
         except ValueError as e:
@@ -272,8 +280,16 @@ class UserStoryMenu(Menu):
             print(f"## {counter} ##")
             print(room.extendedStr())
             counter += 1
-    
+
     def min_2_2(self, fromFunction:bool=False):
+        """Show available rooms in a hotel with optional date filtering.
+        
+        Args:
+            fromFunction (bool): If True, returns room data for other functions to use
+            
+        Returns:
+            tuple or None: (rooms, check_in_date, check_out_date) if fromFunction=True, else None
+        """
         name = ""
         while name == "":
             name = input("Please enter the hotel name in which you are looking for a room: ")
@@ -312,9 +328,8 @@ class UserStoryMenu(Menu):
         if fromFunction and len(hotels) != 0:
             return rooms, Format().parse(check_in_date), Format().parse(check_out_date)
         
-
-
     def min_3(self):
+        """Placeholder method for hotel management functionality."""
         pass
     
     def min_3_1(self):
@@ -392,6 +407,11 @@ class UserStoryMenu(Menu):
             print("There is no hotel with this Hotel ID")
     
     def min_4(self):
+        """Allow guest to book a room in a hotel.
+        
+        Shows available rooms, lets user select one, authenticates the user,
+        and creates a booking if successful.
+        """
         rooms, check_in, check_out = self.min_2_2(fromFunction=True)
         if rooms:
             inputnumber = input("Please enter the choice number: ")
@@ -450,6 +470,11 @@ class UserStoryMenu(Menu):
             print("There was an error genearting the invoice, please try again later")
     
     def min_6(self):
+        """Allow guest to cancel an existing booking.
+        
+        Authenticates user, shows their bookings, and allows them to select
+        and cancel a booking.
+        """
         user = self.login_user()
         if not user:
             ms = Mythic()
@@ -479,6 +504,11 @@ class UserStoryMenu(Menu):
             print("Invalid choice number.")
     
     def min_7(self):
+        """Show dynamic pricing for available rooms in a city.
+        
+        Asks for city and dates, then displays available rooms with
+        their dynamic pricing including high/off season calculations.
+        """
         city = input("Please name the city in which you would like to stay: ")
         check_in_date = input("Please name you desired check-in date: ")
         check_out_date = input("Please name you desired check-out date: ")
@@ -496,8 +526,15 @@ class UserStoryMenu(Menu):
             print(f"Total: {total_price:.2f} CHF | Avg. price per night: {average_price_per_night:.2f} CHF")
             print("---------------------")
 
-    
     def min_8(self, fromFunction:bool=False):
+        """Display all bookings for admin users.
+        
+        Args:
+            fromFunction (bool): If True, returns booking data for other functions
+            
+        Returns:
+            list or None: List of (hotel, booking) tuples if fromFunction=True, else None
+        """
         if self._authenticate_admin():
             print("Shorty all bookings will be displayed")
             time.sleep(2)
@@ -523,6 +560,11 @@ class UserStoryMenu(Menu):
             print("You need to be an admin to perform this action")
     
     def min_9(self):
+        """Display all rooms with their facilities for admin users.
+        
+        Requires admin authentication. Shows extended room information
+        including room type, facilities, and pricing details.
+        """
         if self._authenticate_admin():
             try:
                 rooms = self.app.room_Manager.get_rooms()
@@ -535,6 +577,11 @@ class UserStoryMenu(Menu):
             print("---------------------")
     
     def min_10(self):
+        """Allow admin to update master data (RoomTypes, Facilities, Prices).
+        
+        Requires admin authentication. Provides menu to navigate to 
+        different management interfaces for room types, facilities, and rooms.
+        """
         if not self._authenticate_admin():
             ms = Mythic()
             ms.wtf()
@@ -557,6 +604,11 @@ class UserStoryMenu(Menu):
                 return UserStoryMenu(self.app, self._prev_menu)
             
     def db_1(self):
+        """Allow admin to update missing information in bookings.
+        
+        Shows all bookings and allows admin to select one to update
+        missing phone number information.
+        """
         bookings = self.min_8(fromFunction=True)
         counter = 1
         for hotel, booking in bookings:
@@ -581,9 +633,15 @@ class UserStoryMenu(Menu):
         return UserStoryMenu(self.app, self)
         
     def db_2(self):
+        """Placeholder method for booking history functionality."""
         pass
-    
+
     def db_2_1_1(self):
+        """Allow guest to create a new booking by selecting hotel and room.
+
+        Shows available hotels, lets user select one, shows available rooms,
+        and creates a booking with guest authentication.
+        """
         def available_rooms(hotel_id):
             check_in_date = input("Please enter your check-in date: ")
             check_out_date = input("Please enter your check-out date: ")
@@ -677,9 +735,13 @@ class UserStoryMenu(Menu):
             hotel = hotels[0][0]
             hotel_id = hotel.hotel_id
             available_rooms(hotel_id)
-
     
     def db_3(self):
+        """Allow guest to create a rating for a hotel stay.
+        
+        Authenticates the guest, shows their bookings, lets them select one,
+        and creates a rating with score and review comment.
+        """
         uc = User_Manager()
         user_id = self._authentice_guest()
         if not user_id:
@@ -730,6 +792,11 @@ class UserStoryMenu(Menu):
                     print(f"Error: {e}")
 
     def db_4(self):
+        """Allow guest to read reviews for a specific hotel.
+        
+        Asks for hotel ID and displays all reviews/ratings for that hotel
+        including scores and comments.
+        """
         print("\n--- Read Hotel Reviews ---")
         hotel_id_input = input("Enter the id of the hotel to see reviews (or leave blank to cancel): ")
 
@@ -780,6 +847,14 @@ class UserStoryMenu(Menu):
         return self
     
     def dv_1(self):
+        """Display room occupancy rate visualization.
+        
+        Requires admin authentication. Fetches room occupancy data and displays
+        it in a chart window using ChartView.
+        
+        Returns:
+            ChartView or self: Chart view if data available, self if error/no data
+        """
         if not self._authenticate_admin():
             return self
 
@@ -803,6 +878,16 @@ class UserStoryMenu(Menu):
             return self
     
     def dv_2(self):
+        """Display guest demographic analysis charts.
+        
+        Requires admin authentication. Offers three demographic analysis options:
+        1. Guest Age Distribution
+        2. Guest Country Distribution  
+        3. Guest Booking Frequency (New vs. Returning)
+        
+        Returns:
+            ChartView or self: Chart view if data available, self if error/no data
+        """
         if not self._authenticate_admin():
             return self
 
@@ -856,8 +941,16 @@ class UserStoryMenu(Menu):
                 print(f"Data received but deemed invalid or empty: {data}")
             input("Press Enter to return to the menu.")
             return self
-        
+    
     def dv_3(self):
+        """Display total revenue per hotel visualization.
+        
+        Requires admin authentication. Fetches total revenue data per hotel
+        and displays it in a chart window using ChartView.
+        
+        Returns:
+            ChartView or self: Chart view if data available, self if error/no data
+        """
         if not self._authenticate_admin():
             input("Press Enter to return to the menu.")
             return self

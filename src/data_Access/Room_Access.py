@@ -13,6 +13,7 @@ import sqlite3
 
 class Room_Access:
     def __init__(self):
+        """Initialize Room Access with database controller and SQL query templates."""
         self.db = Base_Access_Controller()
         self._SELECT = "SELECT DISTINCT extended_room.* from extended_room JOIN Booking ON Booking.room_id = extended_room.room_id"
         self._WHERE = "WHERE"
@@ -32,6 +33,14 @@ class Room_Access:
 
     @staticmethod
     def _get_seasonal_multiplier(season:str):
+        """Get price multiplier based on season.
+        
+        Args:
+            season (str): Season type
+            
+        Returns:
+            float: Price multiplier
+        """
         pass
         if season == "Summer":
             return 1.5
@@ -213,6 +222,14 @@ class Room_Access:
         
     
     def updateRoom(self, room:Room):
+        """Update room information in the database.
+        
+        Args:
+            room (Room): Room object with updated information
+            
+        Returns:
+            Room: Updated room object from database
+        """
         query = "UPDATE Room SET room_number = ?, type_id = ?, price_per_night = ? WHERE room_id = ?"
         self.db.execute(query, (room.room_no, room.room_Type.id, room.price_per_night, room.room_id))
         return self.get_room(room.room_id)

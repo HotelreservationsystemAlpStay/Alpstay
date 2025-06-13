@@ -9,10 +9,12 @@ from datetime import date, datetime
 
 class Hotel_Manager:
     def __init__(self):
+        """Initialize Hotel Manager with Hotel Access layer."""
         self.hotel_access = Hotel_Access()
     
     @staticmethod
     def _sqlite3row_to_hotel(row, address):
+        """Convert SQLite row and address to Hotel object."""
         return Hotel(
             hotel_id=row["hotel_id"],
             name=row["name"],
@@ -169,9 +171,6 @@ class Hotel_Manager:
         return hotels
 
     def add_hotel(self, name, stars, address_id):
-        Validator.checkStr(name, "hotel name")
-        Validator.checkStars(stars)
-        Validator.checkID(address_id, "address-id")
         """Adds a new hotel to the database
 
         Args:
@@ -182,11 +181,13 @@ class Hotel_Manager:
         Returns:
             bool: True if the hotel was added successfully, False otherwise
         """
+        Validator.checkStr(name, "hotel name")
+        Validator.checkStars(stars)
+        Validator.checkID(address_id, "address-id")
         status = self.hotel_access.access_add_hotel(name, stars, address_id)
         return status
 
     def delete_hotel(self, hotel_id):
-        Validator.checkID(hotel_id)
         """Deletes a hotel from the database by its ID
 
         Args:
@@ -195,17 +196,11 @@ class Hotel_Manager:
         Returns:
             bool: True if the hotel was deleted successfully, False otherwise
         """
+        Validator.checkID(hotel_id)
         status = self.hotel_access.access_delete_hotel(hotel_id)
         return status
     
     def update_hotel(self, hotel_id, name, stars, address_id):
-        Validator.checkID(hotel_id, "hotel-ID")
-        if name:
-            Validator.checkStr(name, "hotel name")
-        if stars:
-            Validator.checkStars(stars)
-        if address_id:
-            Validator.checkID(address_id, "address-ID")
         """Updates hotel information, at least one field must be changed
 
         Args:
@@ -220,6 +215,14 @@ class Hotel_Manager:
         Returns:
             bool: True if the hotel was updated successfully, False otherwise
         """
+        Validator.checkID(hotel_id, "hotel-ID")
+        if name:
+            Validator.checkStr(name, "hotel name")
+        if stars:
+            Validator.checkStars(stars)
+        if address_id:
+            Validator.checkID(address_id, "address-ID")
+            
         if not name and not stars and not address_id:
             raise ValueError("You must change at least one information")
         if stars:
@@ -227,9 +230,13 @@ class Hotel_Manager:
         if address_id:
             address_id = int(address_id)
         return self.hotel_access.access_update_hotel(hotel_id, name, stars, address_id)
-    
 
     def get_amount_per_hotel(self):
+        """Get total revenue amount per hotel.
+
+        Returns:
+            list: List of tuples containing (hotel_name, total_amount) pairs
+        """
         result = self.hotel_access.amount_per_hotel()
         hotels = []
         for row in result:

@@ -2,6 +2,7 @@ from data_Access.Guest_Access import Guest_Access
 
 class Guest_Manager:
     def __init__(self):
+        """Initialize Guest Manager with Guest Access layer."""
         self.guest_access = Guest_Access()
 
     def get_guest_age_distribution_data(self, bins=10):

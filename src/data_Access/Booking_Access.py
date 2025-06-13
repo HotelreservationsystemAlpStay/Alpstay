@@ -8,10 +8,12 @@ from sqlite3 import Cursor, Row
 
 class Booking_Access:
     def __init__(self): 
+        """Initialize Booking Access with database controller."""
         self.db = Base_Access_Controller()
 
     @staticmethod
     def _sqlite3row_to_booking(row:Row):
+        """Convert SQLite row to Booking object."""
         return Booking(
             booking_id=row["booking_id"],
             guest_id=row["guest_id"],
@@ -24,6 +26,7 @@ class Booking_Access:
 
     @staticmethod
     def _get_list_to_tuple(providedList:list):
+        """Convert list to tuple."""
         return tuple(providedList)
 
     def create_booking(self, check_in_date: date, check_out_date: date, is_cancelled: bool, total_amount: float, guest_id: int, room_id: int) -> Booking:
@@ -153,7 +156,7 @@ class Booking_Access:
         params = (booking_id, guest_id)
         result = self.db.fetchone(query, params)
         return result
-        
+
 
 
 

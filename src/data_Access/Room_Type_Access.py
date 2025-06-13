@@ -7,6 +7,7 @@ import sqlite3
 
 class Room_Type_Access:
     def __init__(self):
+        """Initialize Room Type Access with database controller and utilities."""
         self.db = Base_Access_Controller()
         self.validator = Validator()
         self.user_Manager = User_Manager()
@@ -14,6 +15,7 @@ class Room_Type_Access:
 
     @staticmethod
     def _sqlite3row_to_Room_Type(row: sqlite3.Row)->Room_Type:
+        """Convert SQLite row to Room_Type object."""
         return Room_Type(
             id=row['type_id'],
             description=row['description'],
@@ -21,6 +23,14 @@ class Room_Type_Access:
         )
     
     def get_all_Room_Types(self, hotels=[]):
+        """Get all room types, optionally filtered by hotels.
+        
+        Args:
+            hotels (list, optional): List of hotel IDs to filter by
+            
+        Returns:
+            list[Room_Type]: List of room types
+        """
         query = self._SELECT
         if len(hotels) != 0:
             if len(hotels) == 1:
@@ -40,18 +50,43 @@ class Room_Type_Access:
         return Room_Types
 
     def get_Room_Type_by_id(self, id:int):
+        """Get room type by ID.
+        
+        Args:
+            id (int): Room type ID
+            
+        Returns:
+            Room_Type: Room type object
+        """
         self.validator.checkID(id)
         query = f"{self._SELECT} WHERE type_id = ?"
         result = self.db.fetchone(query, (f"{id}"))
         return self._sqlite3row_to_Room_Type(result)
 
     def get_Room_Type_by_max_guests(self, max_guests:int):
+        """Get room type by maximum guest capacity.
+        
+        Args:
+            max_guests (int): Maximum number of guests
+            
+        Returns:
+            Room_Type: Room type object
+        """
         self.validator.checkInteger(max_guests, "Id")
         query = f"{self._SELECT} WHERE max_guests = ?"
         result = self.db.fetchone(query, (f"{max_guests}"))
         return self._sqlite3row_to_Room_Type(result)
     
     def add_Room_Type(self, description, max_guests):
+        """Add a new room type to the database.
+        
+        Args:
+            description (str): Description of the room type
+            max_guests (int): Maximum number of guests
+            
+        Returns:
+            int: ID of the newly created room type
+        """
         query = "INSERT INTO Room_Type (description, max_guests) VALUES (?, ?)"
         params = (description, max_guests)
         cursor = self.db.execute(query, params)
@@ -59,6 +94,16 @@ class Room_Type_Access:
         return new_id  
 
     def modify_Room_Type(self, type_id, description:str=None, max_guests:int=None):
+        """Modify an existing room type.
+        
+        Args:
+            type_id (int): ID of the room type to modify
+            description (str, optional): New description
+            max_guests (int, optional): New maximum guest count
+            
+        Returns:
+            bool: True if successful, False if no changes provided
+        """
         if not description and not max_guests:
             return False
         elif not description and max_guests:

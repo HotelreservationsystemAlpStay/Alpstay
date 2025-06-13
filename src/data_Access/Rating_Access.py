@@ -4,9 +4,22 @@ from models.Rating import Rating
 
 class RatingAccess:
     def __init__(self): 
+        """Initialize Rating Access with database controller."""
         self.db = Base_Access_Controller()
 
     def create_rating(self, hotel_id: int, guest_id: int, score: int, comment: str, created_at: datetime):
+        """Create a new rating (legacy method).
+
+        Args:
+            hotel_id (int): ID of the hotel
+            guest_id (int): ID of the guest
+            score (int): Rating score
+            comment (str): Review comment
+            created_at (datetime): Creation timestamp
+
+        Returns:
+            Rating: Created rating object
+        """
 
         query_max_id = """
             SELECT MAX(rating_id) FROM Rating
@@ -24,6 +37,19 @@ class RatingAccess:
         return Rating(row_id, hotel_id, guest_id, score, comment) # TODO: created_at to model
     
     def create_rating_new(self, booking_id, hotel_id, score, review, created_at):
+        """Create a new rating for a booking.
+
+        Args:
+            booking_id: ID of the booking
+            hotel_id: ID of the hotel
+            score: Rating score (1-5)
+            review: Review text
+            created_at: Creation date
+
+        Returns:
+            bool: True if successful, False otherwise
+        """
+
         query = """
         INSERT INTO Rating (booking_id, hotel_id, score, review, created_at)
         VALUES (?, ?, ?, ?, ?)

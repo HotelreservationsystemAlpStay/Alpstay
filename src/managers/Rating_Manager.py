@@ -6,9 +6,24 @@ from utils.Validator import Validator
 
 class RatingManager:
     def __init__(self):
+        """Initialize Rating Manager with Rating Access layer."""
         self.rating_Access = RatingAccess()
     
     def create_rating(self, booking_id, hotel_id, score, review):
+        """Create a new rating for a hotel booking.
+
+        Args:
+            booking_id: ID of the booking being rated
+            hotel_id: ID of the hotel being rated
+            score: Rating score (1-5)
+            review: Written review text
+
+        Returns:
+            Status of rating creation
+
+        Raises:
+            ValueError: If score is not between 1-5 or rating already exists for booking
+        """
         booking_id = int(booking_id)
         Validator.checkID(booking_id, "booking ID")
         hotel_id = int(hotel_id)
@@ -36,4 +51,3 @@ class RatingManager:
         
         ratings_data = self.rating_Access.get_ratings_by_hotel_id(hotel_id)
         return ratings_data
-    

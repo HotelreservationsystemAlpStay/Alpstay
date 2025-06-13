@@ -8,15 +8,45 @@ from utils.Validator import Validator
 
 class Room_Manager():
     def __init__(self):
+        """Initialize Room Manager with Room Access layer."""
         self.room_Access = Room_Access()
     
     def get_rooms(self, dateStart: date = None, dateEnd: date = None, hotel_ids: list[int] = None, Room_Type:Room_Type = None)->list[Room]:
+        """Get rooms with optional filters.
+
+        Args:
+            dateStart (date, optional): Start date filter
+            dateEnd (date, optional): End date filter
+            hotel_ids (list[int], optional): List of hotel IDs to filter by
+            Room_Type (Room_Type, optional): Room type filter
+
+        Returns:
+            list[Room]: List of rooms matching the criteria
+        """
         return self.room_Access.get_rooms(dateStart=dateStart, dateEnd=dateEnd, hotel_ids=hotel_ids, room_Type=Room_Type)
     
     def update_room(self, room:Room):
+        """Update room information in the database.
+
+        Args:
+            room (Room): Room object with updated information
+
+        Returns:
+            Updated room object
+        """
         return self.room_Access.updateRoom(room)
     
     def get_available_rooms_city(self, city:str, check_in_date:str, check_out_date:str):
+        """Get available rooms in a city with dynamic pricing.
+
+        Args:
+            city (str): Name of the city
+            check_in_date (str): Check-in date as string
+            check_out_date (str): Check-out date as string
+
+        Returns:
+            list: List of tuples containing room and pricing information
+        """
         check_in_date = Format.parse(check_in_date)
         check_out_date = Format.parse(check_out_date)
         list = self.room_Access.get_available_rooms_city(city, check_in_date, check_out_date)
@@ -43,6 +73,16 @@ class Room_Manager():
         return hotels
     
     def get_available_rooms_by_hotel_id(self, hotel_id, check_in_date, check_out_date):
+        """Get available rooms for a specific hotel in a date range.
+
+        Args:
+            hotel_id: ID of the hotel
+            check_in_date: Check-in date as string
+            check_out_date: Check-out date as string
+
+        Returns:
+            list: List of tuples containing (room, room_type, total_amount)
+        """
         check_in_date = Format.parse(check_in_date)
         check_out_date = Format.parse(check_out_date)
         Validator.checkDateDifference(check_in_date, check_out_date)

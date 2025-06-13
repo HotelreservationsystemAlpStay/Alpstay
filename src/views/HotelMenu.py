@@ -5,6 +5,7 @@ from views.Room_Menu import Room_Menu
 
 class HotelMenu(Menu):
     def __init__(self, app):
+        """Initialize Hotel Menu with all hotel-related operations."""
         super().__init__("Hotel Menu", app)
         self.add_item("Search for hotels in a city", self.search_city)
         self.add_item("Search for hotels in a city and with stars", self.search_city_stars)
@@ -19,6 +20,7 @@ class HotelMenu(Menu):
         self.add_item("Go back", self.back)
 
     def search_city(self):
+        """Search for hotels in a specific city."""
         city = input("Please name the city, in which you are looking for a hotel: ")
         hotels = self.app.hotel_Manager.get_hotel_in_city(city)
         if not hotels:
@@ -29,6 +31,7 @@ class HotelMenu(Menu):
         return None
 
     def search_city_stars(self):
+        """Search for hotels in a city with minimum star rating."""
         city = input("Please name the city in which you are looking for a hotel: ")
         stars = int(input("Please name how many stars your hotel should have: "))
         hotels = self.ac.hotel_Access.get_hotel_in_city_stars(city, stars)
@@ -40,6 +43,7 @@ class HotelMenu(Menu):
         return None
     
     def search_city_stars_guests(self):
+        """Search for hotels in a city with stars and guest capacity."""
         city = input("Please name the city in which you are looking for a hotel: ")
         stars = int(input("Please name how many stars your hotel should have: "))
         guests = int(input("Please name how many guests are staying in your room: "))
@@ -52,6 +56,7 @@ class HotelMenu(Menu):
         return None
     
     def search_city_stars_guests_dates(self):
+        """Search for hotels in a city with stars, guest capacity, and booking dates."""
         city = input("Please name the city in which you are looking for a hotel: ")
         stars = int(input("Please name how many stars your hotel should have: "))
         guests = int(input("Please name how many guests are staying in your room: "))
@@ -69,6 +74,7 @@ class HotelMenu(Menu):
         return None
     
     def get_optional_filters(self):
+        """Search for hotels using optional filters."""
         notusable = input("All the following filters are optional, if you dont want to you use, just hit enter, confirm this by hitting enter right now: ")
         city = input("Please name the city in which you are looking for a hotel: ")
         if not city:
@@ -101,6 +107,7 @@ class HotelMenu(Menu):
         return None
     
     def hotel_details(self):
+        """Get details of a specific hotel."""
         name = input("Please write the name of your hotel: ").strip() #Unnötigte Leerzeichen entfernen
         hotels = self.ac.hotel_Access.get_hotel_details(name)
         if not hotels:
@@ -109,6 +116,7 @@ class HotelMenu(Menu):
             for hotel in hotels:
                 print(hotel)
     def add_hotel(self):
+        """Add a new hotel (admin operation)."""
         user_id = int(input("Please name your user ID: "))
         password = input("Please name your password: ")
         name = input("Please type in the name of the hotel: ")
@@ -119,6 +127,7 @@ class HotelMenu(Menu):
             print(f"Hotel {name} has been successfully created")
 
     def delete_hotel(self):
+        """Delete an existing hotel (admin operation)."""
         user_id = int(input("Please name your user ID: "))
         password = input("Please name your password: ")
         hotel_id = int(input("Please name the hotel ID of the hotel you\\'d like to delete: "))
@@ -129,6 +138,7 @@ class HotelMenu(Menu):
             print("There is no hotel with this hotel ID")
     
     def update_hotel(self):
+        """Update information of an existing hotel (admin operation)."""
         user_id = int(input("Please name your user ID: "))
         password = input("Please name your password: ")
         hotel_id = input("Please name the hotel ID of the hotel you\\'d like to change the information to: ")
@@ -154,11 +164,12 @@ class HotelMenu(Menu):
             print("Hotel information updated successfully")
         else:
             print("No hotel with this hotel ID found")
-    #get_available rooms mues na gmacht werde
     
     def search_hotel_room(self):
+        """Search for available rooms in a hotel (placeholder method)."""
         pass
 
     def back(self):
+        """Return to the previous menu."""
         return None
 

@@ -9,9 +9,20 @@ import requests
 
 class Invoice_Manager:
     def __init__(self):
+        """Initialize Invoice Manager with Invoice Access layer."""
         self.invoice_access = Invoice_Access()
 
     def create_invoice(self, booking_id, e_mail = None):
+        """Create an invoice for a booking and optionally send email confirmation.
+
+        Args:
+            booking_id: ID of the booking to create invoice for
+            e_mail (optional): Email address to send confirmation to
+
+        Returns:
+            Tuple of (hotel, invoice, booking, first_name, last_name, nights) if successful,
+            'cancelled' if booking is cancelled, 'no_booking' if booking not found
+        """
         result = self.invoice_access.get_booking_details(booking_id)
         hotel, booking, first_name, last_name, nights = result
         if booking.is_cancelled:
@@ -40,6 +51,6 @@ class Invoice_Manager:
             return "no_booking"
         return False
 
-            
 
-        
+
+
