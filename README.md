@@ -65,6 +65,7 @@ User inputs are collected, processed, and forwarded to the appropriate methods i
 The GUI does not directly access the database; instead, it relies entirely on the Business Logic Layer to handle data operations, ensuring a clean separation of concerns.
 
 ### Utils
+The Utils layer provides cross-cutting utility functions used throughout the application. It contains helper classes with static methods for validation and formatting operations. Formatting.py is responsible for date formatting and conversion, while Validator.py handles input validation across all application layers.
 
 ## Class Diagram
 !!Bild muss hier noch eingefügt werden!!
